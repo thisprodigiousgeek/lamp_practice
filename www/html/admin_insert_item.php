@@ -19,7 +19,7 @@ if(is_admin($user) === false){
 }
 
 $name = get_post('name');
-$price = get_post('stock');
+$price = get_post('price');
 $status = get_post('status');
 $stock = get_post('stock');
 

@@ -56,7 +56,7 @@ function get_errors(){
 }
 
 function has_error(){
-  count($_SESSION['__errors']) !== 0;
+  return isset($_SESSION['__errors']) && count($_SESSION['__errors']) !== 0;
 }
 
 function set_message($message){

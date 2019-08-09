@@ -1,6 +1,6 @@
 <?php foreach(get_errors() as $error){ ?>
-  <p><?php print $error; ?></p>
+  <p class="alert alert-danger"><span><?php print $error; ?></span></p>
 <?php } ?>
 <?php foreach(get_messages() as $message){ ?>
-  <p class="message"><?php print $message; ?></p>
+  <p class="alert alert-success"><span><?php print $message; ?></span></p>
 <?php } ?>
