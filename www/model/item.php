@@ -5,7 +5,7 @@ require_once 'db.php';
 // DB利用
 
 function get_item($db, $item_id){
-  $sql = '
+  $sql = "
     SELECT
       item_id, 
       name,
@@ -16,14 +16,10 @@ function get_item($db, $item_id){
     FROM
       items
     WHERE
-      item_id = :item_id
-  ';
+      item_id = {$item_id}
+  ";
 
-  $params = array(
-    ':item_id' => $item_id
-  );
-
-  return fetch_query($db, $sql, $params);
+  return fetch_query($db, $sql);
 }
 
 function get_items($db, $is_open = false){
@@ -76,8 +72,8 @@ function regist_item_transaction($db, $name, $price, $stock, $status, $image, $f
 }
 
 function insert_item($db, $name, $price, $stock, $filename, $status){
-  
-  $sql = '
+  $status_value = PERMITTED_ITEM_STATUSES[$status];
+  $sql = "
     INSERT INTO
       items(
         name,
@@ -86,53 +82,38 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
         image,
         status
       )
-    VALUES(:name, :price, :stock, :image, :status);
-  ';
-  $params = array(
-    ':name' => $name,
-    ':price' => $price,
-    ':stock' => $stock,
-    ':image' => $filename,
-    ':status' => PERMITTED_ITEM_STATUSES[$status]
-  );
-  return execute_query($db, $sql, $params);
+    VALUES('{$name}', {$price}, {$stock}, '{$filename}', {$status_value});
+  ";
+
+  return execute_query($db, $sql);
 }
 
 function update_item_status($db, $item_id, $status){
-  $sql = '
+  $sql = "
     UPDATE
       items
     SET
-      status = :status
+      status = {$status}
     WHERE
-      item_id = :item_id
+      item_id = {$item_id}
     LIMIT 1
-  ';
+  ";
   
-  $params = array(
-    ':status' => $status,
-    ':item_id' => $item_id
-  );
-  
-  return execute_query($db, $sql, $params);
+  return execute_query($db, $sql);
 }
 
 function update_item_stock($db, $item_id, $stock){
-  $sql = '
+  $sql = "
     UPDATE
       items
     SET
-      stock = :stock
+      stock = {$stock}
     WHERE
-      item_id = :item_id
+      item_id = {$item_id}
     LIMIT 1
-  ';
+  ";
   
-  $params = array(
-    ':stock' => $stock,
-    ':item_id' => $item_id
-  );
-  return execute_query($db, $sql, $params);
+  return execute_query($db, $sql);
 }
 
 function destroy_item($db, $item_id){
@@ -151,19 +132,15 @@ function destroy_item($db, $item_id){
 }
 
 function delete_item($db, $item_id){
-  $sql = '
+  $sql = "
     DELETE FROM
       items
     WHERE
-      item_id = :item_id
+      item_id = {$item_id}
     LIMIT 1
-  ';
+  ";
   
-  $params = array(
-    ':item_id' => $item_id
-  );
-  
-  return execute_query($db, $sql, $params);
+  return execute_query($db, $sql);
 }
 
 

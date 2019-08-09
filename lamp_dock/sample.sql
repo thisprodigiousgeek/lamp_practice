@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: mysql
--- 生成日時: 2019 年 8 月 09 日 01:43
+-- 生成日時: 2019 年 8 月 09 日 02:15
 -- サーバのバージョン： 5.7.27
 -- PHP のバージョン: 7.2.19
 
@@ -37,14 +37,6 @@ CREATE TABLE `carts` (
   `updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- テーブルのデータのダンプ `carts`
---
-
-INSERT INTO `carts` (`cart_id`, `user_id`, `item_id`, `amount`, `created`, `updated`) VALUES
-(25, 4, 32, 1, '2019-08-09 09:33:09', '2019-08-09 09:33:09'),
-(26, 4, 33, 1, '2019-08-09 09:33:11', '2019-08-09 09:33:11');
-
 -- --------------------------------------------------------
 
 --
@@ -67,7 +59,7 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`item_id`, `name`, `stock`, `price`, `image`, `status`, `created`, `updated`) VALUES
-(32, 'ねこ', 9, 30000, 'ny1owjn3yqs0cow8w4ws.jpg', 1, '2019-08-09 09:12:30', '2019-08-09 09:18:08'),
+(32, 'ねこ', 4, 30000, 'ny1owjn3yqs0cow8w4ws.jpg', 1, '2019-08-09 09:12:30', '2019-08-09 11:10:47'),
 (33, 'ハリネズミ', 30, 50000, '16scmunsexdwcosw88g0.jpg', 1, '2019-08-09 09:13:33', '2019-08-09 09:13:33');
 
 -- --------------------------------------------------------
@@ -91,9 +83,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `name`, `password`, `type`, `created`, `updated`) VALUES
 (1, 'sampleuser', 'password', 2, '2019-08-07 01:17:12', '2019-08-07 01:17:12'),
-(4, 'admin', 'admin', 1, '2019-08-07 10:45:11', '2019-08-07 10:45:11'),
-(5, 'testuser2', 'password', 2, '2019-08-08 00:27:25', '2019-08-08 00:27:25'),
-(6, 'testuser3', 'password', 2, '2019-08-08 00:35:19', '2019-08-08 00:35:19');
+(4, 'admin', 'admin', 1, '2019-08-07 10:45:11', '2019-08-07 10:45:11');
 
 --
 -- ダンプしたテーブルのインデックス
@@ -133,13 +123,13 @@ ALTER TABLE `carts`
 -- テーブルのAUTO_INCREMENT `items`
 --
 ALTER TABLE `items`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- テーブルのAUTO_INCREMENT `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- ダンプしたテーブルの制約

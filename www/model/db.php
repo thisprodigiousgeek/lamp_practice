@@ -38,7 +38,7 @@ function fetch_all_query($db, $sql, $params = array()){
   return false;
 }
 
-function execute_query($db, $sql, $params){
+function execute_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
     return $statement->execute($params);
