@@ -9,6 +9,8 @@ services:
       - ../www:/var/www # ホストのhtmlディレクトリをphpコンテナのドキュメントルートと同期。
     ports:
       - 8080:80 # ホストの8080番ポートをコンテナの80番ポートにフォワード（転送）
+    depends_on:
+      - mysql
 
   # 2. mysqlをインストールするコンテナ
   mysql:
@@ -29,7 +31,7 @@ services:
     image: phpmyadmin/phpmyadmin # phpmyadminのコンテナイメージをそのまま利用
     environment:
       - PMA_HOST=mysql # 上記で作成したmysqlコンテナに接続
-    links:
+    depends_on:
       - mysql # 上記で作成したmysqlコンテナとリンクする
     ports:
       - 8888:80 # ホストの8888番ポートをphpmyadminコンテナの80番ポートに転送
