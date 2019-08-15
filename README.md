@@ -46,6 +46,11 @@ docker-compose up
 なお、docker-compose up (-dオプションなし) で起動した場合には
 Ctrl + C でコンテナを終了できます。
 
+## Docker Toolboxをご利用の方へ
+
+1. volumesの指定について、現在のディレクトリ（.）が指定されている箇所をクローンしたlamp_dockディレクトリに書き換えてください(lamp_dock内でpwd)
+2. localhostの指定については、仮想マシンのipアドレスに読み替えてください。
+
 ## 確認
 
 * ドキュメントルート: http://localhost:8080
