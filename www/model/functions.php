@@ -10,21 +10,21 @@ function redirect_to($url){
   exit;
 }
 
-function get_get($name,$h){
+function get_get($name){
   if(isset($_GET[$name]) === true){
     return $_GET[$name];
   };
   return '';
 }
 
-function get_post($name,$h){
+function get_post($name){
   if(isset($_POST[$name]) === true){
     return $_POST[$name];
   };
   return '';
 }
 
-function get_file($name,$h){
+function get_file($name){
   if(isset($_FILES[$name]) === true){
     return $_FILES[$name];
   };

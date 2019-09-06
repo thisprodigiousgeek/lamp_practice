@@ -76,6 +76,8 @@ function insert_cart($db, $item_id, $user_id, $amount = 1){
   return execute_query($db, $sql);
 }
 
+
+
 function update_cart_amount($db, $cart_id, $amount){
   $sql = "
     UPDATE
@@ -117,7 +119,59 @@ function purchase_carts($db, $carts){
   
   delete_user_carts($db, $carts[0]['user_id']);
 }
+//商品履歴、商品詳細に関する情報をbuy_allに代入　
 
+function buy_all($db,$item_id,$user_id,$price,$amount,$total_price){
+  $row_no='';
+  $db->beginTransaction();
+  try{
+   
+      $sql="
+    INSERT INTO
+    buy_header(
+    user_id,
+    date
+    )
+    VALUES(?,now())
+    ";
+    $db->prepare($sql);
+    $db->bindValue(1,$user_id,PDO::PARAM_INT);
+    $db->execute();
+    $buy_id=$db->lastInsertId();
+    $sql="
+    INSERT INTO
+    buy_details(
+    buy_id,
+    row_no,
+    item_id,
+    amount,
+    price,
+    total
+    )
+    VALUES(?,?,?,?,?,?)  
+    ";
+    $db->prepare($sql); 
+    
+    $db->bindValue(1,$buy_id,PDO::PARAM_INT);
+    $db->bindValue(2,$row_no,PDO::PARAM_INT);
+    $db->bindValue(3,$item_id,PDO::PARAM_INT);
+    $db->bindValue(4,$amount,PDO::PARAM_INT);
+    $db->bindValue(5,$price,PDO::PARAM_INT);
+    $db->bindValue(6,$total_price,PDO::PARAM_INT);
+    
+
+    $db->execute();
+
+    $db->commit();
+   
+  }catch(PDOException $e){
+    $db->rollback();
+    set_error('データ取得に失敗しました。');
+  }
+  
+    
+    
+}
 function delete_user_carts($db, $user_id){
   $sql = "
     DELETE FROM
@@ -156,4 +210,3 @@ function validate_cart_purchase($carts){
   }
   return true;
 }
-
