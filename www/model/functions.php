@@ -137,5 +137,5 @@ function is_valid_upload_image($image){
 
 //実践課題演習
 function h($str) {
-  return htmlspecialchars($str, ENT_QUOTES)
+  return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
 }
