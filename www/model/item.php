@@ -22,7 +22,6 @@ function get_item($db, $item_id){
   return fetch_query($db, $sql);
 }
 
-//itemsテーブルから商品情報を取得
 function get_items($db, $is_open = false){
   $sql = '
     SELECT
@@ -44,7 +43,6 @@ function get_items($db, $is_open = false){
   return fetch_all_query($db, $sql);
 }
 
-//上記の関数に渡し、商品情報を取得して返す
 function get_all_items($db){
   return get_items($db);
 }
