@@ -4,7 +4,7 @@ require_once 'db.php';
 
 // DB利用
 
-//テーブルitemsを呼び出す関数
+//テーブルitemsを呼び出す
 function get_item($db, $item_id){
   $sql = "
     SELECT

@@ -2,6 +2,7 @@
 require_once 'functions.php';
 require_once 'db.php';
 
+//ユーザーがカートに入れた商品を表示
 function get_user_carts($db, $user_id){
   $sql = "
     SELECT
@@ -25,7 +26,7 @@ function get_user_carts($db, $user_id){
   ";
   return fetch_all_query($db, $sql);
 }
-
+//ユーザーがカートに入れた商品を表示
 function get_user_cart($db, $user_id, $item_id){
   $sql = "
     SELECT
@@ -64,8 +65,9 @@ function add_cart($db, $item_id, $user_id) {
   }
   return update_cart_amount($db, $cart['cart_id'], $cart['amount'] + 1);
 }
-
+//テーブルcartsをインサート
 function insert_cart($db, $item_id, $user_id, $amount = 1){
+  
   $sql = "
     INSERT INTO
       carts(
@@ -78,7 +80,7 @@ function insert_cart($db, $item_id, $user_id, $amount = 1){
 
   return execute_query($db, $sql);
 }
-function inser_cart($db, $item_id, $user_id, $amount){
+function inser_cart($dbh, $item_id, $user_id, $amount){
   $sql = "
     INSERT INTO
       cart(
@@ -146,7 +148,7 @@ function delete_user_carts($db, $user_id){
   execute_query($db, $sql);
 }
 
-
+//購入予定の商品の合計金額を表示hyouji
 function sum_carts($carts){
   $total_price = 0;
   foreach($carts as $cart){
