@@ -15,6 +15,7 @@ define('DB_PASS', 'password');
 define('DB_CHARSET', 'utf8');
 
 define('SIGNUP_URL', '/signup.php');
+//ログインページのURL
 define('LOGIN_URL', '/login.php');
 define('LOGOUT_URL', '/logout.php');
 define('HOME_URL', '/index.php');
@@ -31,8 +32,9 @@ define('USER_NAME_LENGTH_MAX', 100);
 define('USER_PASSWORD_LENGTH_MIN', 6);
 define('USER_PASSWORD_LENGTH_MAX', 100);
 
-define('USER_TYPE_ADMIN', 1);
-define('USER_TYPE_NORMAL', 2);
+//ユーザーの種類
+define('USER_TYPE_ADMIN', 1);   //管理者
+define('USER_TYPE_NORMAL', 2);  //一般ユーザー
 
 define('ITEM_NAME_LENGTH_MIN', 1);
 define('ITEM_NAME_LENGTH_MAX', 100);
