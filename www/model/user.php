@@ -15,12 +15,13 @@ function get_user($db, $user_id){
     FROM
       users
     WHERE
-      user_id = {$user_id}
+      user_id = :user_id
     LIMIT 1
   ";
 
-  //連想配列として取得
-  return fetch_query($db, $sql);
+  $params = array(':user_id' => $user_id);
+
+  return fetch_query($db, $sql, $params);
 }
 
 function get_user_by_name($db, $name){
@@ -33,11 +34,13 @@ function get_user_by_name($db, $name){
     FROM
       users
     WHERE
-      name = '{$name}'
+      name = :name
     LIMIT 1
   ";
 
-  return fetch_query($db, $sql);
+  $params = array(':name' => $name);
+
+  return fetch_query($db, $sql, $params);
 }
 
 function login_as($db, $name, $password){
@@ -110,9 +113,11 @@ function insert_user($db, $name, $password){
   $sql = "
     INSERT INTO
       users(name, password)
-    VALUES ('{$name}', '{$password}');
+    VALUES (:name, :password);
   ";
 
-  return execute_query($db, $sql);
+  $params = array(':name' => $name, ':password' => $password);
+
+  return execute_query($db, $sql, $params);
 }
 
