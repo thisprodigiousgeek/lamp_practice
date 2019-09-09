@@ -1,10 +1,7 @@
 <?php
-//汎用関数ファイルを読み込む
 require_once 'functions.php';
-//DB接続関数ファイル読み込む
 require_once 'db.php';
 
-//取得したser_idからユーザー情報を取得
 function get_user($db, $user_id){
   $sql = "
     SELECT
@@ -15,12 +12,14 @@ function get_user($db, $user_id){
     FROM
       users
     WHERE
-      user_id = {$user_id}
+      user_id = :user_id
     LIMIT 1
   ";
 
-  //連想配列として取得
-  return fetch_query($db, $sql);
+
+  $params = array(':user_id' => $user_id);
+
+  return fetch_query($db, $sql, $params);
 }
 
 function get_user_by_name($db, $name){
@@ -33,11 +32,13 @@ function get_user_by_name($db, $name){
     FROM
       users
     WHERE
-      name = '{$name}'
+      name = :name
     LIMIT 1
   ";
 
-  return fetch_query($db, $sql);
+  $params = array(':name' => $name);
+
+  return fetch_query($db, $sql, $params);
 }
 
 function login_as($db, $name, $password){
@@ -48,11 +49,10 @@ function login_as($db, $name, $password){
   set_session('user_id', $user['user_id']);
   return $user;
 }
-//セッション変数からユーザー情報を取得して返す
+
 function get_login_user($db){
   $login_user_id = get_session('user_id');
 
-  //ユーザー情報を取得して返す
   return get_user($db, $login_user_id);
 }
 
@@ -64,7 +64,6 @@ function regist_user($db, $name, $password, $password_confirmation) {
   return insert_user($db, $name, $password);
 }
 
-//
 function is_admin($user){
   return $user['type'] === USER_TYPE_ADMIN;
 }
@@ -110,9 +109,11 @@ function insert_user($db, $name, $password){
   $sql = "
     INSERT INTO
       users(name, password)
-    VALUES ('{$name}', '{$password}');
+    VALUES (:name, :password);
   ";
 
-  return execute_query($db, $sql);
+  $params = array(':name' => $name, ':password' => $password);
+
+  return execute_query($db, $sql, $params);
 }
 

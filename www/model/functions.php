@@ -30,7 +30,7 @@ function get_file($name){
   };
   return array();
 }
-//セッション変数からユーザー情報を取得
+
 function get_session($name){
   if(isset($_SESSION[$name]) === true){
     return $_SESSION[$name];
