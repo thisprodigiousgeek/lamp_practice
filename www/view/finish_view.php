@@ -21,7 +21,7 @@
             <th>価格</th>
             <th>購入数</th>
             <th>小計</th>
-          </tr>
+          </tr> 
         </thead>
         <tbody>
           <?php foreach($carts as $cart){ ?>

@@ -23,7 +23,7 @@
             <th>小計</th>
             <th>操作</th>
           </tr>
-        </thead>
+        </thead> 
         <tbody>
           <?php foreach($carts as $cart){ ?>
           <tr>
