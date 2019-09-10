@@ -18,4 +18,7 @@ $carts = get_user_carts($db, $user['user_id']);
 
 $total_price = sum_carts($carts);
 
+//トークンを新規生成
+$token = get_csrf_token();
+
 include_once '../view/cart_view.php';

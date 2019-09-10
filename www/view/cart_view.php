@@ -32,6 +32,8 @@
             <td><?php print h(number_format($cart['price'])); ?>円</td>
             <td>
               <form method="post" action="cart_change_amount.php">
+                <!--トークン生成-->
+                <input type="hidden" name="csrf_token" value="<?php print $token;?>">
                 <input type="number" name="amount" value="<?php print h($cart['amount']); ?>">
                 個
                 <input type="submit" value="変更" class="btn btn-secondary">
@@ -42,6 +44,8 @@
             <td>
 
               <form method="post" action="cart_delete_cart.php">
+                <!--トークン生成-->
+                <input type="hidden" name="csrf_token" value="<?php print $token;?>">
                 <input type="submit" value="削除" class="btn btn-danger delete">
                 <input type="hidden" name="cart_id" value="<?php print h($cart['cart_id']); ?>">
               </form>
@@ -53,6 +57,8 @@
       </table>
       <p class="text-right">合計金額: <?php print h(number_format($total_price)); ?>円</p>
       <form method="post" action="finish.php">
+        <!--トークン生成-->
+        <input type="hidden" name="csrf_token" value="<?php print $token;?>">
         <input class="btn btn-block btn-primary" type="submit" value="購入する">
       </form>
     <?php } else { ?>
