@@ -13,6 +13,17 @@ $name = get_post('name');
 $password = get_post('password');
 $password_confirmation = get_post('password_confirmation');
 
+//トークンをPOST受信
+$token = get_post('csrf_token');
+
+var_dump($token);
+var_dump(get_session('csrf_token'));
+
+//トークンの認証(非認証の場合、リダイレクト)
+if(is_valid_csrf_token($token) === false){
+  redirect_to(SIGNUP_URL);
+}
+
 $db = get_db_connect();
 
 try{
