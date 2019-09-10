@@ -71,6 +71,7 @@ function add_cart($db, $item_id, $user_id) {
 
 //テーブルcartsをインサート
 function insert_cart($db, $item_id, $user_id, $amount = 1){
+  try{
   $sql = "
     INSERT INTO
       carts(
@@ -78,55 +79,66 @@ function insert_cart($db, $item_id, $user_id, $amount = 1){
         user_id,
         amount
       )
-    VALUES({$item_id}, {$user_id}, {$amount})
+    VALUES(?,?,?)
   ";
+  $stmt=$db->prepare($sql);
+  $stmt->bindValue(1,$item_id,PDO::PARAM_INT);
+  $stmt->bindValue(2,$user_id,PDO::PARAM_INT);
+  $stmt->bindValue(3,$amount,PDO::PARAM_INT);
+  $stmt->execute();
+  return true;
+      }catch(PDOExcepttion $e){
+        return false;
+        throw $e;
+      }
 
-  return execute_query($db, $sql);
 }
 
-//サンプルテteーブル
-function inser_cart($db, $item_id, $user_id, $amount = 1){
-  $sql = "
-    INSERT INTO
-      cart(
-        item_id,
-        user_id,
-  
-      )
-    VALUES(?,?)
-  ";
-$stmt=$db->prepare($sql);
-$stmt->bindValue(1,$item_id,PDO::PARAM_INT);
-$stmt->bindValue(2,$user_id,PDO::PARAM_INT);
-
-$stmt->execute();
-  
-}
 
 //カートに商品が入っていればupdate_cart_amountで購入数を変更
 function update_cart_amount($db, $cart_id, $amount){
+  try{
   $sql = "
     UPDATE
       carts
     SET
-      amount = {$amount}
+      amount = ?
     WHERE
-      cart_id = {$cart_id}
+      cart_id = ?
     LIMIT 1
   ";
-  return execute_query($db, $sql);
+  $stmt=$db->prepare($sql);
+
+  $stmt->bindValue(1,$amount,PDO::PARAM_INT);
+$stmt->bindValue(2,$cart_id,PDO::PARAM_INT);
+$stmt->execute();
+return true;
+  }catch(PDOException $e){
+return false;
+throw $e;
+  }
+  
 }
 //ユーザーが消去ボタンを押せばdelete_cartを実行し商品をキャンセルする
 function delete_cart($db, $cart_id){
+  try{
   $sql = "
     DELETE FROM
       carts
     WHERE
-      cart_id = {$cart_id}
+      cart_id = ?
     LIMIT 1
   ";
+  $stmt=$db->prepare($sql);
 
-  return execute_query($db, $sql);
+  $stmt->bindValue(1,$cart_id,PDO::PARAM_INT);
+
+$stmt->execute();
+return true;
+  }catch(PDOException $e){
+return false ;
+throw $e;
+  }
 }
 
 function purchase_carts($db, $carts){
@@ -148,14 +160,22 @@ function purchase_carts($db, $carts){
 
 //カートに入っている商品を消去する
 function delete_user_carts($db, $user_id){
+  try{
   $sql = "
     DELETE FROM
       carts
     WHERE
-      user_id = {$user_id}
+      user_id = ?
   ";
+$stmt=$db->prepare($sql);
+$stmt->bindValue(1,$user_id,PDO::PARAM_INT);
+$stmt->execute();
+return true;
+  }catch(PDOException $e){
+return false;
+throw $e;
+  }
 
-  execute_query($db, $sql);
 }
 
 //購入予定の商品の合計を計算keisann
@@ -187,7 +207,7 @@ function validate_cart_purchase($carts){
 }
 
 //購入詳細、購入履歴のテーブルをインサートte-buruwoinnsa-to
-function buy_all($db,$item_id,$user_id,$price,$amount,$total_price){
+function buy_all($db,$user_id,$row_no,$item_id,$price,$amount,$total_price){
   
   $db->beginTransaction();
   try{
@@ -196,6 +216,7 @@ function buy_all($db,$item_id,$user_id,$price,$amount,$total_price){
     buy_header(
     user_id,
     date
+    total
     )
     VALUES(?,now())
     ";
@@ -209,9 +230,9 @@ function buy_all($db,$item_id,$user_id,$price,$amount,$total_price){
     buy_id,
     row_no,
     item_id,
-    amount,
     price,
-    total
+    amount,
+    
     )
     VALUES(?,?,?,?,?,?)
     ";
@@ -219,14 +240,15 @@ function buy_all($db,$item_id,$user_id,$price,$amount,$total_price){
     $stmt->bindValue(1,$buy_id,PDO::PARAM_INT);
     $stmt->bindValue(2,$row_no,PDO::PARAM_INT);
     $stmt->bindValue(3,$item_id,PDO::PARAM_INT);
-    $stmt->bindValue(4,$amount,PDO::PARAM_INT);
-    $stmt->bindValue(5,$price,PDO::PARAM_INT);
+    $stmt->bindValue(4,$price,PDO::PARAM_INT);
+    $stmt->bindValue(5,$amount,PDO::PARAM_INT);
     $stmt->bindValue(6,$total_price,PDO::PARAM_INT);
     $stmt->execute();
     $db->commit();
-    return true;
+ return true;
   }catch(PDOException $e){
     $db->rollback();
     return false;
+    throw $e;
   }
  } 

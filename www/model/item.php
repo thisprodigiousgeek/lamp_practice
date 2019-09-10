@@ -74,6 +74,7 @@ function regist_item_transaction($db, $name, $price, $stock, $status, $image, $f
 
 function insert_item($db, $name, $price, $stock, $filename, $status){
   $status_value = PERMITTED_ITEM_STATUSES[$status];
+  try{
   $sql = "
     INSERT INTO
       items(
@@ -83,24 +84,43 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
         image,
         status
       )
-    VALUES('{$name}', {$price}, {$stock}, '{$filename}', {$status_value});
+    VALUES(?,?,?,?,?);
   ";
-
-  return execute_query($db, $sql);
+  $stmt=$db->prepare($sql);
+  $stmt->bindValue(1,$name,PDO::PARAM_STR);
+  $stmt->bindValue(2,$price,PDO::PARAM_INT);
+  $stmt->bindValue(3,$stock,PDO::PARAM_INT);
+  $stmt->bindValue(4,$filename,PDO::PARAM_STR);
+  $stmt->bindValue(5,$status_value,PDO::PARAM_INT);
+  $stmt->execute();
+return true;
+    }catch(PDOException $e){
+      return false;
+      throw $e;
+    }
 }
 
 function update_item_status($db, $item_id, $status){
+  try{
   $sql = "
     UPDATE
       items
     SET
-      status = {$status}
+      status = ?
     WHERE
-      item_id = {$item_id}
+      item_id = ?
     LIMIT 1
   ";
   
-  return execute_query($db, $sql);
+  $stmt=$db->prepare($sql);
+  $stmt->bindValue(1,$status,PDO::PARAM_INT);
+  $stmt->bindValue(2,$item_id,PDO::PARAM_INT);
+  $stmt->execute();
+  }catch(PDOException $e){
+    return false;
+    throw $e;
+  }
+  
 }
 
 function update_item_stock($db, $item_id, $stock){
@@ -133,15 +153,23 @@ function destroy_item($db, $item_id){
 }
 
 function delete_item($db, $item_id){
+  try{
   $sql = "
     DELETE FROM
       items
     WHERE
-      item_id = {$item_id}
+      item_id =?
     LIMIT 1
   ";
+  $stmt=$db->prepare($sql);
+  $stmt->bindValue(1,$item_id,PDO::PARAM_INT);
+  $stmt->execute();
+  return true;
+  }catch(PDOException $e){
+    return false;
+    throw $e;
+  }
   
-  return execute_query($db, $sql);
 }
 
 
