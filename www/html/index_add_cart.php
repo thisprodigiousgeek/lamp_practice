@@ -46,5 +46,7 @@ if(add_cart($db,$user['user_id'], $item_id)){
   set_error('カートの更新に失敗しました。');
 }
 
+
+
 // ビューの読み込み。
 redirect_to(HOME_URL);

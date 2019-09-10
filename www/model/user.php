@@ -101,12 +101,21 @@ function is_valid_password($password, $password_confirmation){
 }
 
 function insert_user($db, $name, $password){
+  try{
   $sql = "
     INSERT INTO
       users(name, password)
-    VALUES ('{$name}', '{$password}');
+    VALUES (?,?);
   ";
-
-  return execute_query($db, $sql);
+  $stmt=$db->prepare($sql);
+  $stmt->bindValue(1,$name,PDO::PARAM_STR);
+  $stmt->bindValue(2,$password,PDO::PARAM_INT);
+  $stmt->execute();
+  return true;
+  }catch(PDOException $e){
+    return false;
+    throw $e;
+  }
+ 
 }
 
