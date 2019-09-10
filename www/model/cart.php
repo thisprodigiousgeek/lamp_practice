@@ -249,5 +249,6 @@ function buy_all($db,$user_id,$row_no,$item_id,$price,$amount,$total_price){
   }catch(PDOException $e){
     $db->rollback();
     return false;
+    throw $e;
   }
  } 
