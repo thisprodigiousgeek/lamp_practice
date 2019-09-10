@@ -20,9 +20,6 @@ $amount = get_post('amount');
 //トークンをPOST受信
 $token = get_post('csrf_token');
 
-var_dump($token);
-var_dump(get_session('csrf_token'));
-
 //トークンの認証(非認証の場合、リダイレクト)
 if(is_valid_csrf_token($token) === false){
   redirect_to(CART_URL);
