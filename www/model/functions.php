@@ -29,7 +29,7 @@ function get_file($name){
     return $_FILES[$name];
   };
   return array();
-}
+} 
 
 function get_session($name){
   if(isset($_SESSION[$name]) === true){
