@@ -30,7 +30,7 @@ $db = get_db_connect();
 
 // PDOを利用してログインユーザーのデータを取得
 $user = get_login_user($db);
-
+$carts =get_user_carts($db,$user['user_id']);
 //purchase_carts関数で商品購入が失敗した時の処理をするを行う
 if(purchase_carts($db, $carts) === false){
 //商品購入が失敗した場合下記のメッセージを表示
