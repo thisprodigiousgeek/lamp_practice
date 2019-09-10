@@ -207,8 +207,8 @@ function validate_cart_purchase($carts){
 }
 
 //購入詳細、購入履歴のテーブルをインサートte-buruwoinnsa-to
-function buy_all($db,$user_id,$row_no,$item_id,$price,$amount,$total_price){
-  
+function buy_all($db,$user_id,$total_price,$item_id,$price,$amount){
+  $row_no='';
   $db->beginTransaction();
   try{
       $sql="
@@ -218,12 +218,13 @@ function buy_all($db,$user_id,$row_no,$item_id,$price,$amount,$total_price){
     date
     total
     )
-    VALUES(?,now())
+    VALUES(?,now(),?)
     ";
     $stmt=$db->prepare($sql);
     $stmt->bindValue(1,$user_id,PDO::PARAM_INT);
+    $stmt->bindValue(2,$total_price,PDO::PARAM_INT);
     $stmt->execute();
-    $buy_id=$db->lastInsertId();
+    $buy_id=$db->lastInsertId('buy_id');
     $sql="
     INSERT INTO
     buy_details(
@@ -234,7 +235,7 @@ function buy_all($db,$user_id,$row_no,$item_id,$price,$amount,$total_price){
     amount,
     
     )
-    VALUES(?,?,?,?,?,?)
+    VALUES(?,?,?,?,?)
     ";
     $stmt=$db->prepare($sql);
     $stmt->bindValue(1,$buy_id,PDO::PARAM_INT);
@@ -242,7 +243,7 @@ function buy_all($db,$user_id,$row_no,$item_id,$price,$amount,$total_price){
     $stmt->bindValue(3,$item_id,PDO::PARAM_INT);
     $stmt->bindValue(4,$price,PDO::PARAM_INT);
     $stmt->bindValue(5,$amount,PDO::PARAM_INT);
-    $stmt->bindValue(6,$total_price,PDO::PARAM_INT);
+   
     $stmt->execute();
     $db->commit();
  return true;

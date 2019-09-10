@@ -16,11 +16,13 @@ function get_item($db, $item_id){
       status
     FROM
       items
+    
     WHERE
-      item_id = {$item_id}
+      item_id =?
   ";
-
-  return fetch_query($db, $sql);
+$stmt=$db->prepare($sql);
+$stmt->bindValue(1,$item_id,PDO::PARAM_INT);
+$stmt->execute();
 }
 
 function get_items($db, $is_open = false){
@@ -34,6 +36,7 @@ function get_items($db, $is_open = false){
       status
     FROM
       items
+      
   ";
   if($is_open === true){
     $sql .= '
