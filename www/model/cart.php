@@ -1,4 +1,4 @@
-<?php 
+<?php
 // 定数ファイルを読み込み
 require_once 'functions.php';
 

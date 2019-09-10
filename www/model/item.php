@@ -73,7 +73,7 @@ function regist_item_transaction($db, $name, $price, $stock, $status, $image, $f
   $db->rollback();
   return false;
   
-}
+} 
 
 function insert_item($db, $name, $price, $stock, $filename, $status){
   $status_value = PERMITTED_ITEM_STATUSES[$status];
