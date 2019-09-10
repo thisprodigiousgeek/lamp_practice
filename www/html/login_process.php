@@ -12,6 +12,15 @@ if(is_logined() === true){
 $name = get_post('name');
 $password = get_post('password');
 
+//トークンをPOST受信
+$token = get_post('csrf_token');
+
+
+//トークンの認証(非認証の場合、リダイレクト)
+if(is_valid_csrf_token($token) === false){
+  redirect_to(LOGIN_URL);
+}
+
 $db = get_db_connect();
 
 

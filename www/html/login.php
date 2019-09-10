@@ -8,4 +8,7 @@ if(is_logined() === true){
   redirect_to(HOME_URL);
 }
 
+//トークンを新規生成
+$token = get_csrf_token();
+
 include_once '../view/login_view.php';
