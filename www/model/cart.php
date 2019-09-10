@@ -1,7 +1,11 @@
 <?php 
+// 定数ファイルを読み込み
 require_once 'functions.php';
+
+// dbデータに関する関数ファイルを読み込み
 require_once 'db.php';
 
+//ユーザーがカートに入れた商品を表示
 function get_user_carts($db, $user_id){
   $sql = "
     SELECT
@@ -25,7 +29,7 @@ function get_user_carts($db, $user_id){
   ";
   return fetch_all_query($db, $sql);
 }
-
+//ユーザーがカートに入れた商品を表示
 function get_user_cart($db, $user_id, $item_id){
   $sql = "
     SELECT
@@ -54,6 +58,9 @@ function get_user_cart($db, $user_id, $item_id){
 
 }
 
+/*カートに商品が入っていればupdate_cart_amountを実行
+カートにっ商品が入っていなければinsert_cartを実行*/
+
 function add_cart($db, $item_id, $user_id) {
   $cart = get_user_cart($db, $item_id, $user_id);
   if($cart === false){
@@ -62,6 +69,7 @@ function add_cart($db, $item_id, $user_id) {
   return update_cart_amount($db, $cart['cart_id'], $cart['amount'] + 1);
 }
 
+//テーブルcartsをインサート
 function insert_cart($db, $item_id, $user_id, $amount = 1){
   $sql = "
     INSERT INTO
@@ -76,6 +84,26 @@ function insert_cart($db, $item_id, $user_id, $amount = 1){
   return execute_query($db, $sql);
 }
 
+//サンプルテteーブル
+function inser_cart($db, $item_id, $user_id, $amount = 1){
+  $sql = "
+    INSERT INTO
+      cart(
+        item_id,
+        user_id,
+  
+      )
+    VALUES(?,?)
+  ";
+$stmt=$db->prepare($sql);
+$stmt->bindValue(1,$item_id,PDO::PARAM_INT);
+$stmt->bindValue(2,$user_id,PDO::PARAM_INT);
+
+$stmt->execute();
+  
+}
+
+//カートに商品が入っていればupdate_cart_amountで購入数を変更
 function update_cart_amount($db, $cart_id, $amount){
   $sql = "
     UPDATE
@@ -88,7 +116,7 @@ function update_cart_amount($db, $cart_id, $amount){
   ";
   return execute_query($db, $sql);
 }
-
+//ユーザーが消去ボタンを押せばdelete_cartを実行し商品をキャンセルする
 function delete_cart($db, $cart_id){
   $sql = "
     DELETE FROM
@@ -118,6 +146,7 @@ function purchase_carts($db, $carts){
   delete_user_carts($db, $carts[0]['user_id']);
 }
 
+//カートに入っている商品を消去する
 function delete_user_carts($db, $user_id){
   $sql = "
     DELETE FROM
@@ -129,7 +158,7 @@ function delete_user_carts($db, $user_id){
   execute_query($db, $sql);
 }
 
-
+//購入予定の商品の合計を計算keisann
 function sum_carts($carts){
   $total_price = 0;
   foreach($carts as $cart){
@@ -157,3 +186,47 @@ function validate_cart_purchase($carts){
   return true;
 }
 
+//購入詳細、購入履歴のテーブルをインサートte-buruwoinnsa-to
+function buy_all($db,$item_id,$user_id,$price,$amount,$total_price){
+  
+  $db->beginTransaction();
+  try{
+      $sql="
+    INSERT INTO
+    buy_header(
+    user_id,
+    date
+    )
+    VALUES(?,now())
+    ";
+    $stmt=$db->prepare($sql);
+    $stmt->bindValue(1,$user_id,PDO::PARAM_INT);
+    $stmt->execute();
+    $buy_id=$db->lastInsertId();
+    $sql="
+    INSERT INTO
+    buy_details(
+    buy_id,
+    row_no,
+    item_id,
+    amount,
+    price,
+    total
+    )
+    VALUES(?,?,?,?,?,?)
+    ";
+    $stmt=$db->prepare($sql);
+    $stmt->bindValue(1,$buy_id,PDO::PARAM_INT);
+    $stmt->bindValue(2,$row_no,PDO::PARAM_INT);
+    $stmt->bindValue(3,$item_id,PDO::PARAM_INT);
+    $stmt->bindValue(4,$amount,PDO::PARAM_INT);
+    $stmt->bindValue(5,$price,PDO::PARAM_INT);
+    $stmt->bindValue(6,$total_price,PDO::PARAM_INT);
+    $stmt->execute();
+    $db->commit();
+    return true;
+  }catch(PDOException $e){
+    $db->rollback();
+    return false;
+  }
+ } 

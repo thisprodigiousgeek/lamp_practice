@@ -4,6 +4,7 @@ require_once 'db.php';
 
 // DB利用
 
+//テーブルitemsを呼び出す
 function get_item($db, $item_id){
   $sql = "
     SELECT
@@ -23,7 +24,7 @@ function get_item($db, $item_id){
 }
 
 function get_items($db, $is_open = false){
-  $sql = '
+  $sql = "
     SELECT
       item_id, 
       name,
@@ -33,7 +34,7 @@ function get_items($db, $is_open = false){
       status
     FROM
       items
-  ';
+  ";
   if($is_open === true){
     $sql .= '
       WHERE status = 1
@@ -149,7 +150,7 @@ function delete_item($db, $item_id){
 function is_open($item){
   return $item['status'] === 1;
 }
-
+//各種エラーテェックをvalidate_itemにまとめて代入
 function validate_item($name, $price, $stock, $filename, $status){
   $is_valid_item_name = is_valid_item_name($name);
   $is_valid_item_price = is_valid_item_price($price);
@@ -164,6 +165,7 @@ function validate_item($name, $price, $stock, $filename, $status){
     && $is_valid_item_status;
 }
 
+//nameエラーチェック
 function is_valid_item_name($name){
   $is_valid = true;
   if(is_valid_length($name, ITEM_NAME_LENGTH_MIN, ITEM_NAME_LENGTH_MAX) === false){
@@ -173,6 +175,7 @@ function is_valid_item_name($name){
   return $is_valid;
 }
 
+//priceエラーチェック
 function is_valid_item_price($price){
   $is_valid = true;
   if(is_positive_integer($price) === false){
@@ -181,7 +184,7 @@ function is_valid_item_price($price){
   }
   return $is_valid;
 }
-
+//stockエラーチェック
 function is_valid_item_stock($stock){
   $is_valid = true;
   if(is_positive_integer($stock) === false){
@@ -206,3 +209,4 @@ function is_valid_item_status($status){
   }
   return $is_valid;
 }
+            

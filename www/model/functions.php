@@ -137,6 +137,6 @@ function is_valid_upload_image($image){
 
 function h($str)
 {
-    return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
+  echo  strip_tags($str,htmlspecialchars($str, ENT_QUOTES, 'UTF-8'));
 }
 
