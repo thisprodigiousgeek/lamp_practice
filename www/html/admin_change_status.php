@@ -21,6 +21,14 @@ if(is_admin($user) === false){
 $item_id = get_post('item_id');
 $changes_to = get_post('changes_to');
 
+//トークをPOST受信
+$token = get_post('csrf_token');
+
+//トークンの認証(非認証の場合、リダイレクト)
+if(is_valid_csrf_token($token) === false){
+  redirect_to(ADMIN_URL);
+}
+
 if($changes_to === 'open'){
   update_item_status($db, $item_id, ITEM_STATUS_OPEN);
   set_message('ステータスを変更しました。');

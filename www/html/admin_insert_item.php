@@ -25,6 +25,16 @@ $stock = get_post('stock');
 
 $image = get_file('image');
 
+//トークをPOST受信
+$token = get_post('csrf_token');
+
+//トークンの認証(非認証の場合、リダイレクト)
+if(is_valid_csrf_token($token) === false){
+  redirect_to(ADMIN_URL);
+}
+
+
+
 if(regist_item($db, $name, $price, $stock, $status, $image)){
   set_message('商品を登録しました。');
 }else {
