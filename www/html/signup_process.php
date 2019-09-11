@@ -41,6 +41,6 @@ try{
 
 set_message('ユーザー登録が完了しました。');
 login_as($db, $name, $password);
-
+is_valid_csrf_token($token);
 // ビューの読み込み。
 redirect_to(HOME_URL);

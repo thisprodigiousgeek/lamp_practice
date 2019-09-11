@@ -49,6 +49,7 @@ if(update_cart_amount($db, $cart_id, $amount)){
   set_error('購入数の更新に失敗しました。');
 
 }
+is_valid_csrf_token($token);
 
 // ビューの読み込み。
 redirect_to(CART_URL);

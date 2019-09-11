@@ -47,5 +47,6 @@ if(update_item_stock($db, $item_id, $stock)){
 //在庫数の変更に失敗した場合下記のメッセージを表示
   set_error('在庫数の変更に失敗しました。');
 }
+is_valid_csrf_token($token);
 // ビューの読み込み。
 redirect_to(ADMIN_URL);

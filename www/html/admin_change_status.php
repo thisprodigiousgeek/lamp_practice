@@ -58,6 +58,6 @@ if($changes_to === 'open'){
 //ステータスの変更が失敗した場合下記のメッセージを表示
   set_error('不正なリクエストです。');
 }
-
+is_valid_csrf_token($token);
 // ビューの読み込み。
 redirect_to(ADMIN_URL);

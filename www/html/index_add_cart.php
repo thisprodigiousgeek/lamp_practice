@@ -45,6 +45,6 @@ if(add_cart($db,$user['user_id'], $item_id)){
   //商品追加に失敗した場合場合下記のメッセージを表示
   set_error('カートの更新に失敗しました。');
 }
-
+is_valid_csrf_token($token);
 // ビューの読み込み。
 redirect_to(HOME_URL);

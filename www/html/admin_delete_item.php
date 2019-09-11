@@ -46,6 +46,6 @@ if(destroy_item($db, $item_id) === true){
   set_error('商品削除に失敗しました。');
 }
 
-
+is_valid_csrf_token($token);
 // ビューの読み込み。
 redirect_to(ADMIN_URL);
