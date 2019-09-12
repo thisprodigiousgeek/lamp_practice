@@ -57,7 +57,88 @@ function get_user_cart($db, $user_id, $item_id){
   return fetch_query($db, $sql);
 
 }
+function buy_ranking($db){
+  $sql="
+  SELECT
+  *
+  from
+  buy_r
+  
+  ";
 
+return fetch_all_query($db, $sql);
+}
+function buy_ran($db){
+  $sql="
+  SELECT
+  buy_r.item_id,
+  buy_r.amount,
+  items.name,
+  items.price,
+  items.image
+  from
+  buy_r
+  JOIN
+      items
+      ON
+      buy_r.item_id = items.item_id
+  ORDER BY amount DESC
+  ";
+  return fetch_all_query($db, $sql);
+
+}
+function buy_r($db,$item_id,$amount){
+  try{
+    $sql="
+    INSERT INTO
+    buy_r(
+      item_id,
+      amount
+      )
+      VALUES(?,?)
+      ";
+      $stmt=$db->prepare($sql);
+      $stmt->bindValue(1,$item_id,PDO::PARAM_INT);
+ 
+       $stmt->bindValue(2,$amount,PDO::PARAM_INT);  
+       $stmt->execute();
+       return true;
+         }catch(PDOException $e){
+          
+          return false;
+          throw $e;
+        }
+}
+
+function buy_a($db,$item_id,$amount){
+  try{
+    $sql="
+    UPDATE
+    buy_r
+    SET
+    amount=amount+?
+    where
+    item_id=?
+      ";
+      $stmt=$db->prepare($sql);
+    
+       $stmt->bindValue(1,$amount,PDO::PARAM_INT);  
+       $stmt->bindValue(2,$item_id,PDO::PARAM_INT);  
+       $stmt->execute();
+       return true;
+         }catch(PDOException $e){
+          
+          return false;
+          throw $e;
+        }
+}
+function buy_cart($db,$item_id,$amount) {
+  $buy = buy_ranking($db);
+  if($buy === null){
+    return buy_r($db,$item_id,$amount);
+  }
+  return buy_a($db,$buy['item_id'], $buy['amount'] + 1);
+}
 /*カートに商品が入っていればupdate_cart_amountを実行
 カートにっ商品が入っていなければinsert_cartを実行*/
 
@@ -256,6 +337,7 @@ function buy_header($db,$user_id,$total_price){
     throw $e;
   }
  } 
+
  function buy_details($db,$buy_id,$row_no,$item_id,$price,$amount){
    try{
  $sql="

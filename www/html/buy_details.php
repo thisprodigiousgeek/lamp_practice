@@ -34,7 +34,7 @@ $buys=buy_detailis($db,$user['user_id'],$buy_id);
 $bu=buy($db,$user['user_id'],$buy_id);
 
 // ビューの読み込み。
-include_once '../view/buy_view.php';
+include_once '../view/buy_details_view.php';
 
 
 

@@ -51,7 +51,9 @@ try{
   $row_no=1;
   foreach($carts as $cart){
     buy_details($db,$buy_id,$row_no,$cart['item_id'],$cart['price'],$cart['amount']);
+    
     $row_no++;
+    
   }
   $db->commit();
 }catch(PDOException $e){
