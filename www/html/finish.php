@@ -30,6 +30,7 @@ $db = get_db_connect();
 
 // PDOを利用してログインユーザーのデータを取得
 $user = get_login_user($db);
+//cart情報を取得
 $carts =get_user_carts($db,$user['user_id']);
 //purchase_carts関数で商品購入が失敗した時の処理をするを行う
 if(purchase_carts($db, $carts) === false){
@@ -40,7 +41,24 @@ if(purchase_carts($db, $carts) === false){
 } 
 
 //合計金額を$total_priceに代入
+
 $total_price = sum_carts($carts);
+$db->beginTransaction();
+try{
+
+  buy_header($db,$user['user_id'],$total_price);
+  $buy_id=$db->lastInsertId('buy_id');
+  $row_no=1;
+  foreach($carts as $cart){
+    buy_details($db,$buy_id,$row_no,$cart['item_id'],$cart['price'],$cart['amount']);
+    $row_no++;
+  }
+  $db->commit();
+}catch(PDOException $e){
+$db->rollback();
+set_error('購入明細の追加に失敗しました');
+
+}
 
 // ビューの読み込み。
 include_once '../view/finish_view.php';

@@ -178,7 +178,7 @@ throw $e;
 
 }
 
-//購入予定の商品の合計を計算keisann
+//購入予定の商品の合計を計算
 function sum_carts($carts){
   $total_price = 0;
   foreach($carts as $cart){
@@ -186,6 +186,29 @@ function sum_carts($carts){
   }
   return $total_price;
 }
+//buy_detailisにINSERTするpriceを取得
+function price_carts($carts){
+  $price = 0;
+  foreach($carts as $cart){
+    $price = $cart['price'];
+  }
+  return $price;
+}
+function amount_carts($carts){
+  $amount = 0;
+  foreach($carts as $cart){
+    $amount = $cart['amount'];
+  }
+  return $amount;
+}
+function item_carts($carts){
+  $item_id = 0;
+  foreach($carts as $cart){
+    $item_id = $cart['item_id'];
+  }
+  return $item_id;
+}
+
 
 function validate_cart_purchase($carts){
   if(count($carts) === 0){
@@ -207,15 +230,15 @@ function validate_cart_purchase($carts){
 }
 
 //購入詳細、購入履歴のテーブルをインサートte-buruwoinnsa-to
-function buy_all($db,$user_id,$total_price,$item_id,$price,$amount){
-  $row_no='';
-  $db->beginTransaction();
+
+function buy_header($db,$user_id,$total_price){
+  
   try{
       $sql="
     INSERT INTO
     buy_header(
     user_id,
-    date
+    date,
     total
     )
     VALUES(?,now(),?)
@@ -224,32 +247,189 @@ function buy_all($db,$user_id,$total_price,$item_id,$price,$amount){
     $stmt->bindValue(1,$user_id,PDO::PARAM_INT);
     $stmt->bindValue(2,$total_price,PDO::PARAM_INT);
     $stmt->execute();
-    $buy_id=$db->lastInsertId('buy_id');
-    $sql="
-    INSERT INTO
-    buy_details(
-    buy_id,
-    row_no,
-    item_id,
-    price,
-    amount,
-    
-    )
-    VALUES(?,?,?,?,?)
-    ";
-    $stmt=$db->prepare($sql);
-    $stmt->bindValue(1,$buy_id,PDO::PARAM_INT);
-    $stmt->bindValue(2,$row_no,PDO::PARAM_INT);
-    $stmt->bindValue(3,$item_id,PDO::PARAM_INT);
-    $stmt->bindValue(4,$price,PDO::PARAM_INT);
-    $stmt->bindValue(5,$amount,PDO::PARAM_INT);
    
-    $stmt->execute();
-    $db->commit();
+    
  return true;
   }catch(PDOException $e){
-    $db->rollback();
+    
     return false;
     throw $e;
   }
  } 
+ function buy_details($db,$buy_id,$row_no,$item_id,$price,$amount){
+   try{
+ $sql="
+ INSERT INTO
+ buy_details(
+ buy_id,
+ row_no,
+ item_id,
+ price,
+ amount
+ 
+ )
+ VALUES(?,?,?,?,?)
+ ";
+ $stmt=$db->prepare($sql);
+ $stmt->bindValue(1,$buy_id,PDO::PARAM_INT);
+ $stmt->bindValue(2,$row_no,PDO::PARAM_INT);
+ $stmt->bindValue(3,$item_id,PDO::PARAM_INT);
+ $stmt->bindValue(4,$price,PDO::PARAM_INT);
+ $stmt->bindValue(5,$amount,PDO::PARAM_INT);
+
+ $stmt->execute();
+ return true;
+   }catch(PDOException $e){
+    
+    return false;
+    throw $e;
+  }
+ }
+
+
+ function buy_header_select($db,$user_id){
+   $sql="
+   SELECT
+   buy_id,
+   date,
+   total
+  
+   from
+   buy_header
+   where
+   user_id={$user_id}
+   ";
+   return fetch_all_query($db, $sql);
+
+ }
+ function buy_detailis($db,$user_id,$buy_id){
+  $sql="
+  SELECT
+  buy_header.buy_id,
+  buy_header.date,
+  
+  buy_header.total,
+  buy_details.price,
+  buy_details.item_id,
+  buy_details.amount,
+  
+  items.name
+  from
+  buy_header
+  JOIN 
+  buy_details
+  ON
+  buy_header.buy_id = buy_details.buy_id 
+ JOIN
+ items
+ ON
+ buy_details.item_id = items.item_id
+  where
+  buy_header.user_id={$user_id}
+  and
+buy_header.buy_id={$buy_id}
+  ";
+  return fetch_all_query($db, $sql);
+ }
+
+  
+ function buy($db,$user_id,$buy_id){
+  $sql="
+  SELECT
+  buy_header.buy_id,
+  buy_header.date,
+  
+  buy_header.total,
+  buy_details.price,
+  buy_details.item_id,
+  buy_details.amount,
+  
+  items.name
+  from
+  buy_header
+  JOIN 
+  buy_details
+  ON
+  buy_header.buy_id = buy_details.buy_id 
+ JOIN
+ items
+ ON
+ buy_details.item_id = items.item_id
+  where
+  buy_header.user_id={$user_id}
+  and
+buy_header.buy_id={$buy_id}
+  LIMIT 1";
+  return fetch_all_query($db, $sql);
+ }
+ function buy_ADMIN_header($db){
+  $sql="
+  SELECT
+  buy_id,
+  date,
+  total
+ 
+  from
+  buy_header
+ 
+  ";
+  return fetch_all_query($db, $sql);
+
+}
+function buy_ADMIN_detailis($db,$buy_id){
+  $sql="
+  SELECT
+  buy_header.buy_id,
+  buy_header.date,
+  
+  buy_header.total,
+  buy_details.price,
+  buy_details.item_id,
+  buy_details.amount,
+  
+  items.name
+  from
+  buy_header
+  JOIN 
+  buy_details
+  ON
+  buy_header.buy_id = buy_details.buy_id 
+ JOIN
+ items
+ ON
+ buy_details.item_id = items.item_id
+  where
+  buy_header.buy_id={$buy_id}
+  ";
+  return fetch_all_query($db, $sql);
+ }
+
+  
+ function buy_ADMIN($db,$buy_id){
+  $sql="
+  SELECT
+  buy_header.buy_id,
+  buy_header.date,
+  
+  buy_header.total,
+  buy_details.price,
+  buy_details.item_id,
+  buy_details.amount,
+  
+  items.name
+  from
+  buy_header
+  JOIN 
+  buy_details
+  ON
+  buy_header.buy_id = buy_details.buy_id 
+ JOIN
+ items
+ ON
+ buy_details.item_id = items.item_id
+  where
+  
+buy_header.buy_id={$buy_id}
+  LIMIT 1";
+  return fetch_all_query($db, $sql);
+ }

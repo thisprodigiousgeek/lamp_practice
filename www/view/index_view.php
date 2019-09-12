@@ -16,6 +16,7 @@
 
     <div class="card-deck">
       <div class="row">
+   
       <?php foreach($items as $item){ ?> 
         <div class="col-6 item">
           <div class="card h-100 text-center">
