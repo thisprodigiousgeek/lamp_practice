@@ -52,7 +52,7 @@ function get_items($db, $is_open = false){
 
 function get_all_items($db){
   return get_items($db);
-}
+} 
 
 function get_open_items($db){
   return get_items($db, true);
@@ -243,4 +243,4 @@ function is_valid_item_status($status){
   }
   return $is_valid;
 }
-            
+ 

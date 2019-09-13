@@ -125,3 +125,4 @@ function insert_user($db, $name, $password){
  
 }
 
+ 
