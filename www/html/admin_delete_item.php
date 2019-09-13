@@ -48,4 +48,4 @@ if(destroy_item($db, $item_id) === true){
 
 is_valid_csrf_token($token);
 // ビューの読み込み。
-redirect_to(ADMIN_URL);
+redirect_to(ADMIN_URL); 

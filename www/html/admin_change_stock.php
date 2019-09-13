@@ -49,4 +49,4 @@ if(update_item_stock($db, $item_id, $stock)){
 }
 is_valid_csrf_token($token);
 // ビューの読み込み。
-redirect_to(ADMIN_URL);
+redirect_to(ADMIN_URL);  

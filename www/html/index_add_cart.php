@@ -49,4 +49,4 @@ if(add_cart($db,$user['user_id'], $item_id)){
 
 is_valid_csrf_token($token);
 // ビューの読み込み。
-redirect_to(HOME_URL);
+redirect_to(HOME_URL); 

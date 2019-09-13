@@ -52,4 +52,4 @@ if(update_cart_amount($db, $cart_id, $amount)){
 is_valid_csrf_token($token);
 
 // ビューの読み込み。
-redirect_to(CART_URL);
+redirect_to(CART_URL); 

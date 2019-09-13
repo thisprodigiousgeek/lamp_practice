@@ -63,4 +63,4 @@ if(regist_item($db, $name, $price, $stock, $status, $image)){
 }
 is_valid_csrf_token($token);
 // ビューの読み込み。
-redirect_to(ADMIN_URL);
+redirect_to(ADMIN_URL); 

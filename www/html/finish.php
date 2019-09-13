@@ -41,7 +41,7 @@ if(purchase_carts($db, $carts) === false){
 } 
 
 //合計金額を$total_priceに代入
-
+ 
 $total_price = sum_carts($carts);
 $db->beginTransaction();
 try{

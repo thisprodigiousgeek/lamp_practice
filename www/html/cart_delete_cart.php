@@ -44,4 +44,4 @@ if(delete_cart($db, $cart_id)){
 }
 
 // ビューの読み込み。
-redirect_to(CART_URL);
+redirect_to(CART_URL); 
