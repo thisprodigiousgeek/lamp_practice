@@ -428,7 +428,7 @@ function buy_ADMIN_detailis($db,$buy_id){
   $stmt->bindValue(1,$buy_id,PDO::PARAM_INT);
   $stmt->execute();
   return $buys=$stmt->fetchALL();
- }
+ } 
 
   
  function buy_ADMIN($db,$buy_id){
