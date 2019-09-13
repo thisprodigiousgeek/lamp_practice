@@ -35,7 +35,7 @@
             <td>
             <form method='POST' action='buy_admin_detailis.php'>
                 <input type='submit' value='詳細を見る'>
-                <input type='hidden' name='buy_id' value='<?php print $buys['buy_id'] ?>'>
+                <input type='hidden' name='buy_id' value='<?php h(print $buys['buy_id']) ?>'>
           </form>
             </td>
         

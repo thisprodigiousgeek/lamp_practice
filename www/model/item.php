@@ -23,6 +23,7 @@ function get_item($db, $item_id){
 $stmt=$db->prepare($sql);
 $stmt->bindValue(1,$item_id,PDO::PARAM_INT);
 $stmt->execute();
+return $item=$stmt->fetchALL();
 }
 
 function get_items($db, $is_open = false){
@@ -43,8 +44,10 @@ function get_items($db, $is_open = false){
       WHERE status = 1
     ';
   }
+  $stmt=$db->prepare($sql);
 
-  return fetch_all_query($db, $sql);
+  $stmt->execute();
+  return $item=$stmt->fetchALL();
 }
 
 function get_all_items($db){

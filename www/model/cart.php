@@ -25,9 +25,12 @@ function get_user_carts($db, $user_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = {$user_id}
+      carts.user_id = ?
   ";
-  return fetch_all_query($db, $sql);
+  $stmt=$db->prepare($sql);
+  $stmt->bindValue(1,$user_id,PDO::PARAM_INT);
+  $stmt->execute();
+  return $carts=$stmt->fetchALL();
 }
 //ユーザーがカートに入れた商品を表示
 function get_user_cart($db, $user_id, $item_id){
@@ -49,96 +52,19 @@ function get_user_cart($db, $user_id, $item_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = {$user_id}
+      carts.user_id = ?
     AND
-      items.item_id = {$item_id}
+      items.item_id = ?
   ";
 
-  return fetch_query($db, $sql);
+  $stmt=$db->prepare($sql);
+  $stmt->bindValue(1,$user_id,PDO::PARAM_INT);
+  $stmt->bindValue(2,$item_id,PDO::PARAM_INT);
+  $stmt->execute();
+  return $carts=$stmt->fetch();
 
 }
-function buy_ranking($db){
-  $sql="
-  SELECT
-  *
-  from
-  buy_r
-  
-  ";
 
-return fetch_all_query($db, $sql);
-}
-function buy_ran($db){
-  $sql="
-  SELECT
-  buy_r.item_id,
-  buy_r.amount,
-  items.name,
-  items.price,
-  items.image
-  from
-  buy_r
-  JOIN
-      items
-      ON
-      buy_r.item_id = items.item_id
-  ORDER BY amount DESC
-  ";
-  return fetch_all_query($db, $sql);
-
-}
-function buy_r($db,$item_id,$amount){
-  try{
-    $sql="
-    INSERT INTO
-    buy_r(
-      item_id,
-      amount
-      )
-      VALUES(?,?)
-      ";
-      $stmt=$db->prepare($sql);
-      $stmt->bindValue(1,$item_id,PDO::PARAM_INT);
- 
-       $stmt->bindValue(2,$amount,PDO::PARAM_INT);  
-       $stmt->execute();
-       return true;
-         }catch(PDOException $e){
-          
-          return false;
-          throw $e;
-        }
-}
-
-function buy_a($db,$item_id,$amount){
-  try{
-    $sql="
-    UPDATE
-    buy_r
-    SET
-    amount=amount+?
-    where
-    item_id=?
-      ";
-      $stmt=$db->prepare($sql);
-    
-       $stmt->bindValue(1,$amount,PDO::PARAM_INT);  
-       $stmt->bindValue(2,$item_id,PDO::PARAM_INT);  
-       $stmt->execute();
-       return true;
-         }catch(PDOException $e){
-          
-          return false;
-          throw $e;
-        }
-}
-function buy_cart($db,$item_id,$amount) {
-  $buy = buy_ranking($db);
-  if($buy === null){
-    return buy_r($db,$item_id,$amount);
-  }
-  return buy_a($db,$buy['item_id'], $buy['amount'] + 1);
-}
 /*カートに商品が入っていればupdate_cart_amountを実行
 カートにっ商品が入っていなければinsert_cartを実行*/
 
@@ -379,9 +305,13 @@ function buy_header($db,$user_id,$total_price){
    from
    buy_header
    where
-   user_id={$user_id}
+   user_id=?
    ";
-   return fetch_all_query($db, $sql);
+   $stmt=$db->prepare($sql);
+  $stmt->bindValue(1,$user_id,PDO::PARAM_INT);
+  $stmt->bindValue(2,$item_id,PDO::PARAM_INT);
+  $stmt->execute();
+  return $buy=$stmt->fetchALL();
 
  }
  function buy_detailis($db,$user_id,$buy_id){
@@ -407,11 +337,15 @@ function buy_header($db,$user_id,$total_price){
  ON
  buy_details.item_id = items.item_id
   where
-  buy_header.user_id={$user_id}
+  buy_header.user_id=?
   and
-buy_header.buy_id={$buy_id}
+buy_header.buy_id=?
   ";
-  return fetch_all_query($db, $sql);
+  $stmt=$db->prepare($sql);
+  $stmt->bindValue(1,$user_id,PDO::PARAM_INT);
+  $stmt->bindValue(2,$buy_id,PDO::PARAM_INT);
+  $stmt->execute();
+  return $buys=$stmt->fetchALL();
  }
 
   
@@ -438,11 +372,15 @@ buy_header.buy_id={$buy_id}
  ON
  buy_details.item_id = items.item_id
   where
-  buy_header.user_id={$user_id}
+  buy_header.user_id=?
   and
-buy_header.buy_id={$buy_id}
+buy_header.buy_id=?
   LIMIT 1";
-  return fetch_all_query($db, $sql);
+  $stmt=$db->prepare($sql);
+  $stmt->bindValue(1,$user_id,PDO::PARAM_INT);
+  $stmt->bindValue(2,$buy_id,PDO::PARAM_INT);
+  $stmt->execute();
+  return $bu=$stmt->fetchALL();
  }
  function buy_ADMIN_header($db){
   $sql="
@@ -455,7 +393,9 @@ buy_header.buy_id={$buy_id}
   buy_header
  
   ";
-  return fetch_all_query($db, $sql);
+  $stmt=$db->prepare($sql);
+  $stmt->execute();
+  return $buy=$stmt->fetchALL();
 
 }
 function buy_ADMIN_detailis($db,$buy_id){
@@ -481,9 +421,13 @@ function buy_ADMIN_detailis($db,$buy_id){
  ON
  buy_details.item_id = items.item_id
   where
-  buy_header.buy_id={$buy_id}
+  buy_header.buy_id=?
   ";
-  return fetch_all_query($db, $sql);
+  $stmt=$db->prepare($sql);
+  
+  $stmt->bindValue(1,$buy_id,PDO::PARAM_INT);
+  $stmt->execute();
+  return $buys=$stmt->fetchALL();
  }
 
   
@@ -511,7 +455,11 @@ function buy_ADMIN_detailis($db,$buy_id){
  buy_details.item_id = items.item_id
   where
   
-buy_header.buy_id={$buy_id}
+buy_header.buy_id=?
   LIMIT 1";
-  return fetch_all_query($db, $sql);
+  $stmt=$db->prepare($sql);
+  
+  $stmt->bindValue(1,$buy_id,PDO::PARAM_INT);
+  $stmt->execute();
+  return $bu=$stmt->fetchALL();
  }

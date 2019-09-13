@@ -30,6 +30,6 @@ $user = get_login_user($db);
 
 //item_idを取得する
 $items = get_open_items($db);
-$ranking= buy_ran($db);
+
 // ビューの読み込み。
 include_once '../view/index_view.php';

@@ -35,7 +35,7 @@ $carts =get_user_carts($db,$user['user_id']);
 //purchase_carts関数で商品購入が失敗した時の処理をするを行う
 if(purchase_carts($db, $carts) === false){
 //商品購入が失敗した場合下記のメッセージを表示
-  set_error('商品が購入できませんでした。');
+  h(set_error('商品が購入できませんでした。'));
 //CART_URLに誘導
   redirect_to(CART_URL);
 } 
@@ -58,7 +58,7 @@ try{
   $db->commit();
 }catch(PDOException $e){
 $db->rollback();
-set_error('購入明細の追加に失敗しました');
+h(set_error('購入明細の追加に失敗しました'));
 
 }
 
