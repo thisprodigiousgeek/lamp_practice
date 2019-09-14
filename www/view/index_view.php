@@ -41,6 +41,47 @@
           </div>
         </div>
       <?php } ?>
+      <table class="table table-bordered">
+      <h1 class='ranking'>売り上げ ランキングTOP3</h1>
+        <thead class="thead-light">
+        
+          <tr>
+            <th>商品画像</th>
+            <th>商品名</th>
+            <th>価格</th>
+            <th>購入数</th>
+           
+          </tr> 
+        </thead>
+        <tbody>
+ 
+        <?php foreach($ranking as $r) { ?>
+          <tr>
+            <td><img  src="<?php print(IMAGE_PATH . $r['image']); ?>" width='370px'></td>
+            <td><?php h($r['name']); ?></td>
+            <td><?php h($r['price']); ?>円</td>
+            <td>
+                <?php h($r['sum(buy_details.amount)']); ?>匹
+            </td>
+            
+          </tr>
+          <?php } ?>
+          <style>
+          .ranking{
+            margin:0 auto;
+    text-align:center;
+    margin-top:100px;
+
+}
+.table{
+
+
+  
+}
+          </style>
+        </tbody>
+      </table>
+
       </div>
     </div>
   </div>

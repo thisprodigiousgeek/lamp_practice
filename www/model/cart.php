@@ -294,7 +294,30 @@ function buy_header($db,$user_id,$total_price){
   }
  }
 
+function ranking($db){
+  $sql="
+  SELECT 
+ buy_details.item_id,
+  sum(buy_details.amount),
+  items.name,
+  items.image,
+  items.price
 
+  FROM 
+  buy_details
+  INNER JOIN
+
+  items
+  ON
+  buy_details.item_id = items.item_id
+ GROUP BY item_id 
+ ORDER BY sum(buy_details.amount) DESC
+ LIMIT 3";
+  $stmt=$db->prepare($sql);
+ 
+  $stmt->execute();
+  return $ranking=$stmt->fetchALL();
+}
  function buy_header_select($db,$user_id){
    $sql="
    SELECT
