@@ -42,11 +42,10 @@ $stock = get_post('stock');
 if(update_item_stock($db, $item_id, $stock)){
   
 //在庫数の変更に成功した場合下記のメッセージを表示
-  h(set_message('在庫数を変更しました。'));
+  set_message('在庫数を変更しました。');
 } else {
 //在庫数の変更に失敗した場合下記のメッセージを表示
-  h(set_error('在庫数の変更に失敗しました。'));
+  set_error('在庫数の変更に失敗しました。');
 }
-is_valid_csrf_token($token);
 // ビューの読み込み。
-redirect_to(ADMIN_URL);  
+redirect_to(ADMIN_URL);

@@ -36,12 +36,12 @@ $cart_id = get_post('cart_id');
 if(delete_cart($db, $cart_id)){
 
 //カートの中身の消去が成功した場合下記のメッセージを表示する
-  h(set_message('カートを削除しました。'));
+  set_message('カートを削除しました。');
 } else {
 
   //カートの中身の消去が失敗した場合下記のメッセージを表示する
-  h(set_error('カートの削除に失敗しました。'));
+  set_error('カートの削除に失敗しました。');
 }
 
 // ビューの読み込み。
-redirect_to(CART_URL); 
+redirect_to(CART_URL);

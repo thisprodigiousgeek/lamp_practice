@@ -11,7 +11,6 @@ require_once '../model/user.php';
 // itemデータに関する関数ファイルを読み込み。
 require_once '../model/item.php';
 
-require_once '../model/cart.php';
 //セッションをスタートする
 session_start();
 
@@ -30,6 +29,6 @@ $user = get_login_user($db);
 
 //item_idを取得する
 $items = get_open_items($db);
-$ranking=ranking($db);
+
 // ビューの読み込み。
 include_once '../view/index_view.php';
