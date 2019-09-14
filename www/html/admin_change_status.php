@@ -45,7 +45,7 @@ if($changes_to === 'open'){
   update_item_status($db, $item_id, ITEM_STATUS_OPEN);
 
 //ステータスの変更に成功した場合下記のメッセージを表示
-  set_message('ステータスを変更しました。');
+  h(set_message('ステータスを変更しました。'));
 //$changes_toがcloseだった場合
 }else if($changes_to === 'close'){
 
@@ -53,11 +53,11 @@ if($changes_to === 'open'){
   update_item_status($db, $item_id, ITEM_STATUS_CLOSE);
   
 //ステータスの変更が成功した場合下記のメッセージを表示
-  set_message('ステータスを変更しました。');
+  h(set_message('ステータスを変更しました。'));
 }else {
 //ステータスの変更が失敗した場合下記のメッセージを表示
-  set_error('不正なリクエストです。');
+  h(set_error('不正なリクエストです。'));
 }
-
+is_valid_csrf_token($token);
 // ビューの読み込み。
-redirect_to(ADMIN_URL);
+redirect_to(ADMIN_URL); 

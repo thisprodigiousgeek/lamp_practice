@@ -16,11 +16,14 @@ function get_item($db, $item_id){
       status
     FROM
       items
+    
     WHERE
-      item_id = {$item_id}
+      item_id =?
   ";
-
-  return fetch_query($db, $sql);
+$stmt=$db->prepare($sql);
+$stmt->bindValue(1,$item_id,PDO::PARAM_INT);
+$stmt->execute();
+return $item=$stmt->fetchALL();
 }
 
 function get_items($db, $is_open = false){
@@ -34,19 +37,22 @@ function get_items($db, $is_open = false){
       status
     FROM
       items
+      
   ";
   if($is_open === true){
     $sql .= '
       WHERE status = 1
     ';
   }
+  $stmt=$db->prepare($sql);
 
-  return fetch_all_query($db, $sql);
+  $stmt->execute();
+  return $item=$stmt->fetchALL();
 }
 
 function get_all_items($db){
   return get_items($db);
-}
+} 
 
 function get_open_items($db){
   return get_items($db, true);
@@ -70,7 +76,7 @@ function regist_item_transaction($db, $name, $price, $stock, $status, $image, $f
   $db->rollback();
   return false;
   
-}
+} 
 
 function insert_item($db, $name, $price, $stock, $filename, $status){
   $status_value = PERMITTED_ITEM_STATUSES[$status];
@@ -237,4 +243,4 @@ function is_valid_item_status($status){
   }
   return $is_valid;
 }
-            
+ 

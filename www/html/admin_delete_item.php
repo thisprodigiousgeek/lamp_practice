@@ -40,12 +40,12 @@ $item_id = get_post('item_id');
 if(destroy_item($db, $item_id) === true){
 
 //商品消去が成功した場合下記のメッセージを表示
-  set_message('商品を削除しました。');
+  h(set_message('商品を削除しました。'));
 } else {
 //商品消去が失敗した場合下記のメッセージを表示
-  set_error('商品削除に失敗しました。');
+  h(set_error('商品削除に失敗しました。'));
 }
 
-
+is_valid_csrf_token($token);
 // ビューの読み込み。
-redirect_to(ADMIN_URL);
+redirect_to(ADMIN_URL); 

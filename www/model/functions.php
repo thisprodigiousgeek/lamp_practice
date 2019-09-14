@@ -29,7 +29,7 @@ function get_file($name){
     return $_FILES[$name];
   };
   return array();
-}
+} 
 
 function get_session($name){
   if(isset($_SESSION[$name]) === true){
@@ -135,8 +135,23 @@ function is_valid_upload_image($image){
   return true;
 }
 
+//エスケープ処理
 function h($str)
 {
   echo  strip_tags($str,htmlspecialchars($str, ENT_QUOTES, 'UTF-8'));
 }
 
+//CSRFトークン
+function tokun(){
+  $token =random_string(48);
+  set_session('csrf_token',$token);
+  return $token;
+}
+
+function is_valid_csrf_token($token){
+  if($token === '') {
+    return false;
+  }
+  // get_session()はユーザー定義関数
+  return $token === get_session('csrf_token');
+}

@@ -35,13 +35,13 @@ $user = login_as($db, $name, $password);
 if( $user === false){
 
 //ログインに失敗した場合下記のメッセージを表示
-  set_error('ログインに失敗しました。');
+  h(set_error('ログインに失敗しました。'));
 
 //ログインページに誘導
   redirect_to(LOGIN_URL);
 }
 //ログインに成功した場合下記のメッセージを表示
-set_message('ログインしました。');
+h(set_message('ログインしました。'));
 
 //ログインしたユーザーが管理者だった場合の処理
 if ($user['type'] === USER_TYPE_ADMIN){
@@ -49,6 +49,7 @@ if ($user['type'] === USER_TYPE_ADMIN){
 //管理者ページに移動
   redirect_to(ADMIN_URL);
 }
+is_valid_csrf_token($token);
 
-// ビューの読み込み。
+// ビューの読み込み。 
 redirect_to(HOME_URL);

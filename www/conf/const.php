@@ -30,6 +30,9 @@ define('CART_URL', '/cart.php');
 define('FINISH_URL', '/finish.php');
 //admin.phpを定数ADMIN_URLに代入
 define('ADMIN_URL', '/admin.php');
+define('BUY_URL', '/buy.php');
+define('BUYS_URL', '/buy_details.php');
+define('BUY_ADMIN_URL', '/buy_admin.php');
 
 //バリデーションを定数REGEXP_ALPHANUMERICに代入
 define('REGEXP_ALPHANUMERIC', '/\A[0-9a-zA-Z]+\z/');

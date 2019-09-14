@@ -54,13 +54,13 @@ $image = get_file('image');
 if(regist_item($db, $name, $price, $stock, $status, $image)){
 
 //商品登録成功した場合下記のメッセージを表示
-  set_message('商品を登録しました。');
+  h(set_message('商品を登録しました。'));
 
 }else {
 
 //商品登録失敗した場合下記のメッセージを表示
-  set_error('商品の登録に失敗しました。');
+  h(set_error('商品の登録に失敗しました。'));
 }
-
+is_valid_csrf_token($token);
 // ビューの読み込み。
-redirect_to(ADMIN_URL);
+redirect_to(ADMIN_URL); 

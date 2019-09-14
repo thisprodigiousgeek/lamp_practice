@@ -31,16 +31,16 @@ $db = get_db_connect();
 try{
   $result = regist_user($db, $name, $password, $password_confirmation);
   if( $result=== false){
-    set_error('ユーザー登録に失敗しました。');
+    h(set_error('ユーザー登録に失敗しました。'));
     redirect_to(SIGNUP_URL);
   }
 }catch(PDOException $e){
-  set_error('ユーザー登録に失敗しました。');
+  h(set_error('ユーザー登録に失敗しました。'));
   redirect_to(SIGNUP_URL);
 }
 
-set_message('ユーザー登録が完了しました。');
+h(set_message('ユーザー登録が完了しました。'));
 login_as($db, $name, $password);
-
+is_valid_csrf_token($token);
 // ビューの読み込み。
 redirect_to(HOME_URL);
