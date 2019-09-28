@@ -1,5 +1,6 @@
 <?php
 
+// DB設定
 function get_db_connect(){
   // MySQL用のDSN文字列
   $dsn = 'mysql:dbname='. DB_NAME .';host='. DB_HOST .';charset='.DB_CHARSET;
@@ -16,6 +17,7 @@ function get_db_connect(){
   return $dbh;
 }
 
+// 単数のレコードデータ取得クエリ(select)を実行する
 function fetch_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
@@ -27,6 +29,7 @@ function fetch_query($db, $sql, $params = array()){
   return false;
 }
 
+// 複数のレコードデータの取得クエリ(select)を実行する
 function fetch_all_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
@@ -38,6 +41,7 @@ function fetch_all_query($db, $sql, $params = array()){
   return false;
 }
 
+// select以外(DB上の処理で完結し、viewに関与しない処理)のクエリを実行
 function execute_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
