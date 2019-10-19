@@ -138,4 +138,3 @@ function is_valid_upload_image($image){
 function h($a){
   return htmlspecialchars($a, ENT_QUOTES, "UTF-8");
 }
-
