@@ -64,7 +64,7 @@
           <tr class="<?php print(h(is_open($item)) ? '' : 'close_item'); ?>">
             <td><img src="<?php print(h(IMAGE_PATH . $item['image']));?>" class="item_image"></td>
             <td><?php print(h($item['name'])); ?></td>
-            <td><?php print(h(number_format($item['price'])); ?>円</td>
+            <td><?php print( h( number_format( $item['price'] ) ) ); ?>円</td>
             <td>
               <form method="post" action="admin_change_stock.php">
                 <div class="form-group">
