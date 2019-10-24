@@ -76,7 +76,7 @@ function insert_cart($db, $item_id, $user_id, $amount = 1){
         user_id,
         amount
       )
-    VALUES({:item_id}, {:user_id}, {:amount})
+    VALUES( :item_id, :user_id, :amount)
   ";
   $params = array(
     ':item_id' => $item_id,
