@@ -135,3 +135,7 @@ function is_valid_upload_image($image){
   return true;
 }
 
+//課題　issue#1追記
+function h($str){
+  return htmlspecialchars($str,ENT_QUOTES,"UTF-8");
+}
