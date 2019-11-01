@@ -20,7 +20,8 @@
         <div class="col-6 item">
           <div class="card h-100 text-center">
             <div class="card-header">
-              <?php print($item['name']); ?>
+              <!-- エスケープ処理追加　issue＃3-->
+              <?php print(esc($item['name'])); ?>
             </div>
             <figure class="card-body">
               <img class="card-img" src="<?php print(IMAGE_PATH . $item['image']); ?>">
