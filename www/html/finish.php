@@ -20,7 +20,7 @@ if(purchase_carts($db, $carts) === false){
   set_error('商品が購入できませんでした。');
   redirect_to(CART_URL);
 } 
-
+//カート内の商品の合計価格
 $total_price = sum_carts($carts);
 
 include_once '../view/finish_view.php';

@@ -6,11 +6,11 @@ require_once MODEL_PATH . 'item.php';
 require_once MODEL_PATH . 'cart.php';
 
 session_start();
-
+//session(user_id)が設定されてるかの確認されてないならloginページへ
 if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }
-
+//dbからログインＩＤを取得
 $db = get_db_connect();
 $user = get_login_user($db);
 

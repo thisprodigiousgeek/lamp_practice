@@ -5,15 +5,15 @@ require_once MODEL_PATH . 'user.php';
 require_once MODEL_PATH . 'item.php';
 
 session_start();
-
+//sessionにuser_idがあるかのチェック
 if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }
 
 $db = get_db_connect();
-
+//dbからuser_idチェック
 $user = get_login_user($db);
-
+//user_idがadminかのチェック
 if(is_admin($user) === false){
   redirect_to(LOGIN_URL);
 }

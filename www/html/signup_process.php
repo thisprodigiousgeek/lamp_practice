@@ -4,7 +4,7 @@ require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'user.php';
 
 session_start();
-
+//既にログインされてたらホームページへ
 if(is_logined() === true){
   redirect_to(HOME_URL);
 }

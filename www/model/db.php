@@ -26,7 +26,7 @@ function fetch_query($db, $sql, $params = array()){
   }
   return false;
 }
-
+//sql文を実行する関数
 function fetch_all_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
