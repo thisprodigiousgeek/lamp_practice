@@ -71,7 +71,7 @@ function get_messages(){
   set_session('__messages',  array());
   return $messages;
 }
-
+//user_idでsession,空欄ではないかの条件式
 function is_logined(){
   return get_session('user_id') !== '';
 }
@@ -134,7 +134,7 @@ function is_valid_upload_image($image){
   }
   return true;
 }
-
-function h($str){
-  return htmlspecialchars($str, ENT_QUOTES, "UTF-8");
+//エスケープ処理の追加
+function h($name){
+  return htmlspecialchars($name, ENT_QUOTES, "UTF-8");
 }

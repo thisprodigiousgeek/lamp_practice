@@ -25,6 +25,9 @@ $stock = get_post('stock');
 
 $image = get_file('image');
 
+//商品名のエスケープ処理
+$name = h($name);
+
 if(regist_item($db, $name, $price, $stock, $status, $image)){
   set_message('商品を登録しました。');
 }else {
