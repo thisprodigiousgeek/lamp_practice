@@ -21,7 +21,7 @@ function get_item($db, $item_id){
 
   return fetch_query($db, $sql);
 }
-
+//itemを取得するsql文
 function get_items($db, $is_open = false){
   $sql = '
     SELECT
@@ -46,7 +46,7 @@ function get_items($db, $is_open = false){
 function get_all_items($db){
   return get_items($db);
 }
-
+//statusがopenのもののみ開ける
 function get_open_items($db){
   return get_items($db, true);
 }
