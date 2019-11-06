@@ -18,7 +18,7 @@ function get_user($db, $user_id){
 
   return fetch_query($db, $sql);
 }
-//名前からユーザーの情報を取得
+//名前からユーザーの情報を取得typeには1か２がある（1は管理者)
 function get_user_by_name($db, $name){
   $sql = "
     SELECT
@@ -44,7 +44,7 @@ function login_as($db, $name, $password){
   set_session('user_id', $user['user_id']);
   return $user;
 }
-
+//$login_user_id にセッションのuser_idを入れる
 function get_login_user($db){
   $login_user_id = get_session('user_id');
 
@@ -58,7 +58,7 @@ function regist_user($db, $name, $password, $password_confirmation) {
   
   return insert_user($db, $name, $password);
 }
-//$userを引数に 'type'に USER_TYPE_ADMIN = 1を設定
+//$userを引数に 'type'に USER_TYPE_ADMIN = 1ならばtrueを
 function is_admin($user){
   return $user['type'] === USER_TYPE_ADMIN;
 }

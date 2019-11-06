@@ -31,7 +31,7 @@ function get_file($name){
   };
   return array();
 }
-
+//nameのセッションがセットされていればセッションを、なければ空白
 function get_session($name){
   if(isset($_SESSION[$name]) === true){
     return $_SESSION[$name];
