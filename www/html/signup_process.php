@@ -8,13 +8,13 @@ session_start();
 if(is_logined() === true){
   redirect_to(HOME_URL);
 }
-
+//各変数にpost情報を格納
 $name = get_post('name');
 $password = get_post('password');
 $password_confirmation = get_post('password_confirmation');
 
 $db = get_db_connect();
-
+//model/user.phpに各関数ある ユーザー登録をする
 try{
   $result = regist_user($db, $name, $password, $password_confirmation);
   if( $result=== false){

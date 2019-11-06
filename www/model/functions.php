@@ -1,15 +1,15 @@
 <?php
-
+//var_dumpする関数？
 function dd($var){
   var_dump($var);
   exit();
 }
-
+//指定のurlへ移動する関数
 function redirect_to($url){
   header('Location: ' . $url);
   exit;
 }
-
+//$nameがGETでなければ空白を返す
 function get_get($name){
   if(isset($_GET[$name]) === true){
     return $_GET[$name];
@@ -17,6 +17,7 @@ function get_get($name){
   return '';
 }
 
+//nameをpostで返す
 function get_post($name){
   if(isset($_POST[$name]) === true){
     return $_POST[$name];
@@ -37,11 +38,11 @@ function get_session($name){
   };
   return '';
 }
-
+//sessionをセットする
 function set_session($name, $value){
   $_SESSION[$name] = $value;
 }
-
+//エラーがある場合エラーをセット
 function set_error($error){
   $_SESSION['__errors'][] = $error;
 }
@@ -71,11 +72,11 @@ function get_messages(){
   set_session('__messages',  array());
   return $messages;
 }
-
+// user_idのセッション情報がセットされているかのチェック
 function is_logined(){
   return get_session('user_id') !== '';
 }
-
+//ファイル情報に誤りがあれば空白
 function get_upload_filename($file){
   if(is_valid_upload_image($file) === false){
     return '';
@@ -103,25 +104,25 @@ function delete_image($filename){
 }
 
 
-
+//文字の長さが正しいかの設定(true,false)
 function is_valid_length($string, $minimum_length, $maximum_length = PHP_INT_MAX){
   $length = mb_strlen($string);
   return ($minimum_length <= $length) && ($length <= $maximum_length);
 }
-
+//const.phpのREGEXP_POSITIVE_INTEGER をformatにせってい
 function is_alphanumeric($string){
   return is_valid_format($string, REGEXP_ALPHANUMERIC);
 }
-
+//const.phpにREGEXP_POSITIVE_INTEGER をformatにせってい
 function is_positive_integer($string){
   return is_valid_format($string, REGEXP_POSITIVE_INTEGER);
 }
-
+//preg_matchで入力情報が正しいかのチェック(true,false)
 function is_valid_format($string, $format){
   return preg_match($format, $string) === 1;
 }
 
-
+//'temp_nameがflseならばエラーをセット(ファイル形式)
 function is_valid_upload_image($image){
   if(is_uploaded_file($image['tmp_name']) === false){
     set_error('ファイル形式が不正です。');

@@ -13,18 +13,20 @@ if(is_logined() === false){
 $db = get_db_connect();
 //dbからuser_idチェック
 $user = get_login_user($db);
-//user_idがadminかのチェック
+//user_idがadminかのチェックでなければログインページへ
 if(is_admin($user) === false){
   redirect_to(LOGIN_URL);
 }
 
+//function.php 各変数に入力された情報を格納
 $item_id = get_post('item_id');
 $stock = get_post('stock');
 
+//item.php 在庫数を変更するsql文を作成
 if(update_item_stock($db, $item_id, $stock)){
   set_message('在庫数を変更しました。');
 } else {
   set_error('在庫数の変更に失敗しました。');
 }
-
+//functions.php 管理者ページへ
 redirect_to(ADMIN_URL);

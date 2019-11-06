@@ -1,7 +1,7 @@
 <?php
 require_once 'functions.php';
 require_once 'db.php';
-
+//user_idから情報を取得
 function get_user($db, $user_id){
   $sql = "
     SELECT
@@ -18,7 +18,7 @@ function get_user($db, $user_id){
 
   return fetch_query($db, $sql);
 }
-
+//名前からユーザーの情報を取得
 function get_user_by_name($db, $name){
   $sql = "
     SELECT
@@ -35,7 +35,7 @@ function get_user_by_name($db, $name){
 
   return fetch_query($db, $sql);
 }
-
+//データベースにuser,passwordがセットされてなければエラーＯＫならsessionをセット
 function login_as($db, $name, $password){
   $user = get_user_by_name($db, $name);
   if($user === false || $user['password'] !== $password){
@@ -50,7 +50,7 @@ function get_login_user($db){
 
   return get_user($db, $login_user_id);
 }
-//登録情報（ユーザ名、パスがfalse（正しくなければfale
+//登録情報（ユーザ名、パスがfalse正しければinsert_userでsql文を送る
 function regist_user($db, $name, $password, $password_confirmation) {
   if( is_valid_user($name, $password, $password_confirmation) === false){
     return false;
@@ -58,7 +58,7 @@ function regist_user($db, $name, $password, $password_confirmation) {
   
   return insert_user($db, $name, $password);
 }
-//$userがadminかどうか
+//$userを引数に 'type'に USER_TYPE_ADMIN = 1を設定
 function is_admin($user){
   return $user['type'] === USER_TYPE_ADMIN;
 }
