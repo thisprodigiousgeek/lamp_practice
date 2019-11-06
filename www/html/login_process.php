@@ -22,6 +22,7 @@ if( $user === false){
 }
 
 set_message('ログインしました。');
+//$userのタイプが1ならば管理ページへ'type'には1か2ある
 if ($user['type'] === USER_TYPE_ADMIN){
   redirect_to(ADMIN_URL);
 }

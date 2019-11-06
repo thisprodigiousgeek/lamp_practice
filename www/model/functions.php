@@ -31,7 +31,7 @@ function get_file($name){
   };
   return array();
 }
-
+//nameのセッションがセットされていればセッションを、なければ空白
 function get_session($name){
   if(isset($_SESSION[$name]) === true){
     return $_SESSION[$name];
@@ -135,7 +135,6 @@ function is_valid_upload_image($image){
   }
   return true;
 }
-
 function h($str){
   return htmlspecialchars($str, ENT_QUOTES, "UTF-8");
 }
