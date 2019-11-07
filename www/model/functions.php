@@ -136,7 +136,5 @@ function is_valid_upload_image($image){
 }
 //エスケープ処理の追加
 function h($name){
-   htmlspecialchars($name, ENT_QUOTES, "UTF-8");
-   $result = strip_tags($name);
-   return $result;
+   return htmlspecialchars($name, ENT_QUOTES, "UTF-8");
 }

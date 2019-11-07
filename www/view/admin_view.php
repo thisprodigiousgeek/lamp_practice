@@ -52,7 +52,7 @@
       <table class="table table-bordered text-center">
         <thead class="thead-light">
           <tr>
-            <th>商品画像</th>
+            <th>商品画像b</th>
             <th>商品名</th>
             <th>価格</th>
             <th>在庫数</th>
@@ -63,7 +63,7 @@
           <?php foreach($items as $item){ ?>
           <tr class="<?php print(is_open($item) ? '' : 'close_item'); ?>">
             <td><img src="<?php print(IMAGE_PATH . $item['image']);?>" class="item_image"></td>
-            <td><?php print($item['name']); ?></td>
+            <td><?php print ($item['name']); ?></td>
             <td><?php print(number_format($item['price'])); ?>円</td>
             <td>
               <form method="post" action="admin_change_stock.php">
