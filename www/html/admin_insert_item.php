@@ -17,17 +17,14 @@ $user = get_login_user($db);
 if(is_admin($user) === false){
   redirect_to(LOGIN_URL);
 }
-
+//各変数に入力情報を格納
 $name = get_post('name');
 $price = get_post('price');
 $status = get_post('status');
 $stock = get_post('stock');
 
 $image = get_file('image');
-
-//商品名のエスケープ処理
-//$name = h($name);
-
+//functions.php 商品追加のsql文
 if(regist_item($db, $name, $price, $stock, $status, $image)){
   set_message('商品を登録しました。');
 }else {
