@@ -16,7 +16,7 @@ function get_db_connect(){
   return $dbh;
 }
 //dbからの情報を$statementに入れる
-function fetch_query($db, $sql, $params = array()){
+function fetch_query($db, $sql, $params){
   try{
     $statement = $db->prepare($sql);
     $statement->execute($params);
@@ -27,7 +27,7 @@ function fetch_query($db, $sql, $params = array()){
   return false;
 }
 //sql文を実行する関数
-function fetch_all_query($db, $sql, $params = array()){
+function fetch_all_query($db, $sql, $params){
   try{
     $statement = $db->prepare($sql);
     $statement->execute($params);
@@ -38,7 +38,7 @@ function fetch_all_query($db, $sql, $params = array()){
   return false;
 }
 //sql文を実行する
-function execute_query($db, $sql, $params = array()){
+function execute_query($db, $sql, $params){
   try{
     $statement = $db->prepare($sql);
     return $statement->execute($params);
