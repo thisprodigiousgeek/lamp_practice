@@ -27,7 +27,7 @@ function fetch_query($db, $sql, $params = array()){
   return false;
 }
 //sql文を実行する関数
-function fetch_all_query($db, $sql, $params){
+function fetch_all_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
     $statement->execute($params);
@@ -38,7 +38,7 @@ function fetch_all_query($db, $sql, $params){
   return false;
 }
 //sql文を実行する
-function execute_query($db, $sql, $params){
+function execute_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
     return $statement->execute($params);
