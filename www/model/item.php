@@ -18,13 +18,11 @@ function get_item($db, $item_id){
     WHERE
       item_id = :item_id
   ";
-
-  $params = array(':item_id' =>$item_id);
-  return fetch_query($db, $sql,$params);
+  $params = array(':item_id' => $item_id);
+  return fetch_query($db, $sql, $params);
 }
 //itemすべて(status=1)を取得するsql文
 function get_items($db, $is_open = false){
-  $params = array();
   $sql = '
     SELECT
       item_id, 
@@ -41,8 +39,8 @@ function get_items($db, $is_open = false){
       WHERE status = 1
     ';
   }
-
-  return fetch_all_query($db, $sql,$params);
+  $params = array();
+  return fetch_all_query($db, $sql, $params);
 }
 //itemすべてを取得
 function get_all_items($db){
@@ -86,7 +84,7 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
       )
     VALUES(:name, :price, :stock, :filename, :status_value);
   ";
-  $params = array(':name' =>$name, ':price' => $price, ':stock' => $stock, ':filename' => $filename, ':status_value' => $status_value);
+  $params = array(':name' => $name, ':price' => $price, ':stock' => $stock, ':filename' => $filename, ':status_value' => $status_value);
   return execute_query($db, $sql, $params);
 }
 //itemのステータスを変えるsql文
@@ -100,8 +98,8 @@ function update_item_status($db, $item_id, $status){
       item_id = :item_id
     LIMIT 1
   ";
-  $params = array(':status' => $status, ':item_id' =>$item_id);
-  return execute_query($db, $sql,$params);
+  $params = array(':status' => $status, ':item_id' => $item_id);
+  return execute_query($db, $sql, $params);
 }
 //商品の在庫を変更するsql文
 function update_item_stock($db, $item_id, $stock){
@@ -114,8 +112,8 @@ function update_item_stock($db, $item_id, $stock){
       item_id = :item_id
     LIMIT 1
   ";
-  $params = array(':stock' => $stock, ':item_id' =>$item_id);
-  return execute_query($db, $sql,$params);
+  $params = array(':stock' => $stock, ':item_id' => $item_id);
+  return execute_query($db, $sql, $params);
 }
 //商品を削除する関数
 function destroy_item($db, $item_id){
@@ -141,7 +139,7 @@ function delete_item($db, $item_id){
       item_id = :item_id
     LIMIT 1
   ";
-  $params = array(':item_id' =>$item_id);
+  $params = array(':item_id' => $item_id);
   return execute_query($db, $sql, $params);
 }
 

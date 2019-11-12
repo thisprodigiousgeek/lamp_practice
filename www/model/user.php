@@ -3,7 +3,6 @@ require_once 'functions.php';
 require_once 'db.php';
 //user_idから情報を取得
 function get_user($db, $user_id){
-  $params = array(':user_id' => $user_id);
   $sql = "
     SELECT
       user_id, 
@@ -16,11 +15,11 @@ function get_user($db, $user_id){
       user_id = :user_id
     LIMIT 1
   ";
+  $params = array(':user_id' => $user_id);
   return fetch_query($db, $sql, $params);
 }
 //名前からユーザーの情報を取得typeには1か２がある（1は管理者)
 function get_user_by_name($db, $name){
-  $params = array(':name' => $name);
   $sql = "
     SELECT
       user_id, 
@@ -33,6 +32,7 @@ function get_user_by_name($db, $name){
       name = :name
     LIMIT 1
   ";
+  $params = array(':name' => $name);
   return fetch_query($db, $sql, $params);
 }
 //データベースにuser,passwordがセットされてなければエラーＯＫならsessionをセット
@@ -101,12 +101,12 @@ function is_valid_password($password, $password_confirmation){
 }
 //ユーザーを追加するsql文
 function insert_user($db, $name, $password){
-  $params = array(':name' => $name, ':password' => $password);
   $sql = "
     INSERT INTO
       users(name, password)
     VALUES (:name, :password);
   ";
+  $params = array(':name' => $name, ':password' => $password);
   return execute_query($db, $sql, $params);
 }
 
