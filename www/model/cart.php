@@ -89,15 +89,6 @@ function update_cart_amount($db, $cart_id, $amount){
   return execute_query($db, $sql);
 }
 
-// 試行中コード
-// function update_cart_amount($db, $cart_id, $amount){
-//   $sql = "UPDATE carts SET amount = ? WHERE cart_id = ?" ;
-//   $statement = $db->prepare($sql);
-//   $statement->bindValue(1,$amount, PDO::PARAM_INT);
-//   $statement->bindValue(2,$cart_id, PDO::PARAM_INT);
-//   return execute_query_plus($db, $sql);
-// }
-
 function delete_cart($db, $cart_id){
   $sql = "
     DELETE FROM
