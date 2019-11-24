@@ -47,3 +47,13 @@ function execute_query($db, $sql, $params = array()){
   }
   return false;
 }
+
+//試行実験コード
+// function execute_query_plus($db, $sql, $params = array()){
+//   try{
+//     return $statement->execute();
+//   }catch(PDOException $e){
+//     set_error('更新に失敗しました。');
+//   }
+//   return false;
+// }
