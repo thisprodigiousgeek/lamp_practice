@@ -1,6 +1,8 @@
 <?php 
 require_once 'functions.php';
 require_once 'db.php';
+require_once 'history.php';
+require_once 'history_detail.php';
 
 function get_user_carts($db, $user_id){
   $sql = "
@@ -131,8 +133,23 @@ function purchase_carts($db, $carts){
       set_error($cart['name'] . 'の購入に失敗しました。');
     }
   }
+  // DBに購入履歴を登録する処理
+  insert_user_history($db, $carts[0]['user_id']);
+  $history_id = $db->lastInsertId();
+
+  // DBに購入明細を登録する処理
+  foreach($carts as $cart) {
+    insert_history_detail(
+      $db, 
+      $cart['item_id'], 
+      $history_id,
+      $cart['price'], 
+      $cart['amount']
+    );
+  }
   
   delete_user_carts($db, $carts[0]['user_id']);
+
 }
 
 function delete_user_carts($db, $user_id){

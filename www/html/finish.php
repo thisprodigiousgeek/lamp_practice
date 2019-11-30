@@ -11,10 +11,13 @@ if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }
 
+// DBに接続
 $db = get_db_connect();
+// DBからログインしているユーザーの情報を＄user変数に代入
 $user = get_login_user($db);
-
+// ログイン中のユーザーのカートの中身をDBから参照して$carts変数に代入
 $carts = get_user_carts($db, $user['user_id']);
+
 
 if(purchase_carts($db, $carts) === false){
   set_error('商品が購入できませんでした。');

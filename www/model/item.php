@@ -107,7 +107,7 @@ function update_item_status($db, $item_id, $status){
     LIMIT 1
   ";
   $params = array(
-    ':status' => $status
+    ':status' => $status,
     ':item_id' => $item_id
   );
   return execute_query($db, $sql, $params);
@@ -124,7 +124,7 @@ function update_item_stock($db, $item_id, $stock){
     LIMIT 1
   ";
   $params = array(
-    ':stock' => $stock
+    ':stock' => $stock,
     ':item_id' => $item_id
   );
   return execute_query($db, $sql, $params);
