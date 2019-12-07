@@ -135,3 +135,7 @@ function is_valid_upload_image($image){
   return true;
 }
 
+// htmlにおける特殊文字をエスケープするためのユーザー定義関数
+function h ($string) {
+  return htmlspecialchars($string, ENT_QUOTES, 'utf-8');
+}
