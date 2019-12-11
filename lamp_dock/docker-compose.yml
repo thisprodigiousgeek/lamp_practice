@@ -18,7 +18,7 @@ services:
     # mysqlの起動時に文字コードを指定
     command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
     volumes:
-      - ./db:/var/lib/mysql # ホストOSのdbフォルダ内にmysqlコンテナのDBの内容を保存
+      - /C/Users/陸/MyDocker/lamp_practice1/lamp_dock/db:/var/lib/mysql # ホストOSのdbフォルダ内にmysqlコンテナのDBの内容を保存
     environment:
       - MYSQL_ROOT_PASSWORD=root # mysqlのルートパスワードを設定
       - MYSQL_DATABASE=sample # デフォルトで作成するデータベース名を設定
@@ -36,4 +36,4 @@ services:
     ports:
       - 8888:80 # ホストの8888番ポートをphpmyadminコンテナの80番ポートに転送
     volumes:
-      - ./pma/sessions:/sessions # ホストOSのpmaディレクトリ内にphpmyadminコンテナのセッションファイルを保存
+      - /C/Users/陸/MyDocker/lamp_practice1/lamp_dock/pma/sessions:/sessions # ホストOSのpmaディレクトリ内にphpmyadminコンテナのセッションファイルを保存

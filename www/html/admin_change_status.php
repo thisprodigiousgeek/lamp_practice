@@ -4,6 +4,10 @@ require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'user.php';
 require_once MODEL_PATH . 'item.php';
 
+function h ($html) {
+  echo htmlspecialchars($html, ENT_QUOTES, 'UTF-8');
+}
+
 session_start();
 
 if(is_logined() === false){
