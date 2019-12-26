@@ -15,7 +15,7 @@ function get_db_connect(){
   }
   return $dbh;
 }
-
+//＄sql（プレースホルダーなし）を実行し、返り値としてデータベースの情報を返す関数（単文を返す）
 function fetch_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
@@ -26,7 +26,7 @@ function fetch_query($db, $sql, $params = array()){
   }
   return false;
 }
-
+//SQLを実行し、返り値としてデータベースの情報を返す関数(複数文返す)
 function fetch_all_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
@@ -37,7 +37,7 @@ function fetch_all_query($db, $sql, $params = array()){
   }
   return false;
 }
-
+//SQL実行が成功した場合TRUEを、失敗した場合FALSEを返す
 function execute_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
