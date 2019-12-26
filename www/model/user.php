@@ -1,7 +1,7 @@
 <?php
-require_once 'functions.php';
-require_once 'db.php';
-
+require_once 'functions.php'; //function.phpファイルを読み込み
+require_once 'db.php';//db.phpファイルを読み込み
+//usersテーブルから、ユーザーIDをもとにユーザー情報を取ってくる
 function get_user($db, $user_id){
   $sql = "
     SELECT
@@ -18,7 +18,7 @@ function get_user($db, $user_id){
 
   return fetch_query($db, $sql);
 }
-
+//usersテーブルから、ユーザー名をもとにユーザー情報を取ってくる
 function get_user_by_name($db, $name){
   $sql = "
     SELECT
@@ -35,7 +35,7 @@ function get_user_by_name($db, $name){
 
   return fetch_query($db, $sql);
 }
-
+//ユーザー情報の取得ができなかった時、パスワードが間違っていた時を除き＄_SESSIONにユーザーIDを格納し、返り値としてユーザー情報を含んだ配列を返す
 function login_as($db, $name, $password){
   $user = get_user_by_name($db, $name);
   if($user === false || $user['password'] !== $password){
@@ -44,13 +44,13 @@ function login_as($db, $name, $password){
   set_session('user_id', $user['user_id']);
   return $user;
 }
-
+//＄_SESSIONに'user_id'が格納されている時そのIDを定数に代入し、そのIDをもとにユーザー情報を取ってきて返り値として返す（ログインしているユーザーの情報を返り値として返す）
 function get_login_user($db){
   $login_user_id = get_session('user_id');
 
   return get_user($db, $login_user_id);
 }
-
+//ユーザー名、パスワードが正しい形式で入力されているときに、ユーザー登録をする
 function regist_user($db, $name, $password, $password_confirmation) {
   if( is_valid_user($name, $password, $password_confirmation) === false){
     return false;
@@ -62,14 +62,14 @@ function regist_user($db, $name, $password, $password_confirmation) {
 function is_admin($user){
   return $user['type'] === USER_TYPE_ADMIN;
 }
-
+//ユーザー名、パスワード両方が正しい形式かを確認
 function is_valid_user($name, $password, $password_confirmation){
   // 短絡評価を避けるため一旦代入。
   $is_valid_user_name = is_valid_user_name($name);
   $is_valid_password = is_valid_password($password, $password_confirmation);
   return $is_valid_user_name && $is_valid_password ;
 }
-
+//ユーザー名が正しく入力されているか確認（文字数、半角英数字かのチェック）し、正しければtrue、間違っていればfalseを返り値として返す
 function is_valid_user_name($name) {
   $is_valid = true;
   if(is_valid_length($name, USER_NAME_LENGTH_MIN, USER_NAME_LENGTH_MAX) === false){
@@ -82,7 +82,7 @@ function is_valid_user_name($name) {
   }
   return $is_valid;
 }
-
+//パスワードが正しく入力されているか確認 (文字数、半角英数字)し、正しければtrue、間違っていればfalseを返り値として返す
 function is_valid_password($password, $password_confirmation){
   $is_valid = true;
   if(is_valid_length($password, USER_PASSWORD_LENGTH_MIN, USER_PASSWORD_LENGTH_MAX) === false){
@@ -99,7 +99,7 @@ function is_valid_password($password, $password_confirmation){
   }
   return $is_valid;
 }
-
+//新規ユーザー登録
 function insert_user($db, $name, $password){
   $sql = "
     INSERT INTO
