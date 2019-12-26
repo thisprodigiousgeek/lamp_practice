@@ -12,7 +12,7 @@ if(is_logined() === false){
 
 $db = get_db_connect();
 $user = get_login_user($db);
-
+//公開されている商品情報のみを取得
 $items = get_open_items($db);
 
 include_once '../view/index_view.php';
