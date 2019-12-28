@@ -1,7 +1,6 @@
 <?php
-require_once 'functions.php';　//function.phpを読み込む
-require_once 'db.php'; //db.phpを読み込む
-
+require_once 'functions.php'; //function.phpファイルを読み込み
+require_once 'db.php';//db.phpファイルを読み込み
 // DB利用
 //特定の商品の情報を返り値として返す関数
 function get_item($db, $item_id){
