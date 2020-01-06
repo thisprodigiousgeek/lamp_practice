@@ -1,6 +1,6 @@
 <?php
-require_once 'functions.php';
-require_once 'db.php';
+require_once MODEL_PATH . 'functions.php';
+require_once MODEL_PATH . 'db.php';
 
 // DB利用
 
