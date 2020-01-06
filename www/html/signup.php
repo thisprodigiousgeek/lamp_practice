@@ -8,7 +8,7 @@ if(is_logined() === true){
   redirect_to(HOME_URL);
 }
 
-include_once '../view/signup_view.php';
+include_once VIEW_PATH . 'signup_view.php';
 
 
 

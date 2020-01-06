@@ -18,4 +18,4 @@ $carts = get_user_carts($db, $user['user_id']);
 
 $total_price = sum_carts($carts);
 
-include_once '../view/cart_view.php';
+include_once VIEW_PATH . 'cart_view.php';

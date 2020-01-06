@@ -8,4 +8,4 @@ if(is_logined() === true){
   redirect_to(HOME_URL);
 }
 
-include_once '../view/login_view.php';
+include_once VIEW_PATH . 'login_view.php';
