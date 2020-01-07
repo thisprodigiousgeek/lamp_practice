@@ -12,7 +12,9 @@ if(is_logined() === false){
 //データベース接続
 $db = get_db_connect();
 //ログインしているユーザーの情報を$userに格納
-$user = get_login_user($db);
+$user_b = get_login_user($db);
+//エスケープ
+$user = h ($user_b);
 //adminユーザーか確認
 if(is_admin($user) === false){
   redirect_to(LOGIN_URL);
