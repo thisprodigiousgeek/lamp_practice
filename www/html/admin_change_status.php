@@ -19,10 +19,7 @@ if(is_admin($user) === false){
 }
 //$_POST['']　フォームから送られてきた情報を代入
 $item_id = get_post('item_id');
-//htmlspecialchars
-$item_id = h ($item_id);
 $changes_to = get_post('changes_to');
-$changes_to = h($changes_to);
 //公開ステータスを変更する
 if($changes_to === 'open'){
   update_item_status($db, $item_id, ITEM_STATUS_OPEN);
