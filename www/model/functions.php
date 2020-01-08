@@ -140,9 +140,3 @@ function is_valid_upload_image($image){
 function h ($key) {
   return htmlspecialchars($key, ENT_QUOTES, 'UTF-8');
 }
-function h_array($array) {
-  foreach ($array as $key=>$value) {
-    $array[$key] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-    }
-    return $array;
-}
