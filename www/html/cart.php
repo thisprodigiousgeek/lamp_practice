@@ -18,4 +18,4 @@ $carts = get_user_carts($db, $user['user_id']);
 //カートの中に入っている商品の価格を合計
 $total_price = sum_carts($carts);
 
-include_once '../view/cart_view.php';　
+include_once '../view/cart_view.php';
