@@ -3,7 +3,7 @@
 <head>
   <?php include VIEW_PATH . 'templates/head.php'; ?>
   <title>商品管理</title>
-  <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'admin.css'); ?>">
+  <link rel="stylesheet" href="<?php print(h(STYLESHEET_PATH . 'admin.css')); ?>">
 </head>
 <body>
   <?php 
@@ -48,7 +48,7 @@
     </form>
 
 
-    <?php if(count(h($items)) > 0){ ?>
+    <?php if(count($items) > 0){ ?>
       <table class="table table-bordered text-center">
         <thead class="thead-light">
           <tr>
@@ -61,7 +61,7 @@
         </thead>
         <tbody>
           <?php foreach($items as $item){ ?>
-          <tr class="<?php print(is_open($item) ? '' : 'close_item'); ?>">
+          <tr class="<?php print(is_open(h($item)) ? '' : 'close_item'); ?>">
             <td><img src="<?php print(IMAGE_PATH . h($item['image']));?>" class="item_image"></td>
             <td><?php print(h($item['name'])); ?></td>
             <td><?php print(number_format(h($item['price']))); ?>円</td>
@@ -79,7 +79,7 @@
             <td>
 
               <form method="post" action="admin_change_status.php" class="operation">
-                <?php if(is_open($item) === true){ ?>
+                <?php if(is_open(h($item)) === true){ ?>
                   <input type="submit" value="公開 → 非公開" class="btn btn-secondary">
                   <input type="hidden" name="changes_to" value="close">
                 <?php } else { ?>

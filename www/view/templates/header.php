@@ -7,10 +7,10 @@
     <div class="collapse navbar-collapse" id="headerNav">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="<?php print(SIGNUP_URL);?>">サインアップ</a>
+          <a class="nav-link" href="<?php print(h(SIGNUP_URL));?>">サインアップ</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<?php print(LOGIN_URL);?>">ログイン</a>
+          <a class="nav-link" href="<?php print(h(LOGIN_URL));?>">ログイン</a>
         </li>
       </ul>
     </div>

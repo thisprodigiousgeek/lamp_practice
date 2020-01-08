@@ -1,8 +1,8 @@
 <?php
-require_once '../conf/const.php';//定義ファイルを読み込み
-require_once '../model/functions.php';　//関数ファイルを読み込み
-require_once '../model/user.php';//関数ファイルを読みこみ
-require_once '../model/item.php'; //関数ファイルを読み込み
+require_once '../conf/const.php';
+require_once '../model/functions.php';
+require_once '../model/user.php';
+require_once '../model/item.php';
 //セッション開始
 session_start();
 //$_SESSION['user_id']が存在しなければ、ログイン画面へリダイレクト
