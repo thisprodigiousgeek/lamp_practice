@@ -6,15 +6,23 @@ require_once MODEL_PATH . 'item.php';
 
 session_start();
 
-if(is_logined() === false){
+if (is_logined() === false) {
   redirect_to(LOGIN_URL);
 }
+
+$token = get_post('token');
+if (is_valid_csrf_token($token) === FALSE) {
+  redirect_to(LOGIN_URL);
+} else {
+  $token = get_csrf_token();
+}
+
 
 $db = get_db_connect();
 
 $user = get_login_user($db);
 
-if(is_admin($user) === false){
+if (is_admin($user) === false) {
   redirect_to(LOGIN_URL);
 }
 
@@ -23,11 +31,14 @@ $price = get_post('price');
 $status = get_post('status');
 $stock = get_post('stock');
 
+
+
+
 $image = get_file('image');
 
-if(regist_item($db, $name, $price, $stock, $status, $image)){
+if (regist_item($db, $name, $price, $stock, $status, $image)) {
   set_message('商品を登録しました。');
-}else {
+} else {
   set_error('商品の登録に失敗しました。');
 }
 
