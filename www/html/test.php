@@ -1,5 +1,3 @@
-<?php 
-function h($key){
-    return htmlspecialchars($key);
-}
+<?php
+print (password_hash('102109is', PASSWORD_DEFAULT));
 ?>

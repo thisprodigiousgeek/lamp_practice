@@ -56,7 +56,7 @@ function get_user_by_name($db, $name){
 
 function login_as($db, $name, $password){
   $user = get_user_by_name($db, $name);
-  if($user === false || $user['password'] !== $password){
+  if($user === false || password_verify($password, $user['password']) === false){
     return false;
   }
   set_session('user_id', $user['user_id']);
@@ -119,6 +119,7 @@ function is_valid_password($password, $password_confirmation){
 }
 
 function insert_user($db, $name, $password){
+  $hash = password_hash($password, PASSWORD_DEFAULT);
   $sql = "
     INSERT INTO
       users(name, password)
@@ -128,7 +129,7 @@ function insert_user($db, $name, $password){
   try {
     $stmt = $db->prepare($sql);
     $stmt->bindValue(1, $name, PDO::PARAM_STR);
-    $stmt->bindValue(2, $password, PDO::PARAM_STR);
+    $stmt->bindValue(2, $hash, PDO::PARAM_STR);
     return $stmt->execute();
   } catch (PDOException $e) {
     set_error('更新に失敗しました。');
