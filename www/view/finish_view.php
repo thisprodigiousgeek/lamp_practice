@@ -1,6 +1,6 @@
 <?php
+// header('X-FRAME-OPTIONS: DENY');
 // クリックジャッキング対策
-header('X-FRAME-OPTIONS: DENY');
 ?>
 
 <!DOCTYPE html>
