@@ -9,6 +9,13 @@ if(is_logined() === true){
   redirect_to(HOME_URL);
 }
 
+$token = get_post('token');
+if (is_valid_csrf_token($token) === FALSE) {
+  redirect_to(LOGIN_URL);
+} else {
+  $token = get_csrf_token();
+}
+
 $name = get_post('name');
 $password = get_post('password');
 $password_confirmation = get_post('password_confirmation');
