@@ -21,6 +21,20 @@ header('X-FRAME-OPTIONS: DENY');
     <h1>商品一覧</h1>
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
 
+    <form method="get" name="sort_form">
+      <select name="sort">
+        <option name="option" value="new" <?php if ($sort === 'new' || $sort === '') { ?>selected<?php } ?>>新しい順</option>
+        <option name="option" value="low" <?php if ($sort === 'low') { ?>selected<?php } ?>>価格の安い順</option>
+        <option name="option" value="high" <?php if ($sort === 'high') { ?>selected<?php } ?>>価格の高い順</option>
+      </select>
+      <!-- 選んだ方式で並べ替えを実施 -->
+      <script>
+        document.sort_form.addEventListener('change', function() {
+          document.sort_form.submit();
+        }, false);
+      </script>
+    </form>
+
     <div class="card-deck">
       <div class="row">
         <?php foreach ($items as $item) { ?>
