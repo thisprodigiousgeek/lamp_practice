@@ -22,13 +22,26 @@ if(purchase_carts($db, $carts) === false){
   redirect_to(CART_URL);
 }
 
-//購入履歴・購入明細テーブルの更新
-add_history($db, $user['user_id']);
-add_detail($db, $carts);
+//トランザクション開始
+$db->beginTransaction();
+try{
+  //購入履歴・購入明細テーブルの更新
+  add_history($db, $user['user_id']);
+  add_detail($db, $carts);
 
-delete_user_carts($db, $carts[0]['user_id']);
+  delete_user_carts($db, $carts[0]['user_id']);
 
 
-$total_price = sum_carts($carts);
+  $total_price = sum_carts($carts);
+
+  //コミット
+  $db->commit();
+} catch (PDOException $e) {
+  //ロールバック
+  $db->rollBack();
+  set_error($e);
+}
+
+
 
 include_once '../view/finish_view.php';
