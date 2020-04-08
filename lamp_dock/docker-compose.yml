@@ -36,4 +36,4 @@ services:
     ports:
       - 8888:80 # ホストの8888番ポートをphpmyadminコンテナの80番ポートに転送
     volumes:
-      - ./pma/sessions:/sessions # ホストOSのpmaディレクトリ内にphpmyadminコンテナのセッションファイルを保存
+      - /c/Users/Owner/MyDocker/lamp_practice/lamp_dock/pma/sessions:/sessions # ホストOSのpmaディレクトリ内にphpmyadminコンテナのセッションファイルを保存
