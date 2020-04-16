@@ -1,5 +1,5 @@
 <?php
-
+//$_SERVER['DOCUMENT_ROOT']は現在いる場所のrootを表す
 define('MODEL_PATH', $_SERVER['DOCUMENT_ROOT'] . '/../model/');
 define('VIEW_PATH', $_SERVER['DOCUMENT_ROOT'] . '/../view/');
 

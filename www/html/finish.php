@@ -14,7 +14,9 @@ if(is_logined() === false){
 $db = get_db_connect();
 $user = get_login_user($db);
 
-$carts = get_user_carts($db, $user['user_id']);
+$data = get_user_carts($db, $user['user_id']);
+//エスケープ処理を追加
+$carts = change_htmlsp_array($data);
 
 if(purchase_carts($db, $carts) === false){
   set_error('商品が購入できませんでした。');

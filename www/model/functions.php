@@ -72,6 +72,7 @@ function get_messages(){
   return $messages;
 }
 
+//セッションにnameが入っていれば値を返す
 function is_logined(){
   return get_session('user_id') !== '';
 }
@@ -137,4 +138,14 @@ function is_valid_upload_image($image){
 
 function h($data){
   return htmlspecialchars($data);
+}
+
+function change_htmlsp_array($assoc_array) {
+  foreach ($assoc_array as $key => $value) {
+    foreach ($value as $keys => $values) {
+      // 特殊文字をHTMLエンティティに変換
+      $assoc_array[$key][$keys] = h($values);
+    }
+  }
+  return $assoc_array;
 }

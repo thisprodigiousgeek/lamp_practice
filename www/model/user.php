@@ -15,7 +15,7 @@ function get_user($db, $user_id){
       user_id = {$user_id}
     LIMIT 1
   ";
-
+  //データの取得
   return fetch_query($db, $sql);
 }
 
@@ -45,6 +45,7 @@ function login_as($db, $name, $password){
   return $user;
 }
 
+//セッションからuser_idを取得
 function get_login_user($db){
   $login_user_id = get_session('user_id');
 

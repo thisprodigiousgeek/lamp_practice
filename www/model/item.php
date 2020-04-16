@@ -18,7 +18,7 @@ function get_item($db, $item_id){
     WHERE
       item_id = {$item_id}
   ";
-
+//データ取得
   return fetch_query($db, $sql);
 }
 
@@ -147,7 +147,7 @@ function delete_item($db, $item_id){
 // 非DB
 
 function is_open($item){
-  return $item['status'] === 1;
+  return $item['status'] === '1';
 }
 
 function validate_item($name, $price, $stock, $filename, $status){
