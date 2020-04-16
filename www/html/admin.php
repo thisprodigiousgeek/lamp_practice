@@ -18,7 +18,7 @@ $user = get_login_user($db);
 if(is_admin($user) === false){
   redirect_to(LOGIN_URL);
 }
-//エスケープ処理の実装#3
+
 $data = get_all_items($db);
 $items = change_htmlsp_array($data);
 

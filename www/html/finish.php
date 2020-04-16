@@ -15,7 +15,7 @@ $db = get_db_connect();
 $user = get_login_user($db);
 
 $data = get_user_carts($db, $user['user_id']);
-//エスケープ処理の実装#3
+//エスケープ処理を追加
 $carts = change_htmlsp_array($data);
 
 if(purchase_carts($db, $carts) === false){
