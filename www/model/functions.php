@@ -135,7 +135,7 @@ function is_valid_upload_image($image){
   }
   return true;
 }
-
+//エスケープ処理の実装#3
 function h($data){
   return htmlspecialchars($data);
 }
