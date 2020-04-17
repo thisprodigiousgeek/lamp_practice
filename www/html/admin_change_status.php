@@ -18,18 +18,22 @@ if(is_admin($user) === false){
   redirect_to(LOGIN_URL);
 }
 
+$token = get_post('token');
 $item_id = get_post('item_id');
 $changes_to = get_post('changes_to');
 
-if($changes_to === 'open'){
-  update_item_status($db, $item_id, ITEM_STATUS_OPEN);
-  set_message('ステータスを変更しました。');
-}else if($changes_to === 'close'){
-  update_item_status($db, $item_id, ITEM_STATUS_CLOSE);
-  set_message('ステータスを変更しました。');
+if(is_valid_csrf_token($token)) {
+  if($changes_to === 'open'){
+    update_item_status($db, $item_id, ITEM_STATUS_OPEN);
+    set_message('ステータスを変更しました。');
+  }else if($changes_to === 'close'){
+    update_item_status($db, $item_id, ITEM_STATUS_CLOSE);
+    set_message('ステータスを変更しました。');
+  }else {
+    set_error('不正なリクエストです。');
+  }
 }else {
-  set_error('不正なリクエストです。');
+  set_error('不正な操作です。');
 }
-
 
 redirect_to(ADMIN_URL);
