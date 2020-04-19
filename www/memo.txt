@@ -1,0 +1,2 @@
+issue/#7
+escape.phpの削除、memo.txtの作成を実施しました。
