@@ -45,13 +45,50 @@ function insert_order_detail($db, $carts, $order_id){
   return $result;
 }
 
-function regist_order_transaction($db, $user_id, $order_id, $item_id, $price, $amount){
-  $db->beginTransaction();
-  if(insert_order($db, $user_id) 
-    && insert_order_detail($order_id, $item_id, $price, $amount)){
-    $db->commit();
-    return true;
+function get_user_orders($db, $user_id){
+  $sql = "
+    SELECT
+      orders.order_id,
+      orders.user_id,
+      orders.created,
+      order_details.item_id,
+      order_details.purchase_price,
+      order_details.quantity
+    FROM
+      orders
+    JOIN
+      order_details
+    ON
+      orders.order_id = order_details.order_id
+    WHERE
+      orders.user_id = ?
+    ORDER BY
+      orders.created DESC;
+  ";
+  $params = array($user_id);
+  return fetch_all_query($db, $sql, $params);
+}
+
+function get_order_price($db, $order_id){
+  $total_price = 0;
+  $sql = "
+    SELECT
+      orders.order_id,
+      order_details.purchase_price,
+      order_details.quantity
+    FROM
+      orders
+    JOIN
+      order_details
+    ON
+      orders.order_id = order_details.order_id
+    WHERE
+      orders.order_id = ?
+  ";
+  $params = array($order_id);
+  $prices = fetch_all_query($db, $sql, $params);
+  for($i = 0 ; $i < count($prices); $i++){
+    $total_price += $prices[$i]['purchase_price'] * $prices[$i]['quantity'];
   }
-  $db->rollback();
-  return false;    
+  return $total_price;
 }
