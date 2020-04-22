@@ -7,6 +7,7 @@ require_once MODEL_PATH . 'cart.php';
 
 session_start();
 
+if (isset($_POST["csrf_token"]) && $_POST["csrf_token"]===$_SESSION['csrf_token']){
 if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }
@@ -23,3 +24,6 @@ if(delete_cart($db, $cart_id)){
 }
 
 redirect_to(CART_URL);
+} else {
+  print '不正なアクセスです';
+}

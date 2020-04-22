@@ -4,7 +4,7 @@ require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'user.php';
 
 session_start();
-
+if (isset($_POST["csrf_token"]) && $_POST["csrf_token"]===$_SESSION['csrf_token']){
 if(is_logined() === true){
   redirect_to(HOME_URL);
 }
@@ -29,3 +29,6 @@ try{
 set_message('ユーザー登録が完了しました。');
 login_as($db, $name, $password);
 redirect_to(HOME_URL);
+} else {
+  print '不正なアクセスです';
+}
