@@ -15,8 +15,12 @@ if(is_logined() === false){
 $db = get_db_connect();
 $user = get_login_user($db);
 
-$token = get_csrf_token();
+if($user['user_id'] === 4){
+  $orders = get_all_orders($db);
+}else {
+  $orders = get_user_orders($db, $user['user_id']);
+}
 
-$orders = get_user_orders($db, $user['user_id']);
+$token = get_csrf_token();
 
 include_once VIEW_PATH . 'history_view.php';

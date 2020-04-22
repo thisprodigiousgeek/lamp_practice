@@ -39,7 +39,7 @@ try {
       throw new Exception('購入明細が登録できませんでした。');
     } 
   // ②に失敗した場合、
-  } else {
+  }else {
     // l27(※)に同じ
     throw new Exception('購入履歴が登録できませんでした。');
   }

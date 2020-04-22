@@ -21,7 +21,7 @@ $amount = get_post('amount');
 if(is_valid_csrf_token($token)) {
   if(update_cart_amount($db, $cart_id, $amount)){
     set_message('購入数を更新しました。');
-  } else {
+  }else {
     set_error('購入数の更新に失敗しました。');
   }
 }else {

@@ -28,20 +28,20 @@
           <tr>
             <td><?php print($order['order_id']); ?></td>
             <td><?php print($order['created']); ?></td>
-            <td><?php print(get_order_price($db, $order['order_id'])); ?>円</td>
+            <td><?php print($order['total_price']); ?>円</td>
             <td>
-            
-            <form method="post" action="order_detail.php">
-                <input type="hidden" name="token" value=<?php print $token ?>>
-                <input type="submit" value="購入明細表示" class="btn btn-secondary delete">
-                <input type="hidden" name="order_id" value="<?php print($order['order_id']); ?>">
+
+              <form method="post" action=./details.php>
+                  <input type="hidden" name="token" value=<?php print $token ?>>
+                  <input type="hidden" name="order_id" value="<?php print($order['order_id']); ?>">
+                  <input type="submit" value="購入明細表示" class="btn btn-secondary delete">
+              </form>
             
             </td>
           </tr>
           <?php } ?>
         </tbody>
       </table>
-      <p class="text-right">合計金額: <?php print number_format($total_price); ?>円</p>
     <?php } else { ?>
       <p>購入履歴はありません。</p>
     <?php } ?> 

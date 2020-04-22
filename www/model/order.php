@@ -45,50 +45,89 @@ function insert_order_detail($db, $carts, $order_id){
   return $result;
 }
 
+function get_all_orders($db){
+  $sql = "
+    SELECT
+      orders.order_id,
+      orders.user_id,
+      orders.created,
+      sum(order_details.purchase_price * order_details.quantity) AS total_price
+    FROM
+      orders
+    JOIN
+      order_details
+    ON
+      orders.order_id = order_details.order_id
+    GROUP BY
+      orders.order_id
+    ORDER BY
+      orders.created DESC
+  ";
+  return fetch_all_query($db, $sql, $params);
+}
+
 function get_user_orders($db, $user_id){
   $sql = "
     SELECT
       orders.order_id,
       orders.user_id,
       orders.created,
-      order_details.item_id,
-      order_details.purchase_price,
-      order_details.quantity
+      sum(order_details.purchase_price * order_details.quantity) AS total_price
     FROM
       orders
     JOIN
       order_details
     ON
       orders.order_id = order_details.order_id
-    WHERE
+    GROUP BY
+      orders.order_id
+    HAVING
       orders.user_id = ?
     ORDER BY
-      orders.created DESC;
+      orders.created DESC
   ";
   $params = array($user_id);
   return fetch_all_query($db, $sql, $params);
 }
 
-function get_order_price($db, $order_id){
-  $total_price = 0;
+function get_orders($db, $order_id){
   $sql = "
     SELECT
       orders.order_id,
-      order_details.purchase_price,
-      order_details.quantity
+      orders.user_id,
+      orders.created,
+      sum(order_details.purchase_price * order_details.quantity) AS total_price
     FROM
       orders
     JOIN
       order_details
     ON
       orders.order_id = order_details.order_id
-    WHERE
+    GROUP BY
+      orders.order_id
+    HAVING
       orders.order_id = ?
   ";
   $params = array($order_id);
-  $prices = fetch_all_query($db, $sql, $params);
-  for($i = 0 ; $i < count($prices); $i++){
-    $total_price += $prices[$i]['purchase_price'] * $prices[$i]['quantity'];
-  }
-  return $total_price;
+  return fetch_query($db, $sql, $params);
+}
+
+function get_order_details($db, $order_id){
+  $sql = "
+    SELECT
+      items.name,
+      order_details.purchase_price,
+      order_details.quantity,
+      order_details.purchase_price * order_details.quantity AS sub_total
+    FROM
+      order_details
+    JOIN
+      items
+    ON
+      order_details.item_id = items.item_id
+    WHERE
+      order_details.order_id = ?
+  ";
+  $params = array($order_id);
+  return fetch_all_query($db, $sql, $params);
 }

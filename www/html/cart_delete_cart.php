@@ -20,7 +20,7 @@ $cart_id = get_post('cart_id');
 if(is_valid_csrf_token($token)) {
   if(delete_cart($db, $cart_id)){
     set_message('カートを削除しました。');
-  } else {
+  }else {
     set_error('カートの削除に失敗しました。');
   }
 }else {
