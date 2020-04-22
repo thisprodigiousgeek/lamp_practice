@@ -4,6 +4,7 @@ require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'user.php';
 require_once MODEL_PATH . 'item.php';
 require_once MODEL_PATH . 'cart.php';
+require_once MODEL_PATH . 'order.php';
 
 session_start();
 
@@ -14,17 +15,12 @@ if(is_logined() === false){
 $db = get_db_connect();
 $user = get_login_user($db);
 
-$token = get_post('token');
-$cart_id = get_post('cart_id');
-
-if(is_valid_csrf_token($token)) {
-  if(delete_cart($db, $cart_id)){
-    set_message('カートを削除しました。');
-  }else {
-    set_error('カートの削除に失敗しました。');
-  }
+if($user['user_id'] === 4){
+  $orders = get_all_orders($db);
 }else {
-  set_error('不正な操作です。');
+  $orders = get_user_orders($db, $user['user_id']);
 }
 
-redirect_to(CART_URL);
+$token = get_csrf_token();
+
+include_once VIEW_PATH . 'history_view.php';

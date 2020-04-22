@@ -25,7 +25,7 @@ $stock = get_post('stock');
 if(is_valid_csrf_token($token)) {
   if(update_item_stock($db, $item_id, $stock)){
     set_message('在庫数を変更しました。');
-  } else {
+  }else {
     set_error('在庫数の変更に失敗しました。');
   }
 }else {
