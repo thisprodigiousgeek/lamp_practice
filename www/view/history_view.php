@@ -28,7 +28,7 @@
           <tr>
             <td><?php print($order['order_id']); ?></td>
             <td><?php print($order['created']); ?></td>
-            <td><?php print($order['total_price']); ?>円</td>
+            <td><?php print(number_format($order['total_price'])); ?>円</td>
             <td>
 
               <form method="post" action=./details.php>

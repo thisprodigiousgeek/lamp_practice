@@ -31,14 +31,14 @@
             <td><?php print(h($cart['name'])); ?></td>
             <td><?php print(number_format($cart['price'])); ?>円</td>
             <td>
-                <?php print($cart['amount']); ?>個
+                <?php print(number_format($cart['amount'])); ?>個
             </td>
             <td><?php print(number_format($cart['price'] * $cart['amount'])); ?>円</td>
           </tr>
           <?php } ?>
         </tbody>
       </table>
-      <p class="text-right">合計金額: <?php print number_format($total_price); ?>円</p>
+      <p class="text-right">合計金額: <?php print(number_format($total_price)); ?>円</p>
     <?php } else { ?>
       <p>カートに商品はありません。</p>
     <?php } ?> 

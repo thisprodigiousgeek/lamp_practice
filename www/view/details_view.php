@@ -25,7 +25,7 @@
         <tr>
         <td><?php print($order['order_id']); ?></td>
         <td><?php print($order['created']); ?></td>
-        <td><?php print($order['total_price']); ?>円</td>
+        <td><?php print(number_format($order['total_price'])); ?>円</td>
         </tr>
     </tbody>
     </table>
@@ -41,10 +41,10 @@
     <tbody>
         <?php foreach($details as $detail){ ?>
         <tr>
-        <td><?php print($detail['name']); ?></td>
-        <td><?php print($detail['purchase_price']); ?>円</td>
-        <td><?php print($detail['quantity']); ?>個</td>
-        <td><?php print($detail['sub_total']); ?>円</td>
+        <td><?php print(h($detail['name'])); ?></td>
+        <td><?php print(number_format($detail['purchase_price'])); ?>円</td>
+        <td><?php print(number_format($detail['quantity'])); ?>個</td>
+        <td><?php print(number_format($detail['sub_total'])); ?>円</td>
         </tr>
         <?php } ?>
     </tbody>
