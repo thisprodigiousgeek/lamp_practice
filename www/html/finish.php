@@ -6,7 +6,7 @@ require_once MODEL_PATH . 'item.php';
 require_once MODEL_PATH . 'cart.php';
 
 session_start();
-
+if (isset($_POST["csrf_token"]) && $_POST["csrf_token"]===$_SESSION['csrf_token']){
 if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }
@@ -26,3 +26,6 @@ if(purchase_carts($db, $carts) === false){
 $total_price = sum_carts($carts);
 
 include_once '../view/finish_view.php';
+} else {
+  print '不正なアクセスです';
+}

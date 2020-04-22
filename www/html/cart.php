@@ -15,6 +15,9 @@ $db = get_db_connect();
 $user = get_login_user($db);
 
 $data = get_user_carts($db, $user['user_id']);
+
+//トークン生成
+$token = get_csrf_token();
 //エスケープ処理を追加
 $carts = change_htmlsp_array($data);
 

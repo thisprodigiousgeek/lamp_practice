@@ -19,6 +19,9 @@ if(is_admin($user) === false){
   redirect_to(LOGIN_URL);
 }
 
+//トークン生成
+$token = get_csrf_token();
+
 $data = get_all_items($db);
 $items = change_htmlsp_array($data);
 
