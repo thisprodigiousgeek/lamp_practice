@@ -1,2 +1,12 @@
 issue/#7
 escape.phpの削除、memo.txtの作成を実施しました。
+
+テーブル設計
+carts:cart_id, user_id, item_id, amount, created, updated
+items:item_id(AI), name, stock, price, image, status, created, updated
+users:user_id, name, password, type, created, updated
+
+購入履歴：order_id(AI,注文番号), user_id, order_date(購入日時)
+
+購入明細：oreder_id(=購入履歴), item_id(=items), item_amount, purchase_price(購入時の価格) 
+※AIなし
