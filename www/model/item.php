@@ -154,7 +154,7 @@ function delete_item($db, $item_id){
 // ステータスが１のときtrueを返す
 function is_open($item){
   //h()で文字列になっているのでキャスト
-  return (int)$item['status'] === 1;
+  return $item['status'] === 1;
 }
 
 function validate_item($name, $price, $stock, $filename, $status){
