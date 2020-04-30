@@ -28,8 +28,8 @@
           <?php foreach($carts as $cart){ ?>
           <tr>
             <td><img src="<?php print(IMAGE_PATH . $cart['image']);?>" class="item_image"></td>
-            <td><?php print($cart['name']); ?></td>
-            <td><?php print(number_format($cart['price'])); ?>円</td>
+            <td><?php print(h($cart['name'])); ?></td>
+            <td><?php print(number_format(h($cart['price']))); ?>円</td>
             <td>
               <form method="post" action="cart_change_amount.php">
                 <input type="number" name="amount" value="<?php print($cart['amount']); ?>">
@@ -60,6 +60,7 @@
     <?php } ?> 
   </div>
   <script>
+  //delete classからとっている？
     $('.delete').on('click', () => confirm('本当に削除しますか？'))
   </script>
 </body>

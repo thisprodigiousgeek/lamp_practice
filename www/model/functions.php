@@ -16,7 +16,7 @@ function get_get($name){
   };
   return '';
 }
-
+// POSTで取得
 function get_post($name){
   if(isset($_POST[$name]) === true){
     return $_POST[$name];
@@ -30,7 +30,7 @@ function get_file($name){
   };
   return array();
 }
-
+// セッション変数があるかチェック。なければ’’を返す
 function get_session($name){
   if(isset($_SESSION[$name]) === true){
     return $_SESSION[$name];
@@ -47,6 +47,7 @@ function set_error($error){
 }
 
 function get_errors(){
+  // get_session は isset($_SESSION[$name]) === trueなら$_SESSION[$name]を返す
   $errors = get_session('__errors');
   if($errors === ''){
     return array();
@@ -73,6 +74,7 @@ function get_messages(){
 }
 
 function is_logined(){
+  // get_session('user_id') が空でなければtrueを返す
   return get_session('user_id') !== '';
 }
 
@@ -103,9 +105,10 @@ function delete_image($filename){
 }
 
 
-
+//文字数チェック関数
 function is_valid_length($string, $minimum_length, $maximum_length = PHP_INT_MAX){
   $length = mb_strlen($string);
+  // どちらもtrue ならtrueを返す
   return ($minimum_length <= $length) && ($length <= $maximum_length);
 }
 
@@ -135,6 +138,19 @@ function is_valid_upload_image($image){
   return true;
 }
 
-function h ($str) {
-  return htmlspecialchars($str,ENT_QUOTES,UTF-8);
+function h($str) {
+  return htmlspecialchars($str,ENT_QUOTES,'UTF-8');
 }
+//特殊文字をHTMLエンティティに変換（2次元配列)
+function entity_array($assoc_array) {
+
+  foreach($assoc_array as $key => $value) {
+
+    foreach($value as $keys => $values) {
+      $assoc_array[$key][$keys] = h($values);
+    } 
+  }
+  return $assoc_array;
+}
+
+

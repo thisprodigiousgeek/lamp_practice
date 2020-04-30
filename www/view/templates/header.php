@@ -1,6 +1,7 @@
 <header>
   <nav class="navbar navbar-expand-sm navbar-light bg-light">
     <a class="navbar-brand" href="<?php print(HOME_URL);?>">Market</a>
+    <!-- ここが具体的に何をしているか分からない -->
     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#headerNav" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="ナビゲーションの切替">
       <span class="navbar-toggler-icon"></span>
     </button>

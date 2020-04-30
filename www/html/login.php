@@ -4,7 +4,9 @@ require_once MODEL_PATH . 'functions.php';
 
 session_start();
 
+// ログイン状態ならリダイレクト
 if(is_logined() === true){
+  //index.phpへリダイレクト
   redirect_to(HOME_URL);
 }
 

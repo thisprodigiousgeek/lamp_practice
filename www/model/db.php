@@ -7,15 +7,18 @@ function get_db_connect(){
   try {
     // データベースに接続
     $dbh = new PDO($dsn, DB_USER, DB_PASS, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4'));
+    // エラーモードの設定 エラー発生時、PDOExceptionを投げる
     $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // エミュレーションを無効
     $dbh->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+    // PDO::FETCH_ASSOC 結果セットに返された際のカラム名で添字をつけた配列を返す
     $dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
   } catch (PDOException $e) {
     exit('接続できませんでした。理由：'.$e->getMessage() );
   }
   return $dbh;
 }
-
+// SQLクエリの準備から実行
 function fetch_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
@@ -38,6 +41,7 @@ function fetch_all_query($db, $sql, $params = array()){
   return false;
 }
 
+//SQLクエリの準備から実行
 function execute_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);

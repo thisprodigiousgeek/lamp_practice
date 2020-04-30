@@ -19,4 +19,8 @@ if(is_admin($user) === false){
 }
 
 $items = get_all_items($db);
+// 配列データをエンティティに変換(2次元配列)
+// entity_array()をするとstatusの方がstring型になってしまうのが原因。どこまでキャストするか確認するため、一旦h()を直接入れた
+//$items = entity_array($items);
+// dd($items);
 include_once VIEW_PATH . '/admin_view.php';

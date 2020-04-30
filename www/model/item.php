@@ -22,7 +22,10 @@ function get_item($db, $item_id){
   return fetch_query($db, $sql);
 }
 
+// 関数()の中の $is_open = falseはデフォルト値の設定のこと何も入ってなければfalse
 function get_items($db, $is_open = false){
+
+  //dd($is_open);
   $sql = '
     SELECT
       item_id, 
@@ -35,6 +38,7 @@ function get_items($db, $is_open = false){
       items
   ';
   if($is_open === true){
+    // .= 結合代入
     $sql .= '
       WHERE status = 1
     ';
@@ -47,7 +51,9 @@ function get_all_items($db){
   return get_items($db);
 }
 
+// 商品一覧用の商品データを取得
 function get_open_items($db){
+  // trueを引数として渡す
   return get_items($db, true);
 }
 
@@ -107,13 +113,13 @@ function update_item_stock($db, $item_id, $stock){
     UPDATE
       items
     SET
-      stock = {$stock}
+      stock = ?
     WHERE
-      item_id = {$item_id}
+      item_id = ?
     LIMIT 1
   ";
   
-  return execute_query($db, $sql);
+  return execute_query($db, $sql,array($stock,$item_id));
 }
 
 function destroy_item($db, $item_id){
@@ -145,9 +151,10 @@ function delete_item($db, $item_id){
 
 
 // 非DB
-
+// ステータスが１のときtrueを返す
 function is_open($item){
-  return $item['status'] === 1;
+  //h()で文字列になっているのでキャスト
+  return (int)$item['status'] === 1;
 }
 
 function validate_item($name, $price, $stock, $filename, $status){

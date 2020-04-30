@@ -1,5 +1,5 @@
 <?php
-
+// 絶対パスではなく、サイトルートからのパスで取得したいので$SERVER[]を使う
 define('MODEL_PATH', $_SERVER['DOCUMENT_ROOT'] . '/../model/');
 define('VIEW_PATH', $_SERVER['DOCUMENT_ROOT'] . '/../view/');
 
@@ -7,8 +7,9 @@ define('VIEW_PATH', $_SERVER['DOCUMENT_ROOT'] . '/../view/');
 define('IMAGE_PATH', '/assets/images/');
 define('STYLESHEET_PATH', '/assets/css/');
 define('IMAGE_DIR', $_SERVER['DOCUMENT_ROOT'] . '/assets/images/' );
-
+// 現在使用しているシステム
 define('DB_HOST', 'mysql');
+// MySQLのDB名
 define('DB_NAME', 'sample');
 define('DB_USER', 'testuser');
 define('DB_PASS', 'password');
