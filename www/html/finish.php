@@ -15,8 +15,11 @@ $db = get_db_connect();
 $user = get_login_user($db);
 
 $data = get_user_carts($db, $user['user_id']);
-//エスケープ処理を追加
+// $data = item_id,name,price,stock,status,image,cart_id,user_id,amount
+// エスケープ処理を追加
+
 $carts = change_htmlsp_array($data);
+//ここに購入履歴と明細の処理を追加
 
 if(purchase_carts($db, $carts) === false){
   set_error('商品が購入できませんでした。');
