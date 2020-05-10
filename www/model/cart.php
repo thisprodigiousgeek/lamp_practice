@@ -100,22 +100,80 @@ function delete_cart($db, $cart_id){
 
   return execute_query($db, $sql, array('cart_id'=>$cart_id));
 }
+// 購入履歴
+function add_purchase_history($db, $user_id){
+  $sql = "
+    INSERT INTO
+      purchase_history(
+        user_id
+        )
+      VALUE(:user_id);
+  ";
+  return execute_query($db, $sql, array('user_id'=>$user_id));
+}
+// 購入明細
+function add_purchase_details($db, $order_id, $item_id, $item_amount, $purchase_price){
+  $sql = "
+    INSERT INTO
+      purchase_details(
+        order_id,
+        item_id,
+        item_amount,
+        purchase_price
+        )
+      VALUE(:order_id, :item_id, :item_amount, :purchase_price);
+  ";
+  return execute_query($db, $sql, array('order_id'=>$order_id,'item_id'=>$item_id, 'item_amount'=>$item_amount, 'purchase_price'=>$purchase_price));
+}
 
 function purchase_carts($db, $carts){
+  //　商品の有無・在庫数の確認
   if(validate_cart_purchase($carts) === false){
     return false;
   }
-  foreach($carts as $cart){
-    if(update_item_stock(
-        $db, 
-        $cart['item_id'], 
-        $cart['stock'] - $cart['amount']
-      ) === false){
-      set_error($cart['name'] . 'の購入に失敗しました。');
-    }
-  }
+
+  try{
+    $db->beginTransaction();
   
-  delete_user_carts($db, $carts[0]['user_id']);
+    if(add_purchase_history(
+      $db, 
+      $carts[0]['user_id']
+      )===false){
+        set_error('履歴入力に失敗しました。');
+    }
+    
+    $order_id = $db->lastInsertId();
+    
+    foreach($carts as $cart){
+      if(update_item_stock(
+          $db, 
+          $cart['item_id'], 
+          $cart['stock'] - $cart['amount']
+        ) === false){
+        set_error($cart['name'] . 'の購入に失敗しました。');
+      }
+      //set_error(var_dump($cart));
+      if(add_purchase_details(
+        $db, 
+        $order_id,
+        $cart['item_id'], 
+        $cart['amount'], 
+        $cart['price']
+        )===false){
+          set_error($cart['name'].'の明細入力に失敗しました。');
+      }
+      delete_user_carts($db, $carts[0]['user_id']);
+    }
+    if(isset($_SESSION['__errors'])===true && count($_SESSION['__errors'])!==0){
+      $db->rollback();
+    }else{
+      $db->commit();
+    }
+
+  } catch (PDOException $e){
+    $dbh->rollback();
+    echo 'データベース処理でエラーが発生しました。理由：'.$e->getMessage();
+  }
 }
 
 function delete_user_carts($db, $user_id){
@@ -156,4 +214,3 @@ function validate_cart_purchase($carts){
   }
   return true;
 }
-
