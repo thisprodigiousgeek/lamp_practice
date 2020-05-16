@@ -19,4 +19,7 @@ $user = get_login_user($db);
 //エスケープ処理の追加
 $data = get_open_items($db);
 $items = change_htmlsp_array($data);
+
+$data_ranking = get_ranking($db);
+$ranking = change_htmlsp_array($data_ranking);
 include_once VIEW_PATH . 'index_view.php';

@@ -10,3 +10,10 @@ users:user_id, name, password, type, created, updated
 
 購入明細：oreder_id(=購入履歴), item_id(=items), item_amount, purchase_price(購入時の価格) 
 ※AIなし
+
+ランキング機能　sql文
+SELECT name,purchase_details.item_id,SUM(item_amount) as total
+FROM purchase_details INNER JOIN items ON purchase_details.item_id = items.item_id
+GROUP BY item_id
+ORDER BY total DESC
+LIMIT 3
