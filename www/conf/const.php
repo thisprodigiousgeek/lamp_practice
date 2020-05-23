@@ -8,7 +8,7 @@ define('IMAGE_PATH', '/assets/images/');
 define('STYLESHEET_PATH', '/assets/css/');
 define('IMAGE_DIR', $_SERVER['DOCUMENT_ROOT'] . '/assets/images/' );
 
-define('DB_HOST', 'mysql');
+define('DB_HOST', 'localhost');
 define('DB_NAME', 'sample');
 define('DB_USER', 'testuser');
 define('DB_PASS', 'password');
@@ -40,12 +40,6 @@ define('ITEM_NAME_LENGTH_MAX', 100);
 define('ITEM_STATUS_OPEN', 1);
 define('ITEM_STATUS_CLOSE', 0);
 
-define('PERMITTED_ITEM_STATUSES', array(
-  'open' => 1,
-  'close' => 0,
-));
+define('PERMITTED_ITEM_STATUSES', array('open' => 1,'close' => 0));
 
-define('PERMITTED_IMAGE_TYPES', array(
-  IMAGETYPE_JPEG => 'jpg',
-  IMAGETYPE_PNG => 'png',
-));
+define('PERMITTED_IMAGE_TYPES', array(IMAGETYPE_JPEG => 'jpg',IMAGETYPE_PNG => 'png'));
