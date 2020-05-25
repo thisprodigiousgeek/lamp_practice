@@ -7,12 +7,13 @@
 </head>
 <body>
   <?php 
+  //ヘッダーデータの読み込み
   include VIEW_PATH . 'templates/header_logined.php'; 
   ?>
 
   <div class="container">
     <h1>商品管理</h1>
-
+    //エラーがあればここで受けとる
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
 
     <form 
@@ -21,6 +22,7 @@
       enctype="multipart/form-data"
       class="add_item_form col-md-6">
       <div class="form-group">
+        //各種商品追加項目
         <label for="name">名前: </label>
         <input class="form-control" type="text" name="name" id="name">
       </div>
@@ -43,11 +45,11 @@
           <option value="close">非公開</option>
         </select>
       </div>
-      
+      //商品の追加
       <input type="submit" value="商品追加" class="btn btn-primary">
     </form>
 
-
+  //データベースの商品をitemに入れて表示
     <?php if(count($items) > 0){ ?>
       <table class="table table-bordered text-center">
         <thead class="thead-light">
@@ -63,6 +65,7 @@
           <?php foreach($items as $item){ ?>
           <tr class="<?php print(is_open($item) ? '' : 'close_item'); ?>">
             <td><img src="<?php print(IMAGE_PATH . $item['image']);?>" class="item_image"></td>
+            //商品名と価格をエスケープ
             <td><?php htmlspecialchars(print($item['name']) , ENT_QUOTES , "UTF-8"); ?></td>
             <td><?php print(number_format($item['price'])); ?>円</td>
             <td>
@@ -77,7 +80,7 @@
               </form>
             </td>
             <td>
-
+              //ステータス変更
               <form method="post" action="admin_change_status.php" class="operation">
                 <?php if(is_open($item) === true){ ?>
                   <input type="submit" value="公開 → 非公開" class="btn btn-secondary">
@@ -104,7 +107,7 @@
     <?php } ?> 
   </div>
   <script>
-    $('.delete').on('click', () => confirm('本当に削除しますか？'))
+    ('.delete').on('click', () => confirm('本当に削除しますか？'))
   </script>
 </body>
 </html>
