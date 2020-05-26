@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: mysql
--- 生成日時: 2020 年 5 月 25 日 16:08
+-- 生成日時: 2020 年 5 月 26 日 15:32
 -- サーバのバージョン： 5.7.30
 -- PHP のバージョン: 7.4.5
 
@@ -43,13 +43,18 @@ CREATE TABLE `details` (
 CREATE TABLE `histories` (
   `order_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `item_id` int(11) NOT NULL,
   `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- ダンプしたテーブルのインデックス
 --
+
+--
+-- テーブルのインデックス `details`
+--
+ALTER TABLE `details`
+  ADD PRIMARY KEY (`order_id`,`item_id`);
 
 --
 -- テーブルのインデックス `histories`
