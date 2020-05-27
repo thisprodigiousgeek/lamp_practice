@@ -12,12 +12,12 @@
 
   <div class="container">
     <h1>商品一覧</h1>
-    //エラーがあれば表示
+    <!--エラーがあれば表示-->
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
 
     <div class="card-deck">
       <div class="row">
-        // $itemsがfalseではなければ（if文を書く必要がある)
+        <!--$itemsがfalseではなければ（if文を書く必要がある)-->
       <?php foreach($items as $item){ ?>
         <div class="col-6 item">
           <div class="card h-100 text-center">
