@@ -22,7 +22,8 @@
         <div class="col-6 item">
           <div class="card h-100 text-center">
             <div class="card-header">
-              <?php print $item['name']; ?>
+              <!--viewでエスケープ処理-->
+              <?php print htmlspecialchars($item['name'] , ENT_QUOTES , 'UTF-8'); ?>
             </div>
             <figure class="card-body">
               <img class="card-img" src="<?php print(IMAGE_PATH . $item['image']); ?>">
