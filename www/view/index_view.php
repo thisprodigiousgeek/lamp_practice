@@ -16,11 +16,12 @@
 
     <div class="card-deck">
       <div class="row">
+        //$itemsがfalseではなければ（if文を書く必要がある）
       <?php foreach($items as $item){ ?>
         <div class="col-6 item">
           <div class="card h-100 text-center">
             <div class="card-header">
-              <?php print($item['name']); ?>
+              <?php print $item['name']; ?>
             </div>
             <figure class="card-body">
               <img class="card-img" src="<?php print(IMAGE_PATH . $item['image']); ?>">

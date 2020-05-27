@@ -65,8 +65,8 @@
           <?php foreach($items as $item){ ?>
           <tr class="<?php print(is_open($item) ? '' : 'close_item'); ?>">
             <td><img src="<?php print(IMAGE_PATH . $item['image']);?>" class="item_image"></td>
-            //商品名と価格をエスケープ
-            <td><?php htmlspecialchars(print($item['name']) , ENT_QUOTES , "UTF-8"); ?></td>
+            //商品名をエスケープ
+            <td><?php print htmlspecialchars($item['name'] , ENT_QUOTES , "UTF-8"); ?></td>
             <td><?php print(number_format($item['price'])); ?>円</td>
             <td>
               <form method="post" action="admin_change_stock.php">
