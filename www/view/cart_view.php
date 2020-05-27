@@ -28,7 +28,7 @@
           <?php foreach($carts as $cart){ ?>
           <tr>
             <td><img src="<?php print(IMAGE_PATH . $cart['image']);?>" class="item_image"></td>
-            <td><?php print($cart['name']); ?></td>
+            <td><?php print htmlspecialchars($cart['name'] , ENT_QUOTES , 'UTF-8'); ?></td>
             <td><?php print(number_format($cart['price'])); ?>円</td>
             <td>
               <form method="post" action="cart_change_amount.php">
