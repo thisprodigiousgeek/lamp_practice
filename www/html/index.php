@@ -15,7 +15,7 @@ $user = get_login_user($db);
 $items = get_open_items($db);
 
 function h($items){
-    return htmlspecialchars($items , ENT_QUOTES , 'UTF-8');
+    $items = htmlspecialchars($items , ENT_QUOTES , 'UTF-8');
 }
 
 include_once VIEW_PATH . 'index_view.php';
