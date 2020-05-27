@@ -12,7 +12,12 @@ if(is_logined() === false){
 
 $db = get_db_connect();
 $user = get_login_user($db);
+$items = get_open_items($db);
+function h($items)
+{
+    echo htmlspecialchars($items, ENT_QUOTES, 'UTF-8');
+}
 
-$items = htmlspecialchars(get_open_items($db) , ENT_QUOTES , "UTF-8");
+$items = h($items);
 
 include_once VIEW_PATH . 'index_view.php';
