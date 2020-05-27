@@ -28,11 +28,11 @@
       </div>
       <div class="form-group">
         <label for="price">価格: </label>
-        <input class="form-control" type="number" name="price" id="price">
+        <input class="form-control" type="number" min="0" name="price" id="price">
       </div>
       <div class="form-group">
         <label for="stock">在庫数: </label>
-        <input class="form-control" type="number" name="stock" id="stock">
+        <input class="form-control" type="number" min="0" name="stock" id="stock">
       </div>
       <div class="form-group">
         <label for="image">商品画像: </label>
@@ -71,7 +71,7 @@
             <td>
               <form method="post" action="admin_change_stock.php">
                 <div class="form-group">
-                  <!-- sqlインジェクション確認のためあえてtext -->
+                  <!-- sqlインジェクション確認のためあえてtext-->
                   <input  type="text" name="stock" value="<?php print($item['stock']); ?>">
                   個
                 </div>
