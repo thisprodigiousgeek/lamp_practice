@@ -14,7 +14,7 @@ $db = get_db_connect();
 $user = get_login_user($db);
 
 foreach(get_open_items($db) as $key => $value) {
-    $array[$key] = htmlspecialchars($value, ENT_QUOTES,'UTF-8');
+    get_open_items($db)[$key] = htmlspecialchars($value, ENT_QUOTES,'UTF-8');
 }
 
 $items = $value;
