@@ -20,7 +20,7 @@ if(is_admin($user) === false){
 
 $item_id = get_post('item_id');
 //stockが数字かどうか、整数かどうかの確認とエスケープ
-if(is_numeric(get_post('stock')) === TRUE && is_float(get_post('stock')) === TRUE){
+if(is_numeric(get_post('stock')) === TRUE){
   $stock = htmlspecialchars(get_post('stock'),ENT_QUOTES,'UTF-8');
 }else{
   set_message('在庫数の変更に失敗しました');
