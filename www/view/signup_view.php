@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+  Header always append X-Frame-Options SAMEORIGIN
   <?php include VIEW_PATH . 'templates/head.php'; ?>
   <title>サインアップ</title>
   <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'signup.css'); ?>">

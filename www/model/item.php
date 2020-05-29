@@ -50,7 +50,7 @@ function get_all_items($db){
 function get_open_items($db){
   return get_items($db, true);
 }
-
+//入力された値が有効かを確認する
 function regist_item($db, $name, $price, $stock, $status, $image){
   $filename = get_upload_filename($image);
   if(validate_item($name, $price, $stock, $filename, $status) === false){
@@ -58,7 +58,7 @@ function regist_item($db, $name, $price, $stock, $status, $image){
   }
   return regist_item_transaction($db, $name, $price, $stock, $status, $image, $filename);
 }
-
+//値が有効ならばインサート文を実行
 function regist_item_transaction($db, $name, $price, $stock, $status, $image, $filename){
   $db->beginTransaction();
   if(insert_item($db, $name, $price, $stock, $filename, $status) 
@@ -82,7 +82,7 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
         image,
         status
       )
-    VALUES(?,?,?,?,?,?);
+    VALUES(?,?,?,?,?);
   ";
 
   return execute_query($db, $sql,array($name,$price,$stock,$filename,$status_value));
