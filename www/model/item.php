@@ -113,6 +113,7 @@ function update_item_stock($db, $item_id, $stock){
     LIMIT 1
   ";
   return execute_query($db, $sql, array($stock , $item_id));
+  
 }
 
 function destroy_item($db, $item_id){
