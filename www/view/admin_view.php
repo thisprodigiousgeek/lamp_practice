@@ -14,7 +14,10 @@
   <div class="container">
     <h1>商品管理</h1>
     <!-- エラーがあればここで受けとる -->
-    <?php include VIEW_PATH . 'templates/messages.php'; ?>
+    <?php 
+          include VIEW_PATH . 'templates/messages.php'; 
+          require_once MODEL_PATH . 'functions.php';
+    ?>
 
     <form 
       method="post" 
@@ -47,6 +50,11 @@
       </div>
       <!--商品の追加-->
       <input type="submit" value="商品追加" class="btn btn-primary">
+      <?php
+        // トークンの生成
+        get_csrf_token()
+      ?>
+      <input type="hidden" value=<?php print $token ?> name="token">
     </form>
 
   <!--データベースの商品をitemに入れて表示-->
