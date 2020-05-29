@@ -58,7 +58,7 @@ function regist_user($db, $name, $password, $password_confirmation) {
   
   return insert_user($db, $name, $password);
 }
-
+//ユーザータイプの取得
 function is_admin($user){
   return $user['type'] === USER_TYPE_ADMIN;
 }

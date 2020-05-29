@@ -102,6 +102,7 @@ function update_item_status($db, $item_id, $status){
   return execute_query($db, $sql,array($status,$item_id));
 }
 
+//admin画面からの在庫変更
 function update_item_stock($db, $item_id, $stock){
   $sql = "
     UPDATE
