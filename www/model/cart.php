@@ -76,6 +76,33 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
   return execute_query($db, $sql,[$item_id,$user_id,$amount]);
 }
 
+function insert_history($db, $user_id){
+  $sql = "
+    INSERT INTO
+      histories(
+        user_id,
+        created
+        )
+    VALUES(?, NOW())
+  ";
+
+  return execute_query($db, $sql,[$user_id]);
+}
+
+function insert_detail($db, $order_id, $item_id, $price, $amount){
+  $sql = "
+    INSERT INTO
+      details(
+        order_id,
+        item_id,
+        price,
+        amount
+        )
+    VALUES(?, ?, ?, ?)
+  ";
+
+  return execute_query($db, $sql,[$order_id, $item_id, $price, $amount]);
+}
 function update_cart_amount($db, $cart_id, $amount){
   $sql = "
     UPDATE
@@ -105,6 +132,16 @@ function purchase_carts($db, $carts){
   if(validate_cart_purchase($carts) === false){
     return false;
   }
+
+  if(validate_cart_purchase($carts) === true){
+    $db->beginTransaction();
+    
+    return insert_history($db, $user_id);
+
+    foreach($carts as $cart){
+      insert_detail($db, $order_id, $item_id, $price, $amount)
+    }
+  }  
   foreach($carts as $cart){
     if(update_item_stock(
         $db, 

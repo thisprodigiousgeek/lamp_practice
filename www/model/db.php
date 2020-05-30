@@ -42,6 +42,8 @@ function execute_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
     return $statement->execute($params);
+    $order_id = $db->lastInsertId('order_id');
+    $db->commit();
   }catch(PDOException $e){
     set_error('更新に失敗しました。');
   }
