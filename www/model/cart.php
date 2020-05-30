@@ -85,7 +85,7 @@ function insert_history($db, $user_id){
         )
     VALUES(?, NOW())
   ";
-
+  
   return execute_query($db, $sql,[$user_id]);
 }
 
@@ -135,7 +135,7 @@ function purchase_carts($db, $carts){
 
   if(validate_cart_purchase($carts) === true){
     $db->beginTransaction();
-    
+
     return insert_history($db, $user_id);
 
     foreach($carts as $cart){
