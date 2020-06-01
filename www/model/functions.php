@@ -41,6 +41,12 @@ function get_session($name){
 function set_session($name, $value){
   $_SESSION[$name] = $value;
 }
+//セッションの使い方
+//session_start();
+// セッション情報の保存
+//$_SESSION['name'] = 'sorya';
+// セッション情報の取得
+//$name = $_SESSION['name'];
 
 function set_error($error){
   $_SESSION['__errors'][] = $error;
