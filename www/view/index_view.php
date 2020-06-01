@@ -34,7 +34,7 @@
                     
                     <?php
                     //トークンの生成
-                    function get_csrf_token(){}
+                      get_csrf_token();
                     ?>
                     
                     <input type="submit" value="カートに追加" class="btn btn-primary btn-block">
