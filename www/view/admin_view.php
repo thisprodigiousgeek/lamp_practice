@@ -50,6 +50,7 @@
       </div>
       <!--商品の追加-->
       <input type="submit" value="商品追加" class="btn btn-primary">
+      
       <?php
         // トークンの生成
         get_csrf_token()
