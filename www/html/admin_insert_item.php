@@ -4,12 +4,16 @@ require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'user.php';
 require_once MODEL_PATH . 'item.php';
 
+header('X-Frame-Options: DENY');
 session_start();
 
 if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }
-
+//トークンのチェック
+if($_POST['token'] !== $_SESSION['token']){
+  redirect_to(ADMIN_URL);
+}
 $db = get_db_connect();
 
 $user = get_login_user($db);
