@@ -20,5 +20,5 @@
       </ul>
     </div>
   </nav>
-  <p>ようこそ、<?php print($user['name']); ?>さん。</p>
+  <p>ようこそ、<?php print htmlspecialchars($user['name'] , ENT_QUOTES , 'UTF-8'); ?>さん。</p>
 </header>

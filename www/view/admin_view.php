@@ -7,13 +7,17 @@
 </head>
 <body>
   <?php 
+  //ヘッダーデータの読み込み
   include VIEW_PATH . 'templates/header_logined.php'; 
   ?>
 
   <div class="container">
     <h1>商品管理</h1>
-
-    <?php include VIEW_PATH . 'templates/messages.php'; ?>
+    <!-- エラーがあればここで受けとる -->
+    <?php 
+          include VIEW_PATH . 'templates/messages.php'; 
+          require_once MODEL_PATH . 'functions.php';
+    ?>
 
     <form 
       method="post" 
@@ -21,16 +25,17 @@
       enctype="multipart/form-data"
       class="add_item_form col-md-6">
       <div class="form-group">
+        <!-- 各種商品追加項目 -->
         <label for="name">名前: </label>
         <input class="form-control" type="text" name="name" id="name">
       </div>
       <div class="form-group">
         <label for="price">価格: </label>
-        <input class="form-control" type="number" name="price" id="price">
+        <input class="form-control" type="number" min="0" name="price" id="price">
       </div>
       <div class="form-group">
         <label for="stock">在庫数: </label>
-        <input class="form-control" type="number" name="stock" id="stock">
+        <input class="form-control" type="number" min="0" name="stock" id="stock">
       </div>
       <div class="form-group">
         <label for="image">商品画像: </label>
@@ -43,11 +48,17 @@
           <option value="close">非公開</option>
         </select>
       </div>
-      
+      <!--商品の追加-->
       <input type="submit" value="商品追加" class="btn btn-primary">
+      
+      <?php
+        // トークンの生成
+        get_csrf_token()
+      ?>
+      <input type="hidden" value=<?php print $token ?> name="token">
     </form>
 
-
+  <!--データベースの商品をitemに入れて表示-->
     <?php if(count($items) > 0){ ?>
       <table class="table table-bordered text-center">
         <thead class="thead-light">
@@ -63,12 +74,13 @@
           <?php foreach($items as $item){ ?>
           <tr class="<?php print(is_open($item) ? '' : 'close_item'); ?>">
             <td><img src="<?php print(IMAGE_PATH . $item['image']);?>" class="item_image"></td>
-            <td><?php print($item['name']); ?></td>
+            <!--viewでエスケープ処理-->
+            <td><?php print htmlspecialchars($item['name'] , ENT_QUOTES , 'UTF-8'); ?></td>
             <td><?php print(number_format($item['price'])); ?>円</td>
             <td>
               <form method="post" action="admin_change_stock.php">
                 <div class="form-group">
-                  <!-- sqlインジェクション確認のためあえてtext -->
+                  <!-- sqlインジェクション確認のためあえてtext-->
                   <input  type="text" name="stock" value="<?php print($item['stock']); ?>">
                   個
                 </div>
@@ -77,7 +89,7 @@
               </form>
             </td>
             <td>
-
+              <!--ステータス変更-->
               <form method="post" action="admin_change_status.php" class="operation">
                 <?php if(is_open($item) === true){ ?>
                   <input type="submit" value="公開 → 非公開" class="btn btn-secondary">
@@ -104,7 +116,7 @@
     <?php } ?> 
   </div>
   <script>
-    $('.delete').on('click', () => confirm('本当に削除しますか？'))
+    ('.delete').on('click', () => confirm('本当に削除しますか？'))
   </script>
 </body>
 </html>
