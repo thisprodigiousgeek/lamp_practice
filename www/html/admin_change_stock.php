@@ -19,7 +19,8 @@ if(is_admin($user) === false){
 }
 //admin_viewからの変更を受け取る
 $item_id = get_post('item_id');
-
+$stock = get_post('stock');
+//updateでデータベースの情報を書き換えている。item.phpで定義
 if(update_item_stock($db, $item_id, $stock)){
   set_message('在庫数を変更しました。');
 } else {
