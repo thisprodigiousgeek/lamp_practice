@@ -3,7 +3,7 @@ require_once '../conf/const.php';
 require_once '../model/functions.php';
 require_once '../model/user.php';
 require_once '../model/item.php';
-
+header('X-Frame-Options: DENY');
 session_start();
 
 if(is_logined() === false){

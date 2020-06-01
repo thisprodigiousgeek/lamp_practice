@@ -2,7 +2,7 @@
 require_once '../conf/const.php';
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'user.php';
-
+header('X-Frame-Options: DENY');
 session_start();
 
 if(is_logined() === true){

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  Header always append X-Frame-Options SAMEORIGIN
   <?php include VIEW_PATH . 'templates/head.php'; ?>
   
   <title>商品一覧</title>
