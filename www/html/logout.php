@@ -1,7 +1,7 @@
 <?php
 require_once '../conf/const.php';
 require_once MODEL_PATH . 'functions.php';
-
+header('X-Frame-Options: DENY');
 session_start();
 $_SESSION = array();
 $params = session_get_cookie_params();
