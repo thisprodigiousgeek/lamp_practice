@@ -28,6 +28,7 @@ $stock = get_post('stock');
 
 $image = get_file('image');
 
+//registでインサートまで定義されている
 if(regist_item($db, $name, $price, $stock, $status, $image)){
   set_message('商品を登録しました。');
 }else {

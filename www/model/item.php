@@ -70,7 +70,7 @@ function regist_item_transaction($db, $name, $price, $stock, $status, $image, $f
   return false;
   
 }
-
+//インサート文
 function insert_item($db, $name, $price, $stock, $filename, $status){
   $status_value = PERMITTED_ITEM_STATUSES[$status];
   $sql = "
@@ -88,6 +88,7 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
   return execute_query($db, $sql,array($name,$price,$stock,$filename,$status_value));
 }
 
+//ステータスの更新
 function update_item_status($db, $item_id, $status){
   $sql = "
     UPDATE
