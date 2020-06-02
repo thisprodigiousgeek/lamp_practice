@@ -1,49 +1,43 @@
 <?php
 
-function get_db_connect(){
-  // MySQL用のDSN文字列
-  $dsn = 'mysql:dbname='. DB_NAME .';host='. DB_HOST .';charset='.DB_CHARSET;
+function get_db_connect() {
  
-  try {
-    // データベースに接続
-    $dbh = new PDO($dsn, DB_USER, DB_PASS, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4'));
-    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $dbh->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-    $dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-  } catch (PDOException $e) {
-    exit('接続できませんでした。理由：'.$e->getMessage() );
+  // コネクション取得
+  $link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+  if ($link === false) {
+      die('error: ' . mysqli_connect_error());
   }
-  return $dbh;
+
+  // 文字コードセット
+  mysqli_set_charset($link, DB_CHARSET);
+
+  return $link;
 }
 
 function fetch_query($db, $sql, $params = array()){
-  try{
-    $statement = $db->prepare($sql);
-    $statement->execute($params);
-    return $statement->fetch();
-  }catch(PDOException $e){
-    set_error('データ取得に失敗しました。');
+  if ($result = mysqli_query($db, $sql)) {
+      $row = mysqli_fetch_assoc($result);
+      mysqli_free_result($result);
+      if(isset($row) === false){
+        return false;
+      }
+      return $row;
   }
+
   return false;
 }
 
 function fetch_all_query($db, $sql, $params = array()){
-  try{
-    $statement = $db->prepare($sql);
-    $statement->execute($params);
-    return $statement->fetchAll();
-  }catch(PDOException $e){
-    set_error('データ取得に失敗しました。');
+  $data = [];
+  if ($result = mysqli_query($db, $sql)) {
+      while ($row = mysqli_fetch_assoc($result)) {
+          $data[] = $row;
+      }
+      mysqli_free_result($result);
   }
-  return false;
+  return $data;
 }
 
 function execute_query($db, $sql, $params = array()){
-  try{
-    $statement = $db->prepare($sql);
-    return $statement->execute($params);
-  }catch(PDOException $e){
-    set_error('更新に失敗しました。');
-  }
-  return false;
+  return mysqli_query($db, $sql);
 }

@@ -147,7 +147,7 @@ function delete_item($db, $item_id){
 // 非DB
 
 function is_open($item){
-  return $item['status'] === 1;
+  return $item['status'] === ITEM_STATUS_OPEN;
 }
 
 function validate_item($name, $price, $stock, $filename, $status){

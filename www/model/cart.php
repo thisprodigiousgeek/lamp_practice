@@ -59,6 +59,7 @@ function add_cart($db, $item_id, $user_id) {
   if($cart === false){
     return insert_cart($db, $user_id, $item_id);
   }
+  dd($cart);
   return update_cart_amount($db, $cart['cart_id'], $cart['amount'] + 1);
 }
 
@@ -86,6 +87,8 @@ function update_cart_amount($db, $cart_id, $amount){
       cart_id = {$cart_id}
     LIMIT 1
   ";
+
+  dd($sql);
   return execute_query($db, $sql);
 }
 

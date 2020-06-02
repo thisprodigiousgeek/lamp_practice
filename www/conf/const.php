@@ -31,18 +31,18 @@ define('USER_NAME_LENGTH_MAX', 100);
 define('USER_PASSWORD_LENGTH_MIN', 6);
 define('USER_PASSWORD_LENGTH_MAX', 100);
 
-define('USER_TYPE_ADMIN', 1);
-define('USER_TYPE_NORMAL', 2);
+define('USER_TYPE_ADMIN', '1');
+define('USER_TYPE_NORMAL', '2');
 
 define('ITEM_NAME_LENGTH_MIN', 1);
 define('ITEM_NAME_LENGTH_MAX', 100);
 
-define('ITEM_STATUS_OPEN', 1);
-define('ITEM_STATUS_CLOSE', 0);
+define('ITEM_STATUS_OPEN', '1');
+define('ITEM_STATUS_CLOSE', '0');
 
 define('PERMITTED_ITEM_STATUSES', array(
-  'open' => 1,
-  'close' => 0,
+  'open' => '1',
+  'close' => '0',
 ));
 
 define('PERMITTED_IMAGE_TYPES', array(
