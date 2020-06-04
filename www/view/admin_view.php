@@ -50,12 +50,7 @@
       </div>
       <!--商品の追加-->
       <input type="submit" value="商品追加" class="btn btn-primary">
-      
-      <?php
-        // トークンの生成
-        get_csrf_token()
-      ?>
-      <input type="hidden" value=<?php print $token ?> name="token">
+      <input type="hidden" value="<?php print $token; ?>" name="token">
     </form>
 
   <!--データベースの商品をitemに入れて表示-->
@@ -86,6 +81,7 @@
                 </div>
                 <input type="submit" value="変更" class="btn btn-secondary">
                 <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
+                <input type="hidden" value="<?php print $token; ?>" name="token">
               </form>
             </td>
             <td>
@@ -99,11 +95,13 @@
                   <input type="hidden" name="changes_to" value="open">
                 <?php } ?>
                 <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
+                <input type="hidden" value="<?php print $token; ?>" name="token">
               </form>
 
               <form method="post" action="admin_delete_item.php">
                 <input type="submit" value="削除" class="btn btn-danger delete">
                 <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
+                <input type="hidden" value="<?php print $token; ?>" name="token">
               </form>
 
             </td>

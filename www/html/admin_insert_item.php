@@ -7,6 +7,9 @@ require_once MODEL_PATH . 'item.php';
 header('X-Frame-Options: DENY');
 session_start();
 
+$token = get_post("token");
+is_valid_csrf_token($token);
+
 if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }

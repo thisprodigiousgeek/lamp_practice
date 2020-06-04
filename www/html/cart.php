@@ -7,6 +7,7 @@ require_once MODEL_PATH . 'cart.php';
 header('X-Frame-Options: DENY');
 session_start();
 
+get_csrf_token();
 if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }
