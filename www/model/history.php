@@ -13,6 +13,6 @@ function order_history($db,$user_id){
   ";
 
   return execute_query($db, $sql, array($user_id));
-  $order_id = lastInsertID();
+  $order_id = $dbh -> lastInsertID();
   return $order_id;
 }

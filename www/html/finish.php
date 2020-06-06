@@ -36,7 +36,6 @@ $user_id = get_session('user_id');
 // //ヒストリーテーブルに追加
 order_history($db,$user_id);
 
-
 var_dump($order_id);
 exit;
 //$cartの中の変数を再定義
