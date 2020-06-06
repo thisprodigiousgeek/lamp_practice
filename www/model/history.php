@@ -13,4 +13,6 @@ function order_history($db,$user_id){
   ";
 
   return execute_query($db, $sql, array($user_id));
+  
+  set_session('order_id', lastInsertID());
 }

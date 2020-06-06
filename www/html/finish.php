@@ -1,4 +1,5 @@
 <?php
+//各モデルから関数データを取得
 require_once '../conf/const.php';
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'user.php';
@@ -9,6 +10,7 @@ require_once MODEL_PATH . 'details.php';
 header('X-Frame-Options: DENY');
 session_start();
 
+//トークンチェック
 $token=get_post("token");
 is_valid_csrf_token($token);
 if(is_logined() === false){
@@ -35,9 +37,9 @@ $user_id = get_session('user_id');
 order_history($db,$user_id);
 
 
+$order_id = get_session['order_id'];
 //$cartの中の変数を再定義
 foreach($carts as $cart){
-$order_id = $dbh->lastInsertID();
 $item_id = $cart['item_id'];
 $item_price = $cart['price'];
 $item_amount = $cart['amount'];
