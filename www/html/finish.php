@@ -37,7 +37,8 @@ $user_id = get_session('user_id');
 order_history($db,$user_id);
 
 
-$order_id = get_session['order_id'];
+var_dump($order_id);
+exit;
 //$cartの中の変数を再定義
 foreach($carts as $cart){
 $item_id = $cart['item_id'];
