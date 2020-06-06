@@ -33,17 +33,21 @@ $total_price = sum_carts($carts);
 //ユーザーIDのみを取得
 $user_id = get_session('user_id');
 
-// //ヒストリーテーブルに追加
-order_history($db,$user_id);
+//ヒストリーテーブルに追加
+$order_id = intval(order_history($db, $user_id));
 
-var_dump($order_id);
-exit;
+
 //$cartの中の変数を再定義
 foreach($carts as $cart){
-$item_id = $cart['item_id'];
+$item_id = intval($cart['item_id']);
 $item_price = $cart['price'];
 $item_amount = $cart['amount'];
 }
+var_dump($order_id);
+var_dump($item_id);
+var_dump($item_price);
+var_dump($item_amount);
+
 // //ディティールテーブルに追加
 order_details($db,$order_id,$item_id,$item_price,$item_amount);
 

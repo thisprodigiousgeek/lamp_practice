@@ -12,7 +12,11 @@ function order_history($db,$user_id){
     VALUES(?);
   ";
 
-  return execute_query($db, $sql, array($user_id));
-  $order_id = $dbh -> lastInsertID();
-  return $order_id;
+  execute_query($db, $sql, array($user_id));
+  return $db->lastInsertId();
 }
+
+// function history_order_id($value){
+//   $value = $dbh->lastInsertID();
+//   return $value;
+// }
