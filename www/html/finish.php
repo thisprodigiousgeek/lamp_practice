@@ -4,8 +4,8 @@ require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'user.php';
 require_once MODEL_PATH . 'item.php';
 require_once MODEL_PATH . 'cart.php';
-// require_once MODEL_PATH . 'history.php';
-// require_once MODEL_PATH . 'details.php';
+require_once MODEL_PATH . 'history.php';
+require_once MODEL_PATH . 'details.php';
 header('X-Frame-Options: DENY');
 session_start();
 
@@ -28,7 +28,7 @@ if(purchase_carts($db, $carts) === false){
 //ユーザーIDに基づいた合計金額を表示。ユーザーIDは上の関数で取得
 $total_price = sum_carts($carts);
 
-
+//ユーザーIDのみを取得
 $user_id = get_session('user_id');
 
 // //ヒストリーテーブルに追加

@@ -2,6 +2,7 @@
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
+
 function get_user_carts($db, $user_id){
   $sql = "
     SELECT
