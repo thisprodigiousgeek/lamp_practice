@@ -115,7 +115,7 @@ function is_alphanumeric($string){
 
 function is_positive_integer($string){
   return is_valid_format($string, REGEXP_POSITIVE_INTEGER);
-}
+} 
 
 function is_valid_format($string, $format){
   return preg_match($format, $string) === 1;
@@ -135,3 +135,14 @@ function is_valid_upload_image($image){
   return true;
 }
 
+
+//仮
+function h ($str){
+  return htmlspecialchars($str,ENT_QUOTES,"utf-8");
+  }
+
+  // nakamura
+ 
+  function test132(){
+      print 'a';
+    }
