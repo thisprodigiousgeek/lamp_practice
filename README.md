@@ -17,7 +17,7 @@ mkdir ~/MyDocker/lamp_practice
 cd ~/MyDocker/lamp_practice
 ```
 
-開発課題のリポジトリをフォークして、自分のアカウントのリポジトリにします。  
+開発課題のリポジトリをフォークして、自分のアカウントのリポジトリにします。
 
 右上にあるフォークボタン(Forkと書かれたボタン）をクリックすると、
 皆さんご自身の管理リポジトリの中に課題リポジトリのコピーが追加されます。
@@ -66,7 +66,7 @@ phpmyadminでログインしようとして失敗する場合には、mysqlコ�
 うまくいかない場合、一度コンテナをdownしてから、再度
 
 ```
-docker-compose up -d 
+docker-compose up -d
 ```
 
 で立ち上げましょう。
@@ -98,7 +98,7 @@ phpmyadmin で sampleデータベースを選択して、「インポート」�
 
 ~/MyDocker/lamp_practice/lamp_dock ディレクトリに移動し、
 
-``` 
+```
 docker-compose up -d
 ```
 でコンテナを起動します。
@@ -112,4 +112,4 @@ docker-compose down
 ```
 docker exec -it lamp_dock_php_1 bash
 ```
-でコンテナ内をbashで操作できます。
+でコンテナ内をbashで操作できます
