@@ -116,3 +116,4 @@ docker exec -it lamp_dock_php_1 bash
 
 あああああああああああああああああああああ
 いいいいいいい
+ううううう
