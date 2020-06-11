@@ -1,0 +1,6 @@
+Hello!
+My name is vim.
+Vim is abbreviation of vi improved.
+Vi is classical command line based text-editor.
+Hello!Hello!Hello!Hello!Hello!
+fghijklmnopq
