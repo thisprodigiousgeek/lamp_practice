@@ -1,7 +1,0 @@
-practice:
-a
-hello.txt
-
-practice/a:
-abcd.txt
-mk
