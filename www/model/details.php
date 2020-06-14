@@ -18,3 +18,17 @@ function order_details($db,$order_id, $item_id, $item_price, $item_amount){
  return execute_query($db, $sql,array($order_id, $item_id, $item_price, $item_amount));
 }
 
+
+function select_details_price($db,$value){
+  $sql ="
+  SELECT
+    item_id,
+    item_price,
+    item_amount
+  FROM
+    details
+  WHERE
+    order_id = ?
+    ";
+  return fetch_all_query($db, $sql, array($value) );
+}

@@ -22,6 +22,7 @@ $db = get_db_connect();
 $user = get_login_user($db);
 //カートに入っている商品から、POSTで飛んできた商品IDに基づいて情報を取得
 $carts = get_user_carts($db, $user['user_id']);
+
 //カート商品を購入。購入された商品はカートからなくなる。ここで在庫が1つ減る
 if(purchase_carts($db, $carts) === false){
   set_error('商品が購入できませんでした。');
@@ -33,8 +34,8 @@ $total_price = sum_carts($carts);
 //ユーザーIDのみを取得
 $user_id = get_session('user_id');
 
-//ヒストリーテーブルに追加
-$order_id = intval(order_history($db, $user_id));
+//ヒストリーテーブルにユーザーIDを追加
+$order_id = intval(order_history($db, $user_id, $total_price));
 
 
 //$cartの中の変数を再定義
@@ -42,13 +43,14 @@ foreach($carts as $cart){
 $item_id = intval($cart['item_id']);
 $item_price = $cart['price'];
 $item_amount = $cart['amount'];
-}
-var_dump($order_id);
-var_dump($item_id);
-var_dump($item_price);
-var_dump($item_amount);
 
-// //ディティールテーブルに追加
+//ディティールテーブルに追加
 order_details($db,$order_id,$item_id,$item_price,$item_amount);
+}
+
+//historyテーブルからオーダーIDとdateをとってくる。ユーザーIDで絞って
+$test = select_history($db,$user_id);
+
+
 
 include_once '../view/finish_view.php';

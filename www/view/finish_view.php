@@ -42,5 +42,33 @@
       <p>カートに商品はありません。</p>
     <?php } ?> 
   </div>
+  <table>
+    <tr>
+      <th>注文番号</th>
+      <th>合計金額</th>
+      <th>注文日時</th>
+      <th>注文詳細</th>
+    </tr>
+    <?php 
+    for($i = 0 ; $i < count($test) ; $i++){ ?>
+    <tr>
+      <td>
+        <?php print $test[$i]['order_id']; ?>
+      </td>
+      <td>
+        <?php print $test[$i]['total_price']; ?>
+      </td>
+      <td>
+        <?php print $test[$i]['date']; ?>
+      </td>
+      <td>
+        <form method="post" action="details_cont.php">
+          <input type="submit" value="詳細" name="details">
+          <input type="hidden" value="<?php print $test[$i]['order_id']; ?>" name="order_id">
+        </form>
+      </td>
+    </tr>
+    <?php } ?>
+  </table>
 </body>
 </html>
