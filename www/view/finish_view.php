@@ -42,7 +42,8 @@
       <p>カートに商品はありません。</p>
     <?php } ?> 
   </div>
-  <table>
+  <table class="table table-bordered">
+     <thead class="thead-light">
     <tr>
       <th>注文番号</th>
       <th>合計金額</th>

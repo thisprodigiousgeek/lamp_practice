@@ -32,5 +32,9 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     }
    
 }
+for($i=0 ; $i<count($details_price) ; $i++){
+  $details_item_name = details_item_name($db,$details_price[$i]['item_id']);
+}
+
 include_once '../view/details_view.php';
 ?>

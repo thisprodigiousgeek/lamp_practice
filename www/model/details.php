@@ -32,3 +32,15 @@ function select_details_price($db,$value){
     ";
   return fetch_all_query($db, $sql, array($value) );
 }
+
+function details_item_name($db,$value){
+  $sql="
+    SELECT
+      name
+    FROM
+      items
+    WHERE
+      item_id = ?
+      ";
+    return fetch_all_query($db,$sql,array($value));
+}
