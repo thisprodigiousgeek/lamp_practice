@@ -17,6 +17,6 @@ $user = get_login_user($db);
 if(is_admin($user) === false){
   redirect_to(LOGIN_URL);
 }
-
+get_csrf_token();
 $items = get_all_items($db);
 include_once VIEW_PATH . '/admin_view.php';
