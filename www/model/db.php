@@ -16,10 +16,10 @@ function get_db_connect(){
   return $dbh;
 }
 
-function fetch_query($db, $sql, $params = array()){
+function fetch_query($db, $sql, $params = array()){  
   try{
     $statement = $db->prepare($sql);
-    $statement->execute($params);
+    $statement->execute($params); 
     return $statement->fetch();
   }catch(PDOException $e){
     set_error('データ取得に失敗しました。');
@@ -38,7 +38,7 @@ function fetch_all_query($db, $sql, $params = array()){
   return false;
 }
 
-function execute_query($db, $sql, $params = array()){
+function execute_query($db, $sql, $params = array()){ //3つ目の引数は省略可
   try{
     $statement = $db->prepare($sql);
     return $statement->execute($params);
