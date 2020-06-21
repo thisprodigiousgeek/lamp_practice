@@ -36,6 +36,7 @@
                 個
                 <input type="submit" value="変更" class="btn btn-secondary">
                 <input type="hidden" name="cart_id" value="<?php print(h($cart['cart_id'])); ?>">
+                <input type="hidden" name="token" value="<?php print($token); ?>">　<!-- ★-->
               </form>
             </td>
             <td><?php print(number_format(h($cart['price'] )* h($cart['amount']))); ?>円</td>
