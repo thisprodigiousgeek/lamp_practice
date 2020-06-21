@@ -216,7 +216,7 @@ function make_rank($db){
     SELECT
       details.item_id,
       details.item_price,
-      SUM(details.item_amount),
+      SUM(details.item_amount) as amount,
       items.name,
       items.image
     FROM
@@ -229,7 +229,7 @@ function make_rank($db){
     GROUP BY
       details.item_id
     ORDER BY
-      details.item_amount DESC
+      amount DESC
     LIMIT 10
     ';
     
