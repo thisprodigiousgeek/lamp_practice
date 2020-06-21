@@ -46,6 +46,35 @@
       </div>
     </div>
   </div>
-  
+  <div class="container">
+    <br>
+    <h1>人気ランキング‼‼</h1>
+    <table  class="table table-bordered text-center">
+      <thead class="thead-light">
+      <tr>
+        <th>順位</th>
+        <th>商品画像</th>
+        <th>商品名</th>
+      </thead>
+      <tbody>
+      </tr>
+      <?php $rank_num = 1; ?>
+      <?php for($i = 0 ; $i < count($rank) ; $i++){ ?>
+      <tr >
+        <td>
+          <?php print $rank_num; ?>
+        </td>
+        <td>
+          <img class="item_image" src="<?php print(IMAGE_PATH . $rank[$i]['image']); ?>" >
+        </td>
+        <td>
+          <?php print htmlspecialchars($rank[$i]['name'] , ENT_QUOTES , 'UTF-8'); ?>
+        </td>
+      </tr>
+      <?php $rank_num++; ?>
+      <?php  } ?>
+      </tbody>
+    </table>
+  </div>
 </body>
 </html>

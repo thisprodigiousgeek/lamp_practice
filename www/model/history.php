@@ -30,3 +30,21 @@ $test = fetch_all_query($db, $sql , array($user_id));
 return $test;
 
 }
+
+/*
+$sql="
+  select
+    history.order_id,
+    history.date,
+    sum(details.item_price * details.item_amount) as total_price
+  from
+    history
+  join
+    details
+  on
+    history.order_id = details.order_id
+  group by
+    history.order_id
+"
+
+*/
