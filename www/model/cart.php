@@ -126,7 +126,7 @@ function delete_user_carts($db, $user_id){
       user_id = ?
   ";
 
-  execute_query($db, $sql, $user_id);
+  execute_query($db, $sql, [$user_id]); //6.23
 }
 
 
