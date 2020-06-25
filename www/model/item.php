@@ -210,3 +210,28 @@ function is_valid_item_status($status){
   }
   return $is_valid;
 }
+
+function make_rank($db){
+  $sql = '
+    SELECT
+      details.item_id,
+      details.item_price,
+      SUM(details.item_amount) as amount,
+      items.name,
+      items.image
+    FROM
+      details
+      
+    INNER JOIN items
+    
+    ON details.item_id = items.item_id
+    
+    GROUP BY
+      details.item_id
+    ORDER BY
+      amount DESC
+    LIMIT 10
+    ';
+    
+  return fetch_all_query($db, $sql);
+}
