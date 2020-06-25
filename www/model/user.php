@@ -47,7 +47,7 @@ function login_as($db, $name, $password){
 
 function get_login_user($db){
   $login_user_id = get_session('user_id');
-
+  
   return get_user($db, $login_user_id);
 }
 

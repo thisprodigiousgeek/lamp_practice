@@ -31,11 +31,12 @@
             <td><?php print(h($cart['name'])); ?></td>
             <td><?php print(number_format(h($cart['price']))); ?>円</td>
             <td>
-              <form method="post" action="cart_change_amount.php">
+              <form method="post" action="cart_change_amount.php"> <!-- ここに送ってるのでここでトークンチェックをする-->
                 <input type="number" name="amount" value="<?php print(h($cart['amount'])); ?>">
                 個
                 <input type="submit" value="変更" class="btn btn-secondary">
                 <input type="hidden" name="cart_id" value="<?php print(h($cart['cart_id'])); ?>">
+                <input type="hidden" name="token" value="<?php print($token); ?>">　<!-- 6.23★ フォームと一緒に送る-->
               </form>
             </td>
             <td><?php print(number_format(h($cart['price'] )* h($cart['amount']))); ?>円</td>
