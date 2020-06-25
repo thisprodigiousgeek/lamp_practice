@@ -22,6 +22,7 @@ $name = get_post('name');
 $price = get_post('price');
 $status = get_post('status');
 $stock = get_post('stock');
+$token = get_post('token');  //6.21 CSRF
 
 $image = get_file('image');
 

@@ -20,6 +20,7 @@ if(is_admin($user) === false){
 
 $item_id = get_post('item_id');
 $stock = get_post('stock');
+$token = get_post('token'); //6.21 CSRF
 
 if(is_valid_csrf_token($token)) {  //6.21 CSRF
   if(update_item_stock($db, $item_id, $stock)){

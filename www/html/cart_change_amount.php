@@ -16,15 +16,16 @@ $user = get_login_user($db); //ログイン中のユーザ情報取得
 
 $cart_id = get_post('cart_id');
 $amount = get_post('amount'); 
-$token = get_post('token'); 
+$token = get_post('token');  //6.19 ★$nameの値＝token？？？？
 
-if(is_valid_csrf_token($token)) {  //6.19 CSRF
+//1行目はどういうこと？　ユーザ定義関数の呼び出し
+if(is_valid_csrf_token($token)) {  //6.19 CSRF トークンがあれば
   if(update_cart_amount($db, $cart_id, $amount)){
     set_message('購入数を更新しました。');
   } else {
     set_error('購入数の更新に失敗しました。');
   }
-} else {
+} else { //トークンが無い、異なる場合
   set_error('不正な処理です');
 }
 redirect_to(CART_URL);

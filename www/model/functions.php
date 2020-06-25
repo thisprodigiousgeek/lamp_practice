@@ -1,4 +1,5 @@
 <?php
+//ユーザー定義関数をまとめて定義
 
 function dd($var){
   var_dump($var);
@@ -19,7 +20,7 @@ function get_get($name){
 
 function get_post($name){
   if(isset($_POST[$name]) === true){
-    return $_POST[$name];
+    return $_POST[$name]; //送信されてきた$nameの値を取得
   };
   return '';
 }
@@ -31,16 +32,19 @@ function get_file($name){
   return array();
 }
 
+//????????????
 function get_session($name){
+  //セッション変数に、キーと値があるときに、そのままその値を返す
   if(isset($_SESSION[$name]) === true){
     return $_SESSION[$name];
   };
-  return '';
+  return ''; //該当キーが無ければ空文字を返す??????
 }
 
+//????????????
 function set_session($name, $value){
   $_SESSION[$name] = $value;
-}
+}          //キー    //値
 
 function set_error($error){
   $_SESSION['__errors'][] = $error;
@@ -135,24 +139,30 @@ function is_valid_upload_image($image){
   return true;
 }
 
-function h ($str){
+//XSS対策のh関数を定義
+function h ($str){ 
   return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
 }
 
-// トークンの生成
+//トークンを生成する関数の定義。
 function get_csrf_token(){
   // get_random_string()はユーザー定義関数。
-  $token = get_random_string(30);
+  $token = get_random_string(30);  //ランダム30文字
   // set_session()はユーザー定義関数。
-  set_session('csrf_token', $token);
+  // $tokenをsessionに保存し
+  set_session('csrf_token', $token); //(キー, 値)
+               //=$name?   =$value? トークンをセッションに保存そのきー名で
+  //$tokenを取得  
   return $token;
 }
 
-// トークンのチェック
+// トークンのチェックを行う関数の定義
 function is_valid_csrf_token($token){
-  if($token === '') {
-    return false;
+  //$tokenの中身が空ならfalseを返す
+  if($token === '') { 
+    return false; 
   }
   // get_session()はユーザー定義関数
+  // ===成立でtrue返す　比較してる
   return $token === get_session('csrf_token');
-}
+}        //フォームから送られてきたトークン //セッションに保存されたトークン
