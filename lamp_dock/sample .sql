@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: mysql
--- 生成日時: 2020 年 6 月 26 日 05:12
+-- 生成日時: 2020 年 6 月 28 日 07:00
 -- サーバのバージョン： 5.7.30
 -- PHP のバージョン: 7.4.6
 
@@ -91,7 +91,8 @@ CREATE TABLE `order_products` (
 
 CREATE TABLE `statements` (
   `order_id` int(11) NOT NULL,
-  `product_name` varchar(50) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `item_name` varchar(50) NOT NULL,
   `price` int(11) NOT NULL,
   `amount` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -148,7 +149,7 @@ ALTER TABLE `order_products`
 --
 ALTER TABLE `statements`
   ADD PRIMARY KEY (`order_id`),
-  ADD UNIQUE KEY `product_name` (`product_name`);
+  ADD UNIQUE KEY `product_name` (`item_name`);
 
 --
 -- テーブルのインデックス `users`
