@@ -29,7 +29,7 @@ function get_user_by_name($db, $name){
     FROM
       users
     WHERE
-      name = '?'
+      name = ?
     LIMIT 1
   ";
 
