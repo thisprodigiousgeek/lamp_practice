@@ -99,7 +99,7 @@ function delete_image($filename){
     return true;
   }
   return false;
-  
+
 }
 
 
@@ -135,3 +135,6 @@ function is_valid_upload_image($image){
   return true;
 }
 
+function h($str){
+  return htmlspecialchars($str, ENT_QUOTES, 'utf-8');
+}
