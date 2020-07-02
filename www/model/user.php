@@ -2,6 +2,7 @@
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
+// 送られてきたuserIDに一致するuser情報を取り出す
 function get_user($db, $user_id){
   $sql = "
     SELECT
@@ -19,6 +20,7 @@ function get_user($db, $user_id){
   return fetch_query($db, $sql);
 }
 
+// nameに一致するユーザー情報をひとつ取得する
 function get_user_by_name($db, $name){
   $sql = "
     SELECT
@@ -36,6 +38,7 @@ function get_user_by_name($db, $name){
   return fetch_query($db, $sql);
 }
 
+// nameに一致するユーザー情報をひとつ取得する→falseなら弾く。OKならsessionにuser_idを返す
 function login_as($db, $name, $password){
   $user = get_user_by_name($db, $name);
   if($user === false || $user['password'] !== $password){
@@ -45,12 +48,14 @@ function login_as($db, $name, $password){
   return $user;
 }
 
+// login済みのユーザーIDをセッションから取得して返す
 function get_login_user($db){
   $login_user_id = get_session('user_id');
 
   return get_user($db, $login_user_id);
 }
 
+// 送信されたユーザー情報に問題なければ、insert_user関数でユーザー情報をDBに登録する
 function regist_user($db, $name, $password, $password_confirmation) {
   if( is_valid_user($name, $password, $password_confirmation) === false){
     return false;
@@ -59,6 +64,7 @@ function regist_user($db, $name, $password, $password_confirmation) {
   return insert_user($db, $name, $password);
 }
 
+// user のtypeを返す(admin:1、user:2）
 function is_admin($user){
   return $user['type'] === USER_TYPE_ADMIN;
 }
@@ -70,6 +76,7 @@ function is_valid_user($name, $password, $password_confirmation){
   return $is_valid_user_name && $is_valid_password ;
 }
 
+// user_nameの文字数と文字列をチェックし結果をtrueかfalseで返す
 function is_valid_user_name($name) {
   $is_valid = true;
   if(is_valid_length($name, USER_NAME_LENGTH_MIN, USER_NAME_LENGTH_MAX) === false){
@@ -83,6 +90,7 @@ function is_valid_user_name($name) {
   return $is_valid;
 }
 
+// パスワードをチェックして結果を
 function is_valid_password($password, $password_confirmation){
   $is_valid = true;
   if(is_valid_length($password, USER_PASSWORD_LENGTH_MIN, USER_PASSWORD_LENGTH_MAX) === false){
@@ -100,6 +108,7 @@ function is_valid_password($password, $password_confirmation){
   return $is_valid;
 }
 
+// ユーザー情報をDBに登録する
 function insert_user($db, $name, $password){
   $sql = "
     INSERT INTO

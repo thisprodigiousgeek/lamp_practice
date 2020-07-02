@@ -5,16 +5,22 @@ require_once MODEL_PATH . 'user.php';
 
 session_start();
 
+// ログイン済みか確認し、trueならtopページへリダイレクト
 if(is_logined() === true){
   redirect_to(HOME_URL);
 }
 
+// post送信されたnameを変数に格納する
 $name = get_post('name');
+// post送信されたpasswordを変数に格納する
 $password = get_post('password');
+// post送信されたpassword(確認用)を変数に格納する
 $password_confirmation = get_post('password_confirmation');
 
+// DB接続
 $db = get_db_connect();
 
+// 新規ユーザー登録
 try{
   $result = regist_user($db, $name, $password, $password_confirmation);
   if( $result=== false){
