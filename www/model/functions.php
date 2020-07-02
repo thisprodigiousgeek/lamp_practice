@@ -1,15 +1,17 @@
 <?php
-
+// var_dumpする
 function dd($var){
   var_dump($var);
   exit();
 }
 
+// urlにリダイレクトする
 function redirect_to($url){
   header('Location: ' . $url);
   exit;
 }
 
+// get送信された値の存在を確認して返す
 function get_get($name){
   if(isset($_GET[$name]) === true){
     return $_GET[$name];
@@ -17,6 +19,7 @@ function get_get($name){
   return '';
 }
 
+// post送信された値の存在を確認して返す
 function get_post($name){
   if(isset($_POST[$name]) === true){
     return $_POST[$name];
@@ -24,6 +27,7 @@ function get_post($name){
   return '';
 }
 
+// 商品画像のnameを取得する？？？？？？
 function get_file($name){
   if(isset($_FILES[$name]) === true){
     return $_FILES[$name];
@@ -31,6 +35,7 @@ function get_file($name){
   return array();
 }
 
+// 名前がログイン済みの名前かチェック。
 function get_session($name){
   if(isset($_SESSION[$name]) === true){
     return $_SESSION[$name];
@@ -38,14 +43,17 @@ function get_session($name){
   return '';
 }
 
+// 
 function set_session($name, $value){
   $_SESSION[$name] = $value;
 }
 
+// エラーメッセージをsessionに格納する
 function set_error($error){
   $_SESSION['__errors'][] = $error;
 }
 
+// エラーメッセージをsessionに格納
 function get_errors(){
   $errors = get_session('__errors');
   if($errors === ''){
@@ -59,10 +67,12 @@ function has_error(){
   return isset($_SESSION['__errors']) && count($_SESSION['__errors']) !== 0;
 }
 
+// sessionにメッセージを格納する
 function set_message($message){
   $_SESSION['__messages'][] = $message;
 }
 
+// get_session関数で、名前がログイン済みの名前かチェック
 function get_messages(){
   $messages = get_session('__messages');
   if($messages === ''){
@@ -72,6 +82,7 @@ function get_messages(){
   return $messages;
 }
 
+// get_session関数でユーザーIDを返す
 function is_logined(){
   return get_session('user_id') !== '';
 }
@@ -134,6 +145,8 @@ function is_valid_upload_image($image){
   }
   return true;
 }
+
+// 安全に表示する
 function h($str){
   return htmlspecialchars($str);
 }

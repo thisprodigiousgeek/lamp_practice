@@ -31,8 +31,8 @@ define('USER_NAME_LENGTH_MAX', 100);
 define('USER_PASSWORD_LENGTH_MIN', 6);
 define('USER_PASSWORD_LENGTH_MAX', 100);
 
-define('USER_TYPE_ADMIN', 1);
-define('USER_TYPE_NORMAL', 2);
+define('USER_TYPE_ADMIN', 1); // 管理者
+define('USER_TYPE_NORMAL', 2); // 一般ユーザー
 
 define('ITEM_NAME_LENGTH_MIN', 1);
 define('ITEM_NAME_LENGTH_MAX', 100);

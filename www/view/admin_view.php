@@ -62,18 +62,18 @@
         <tbody>
           <?php foreach($items as $item){ ?>
           <tr class="<?php print(is_open($item) ? '' : 'close_item'); ?>">
-            <td><img src="<?php print(IMAGE_PATH . $item['image']);?>" class="item_image"></td>
-            <td><?php print($item['name']); ?></td>
-            <td><?php print(number_format($item['price'])); ?>円</td>
+            <td><img src="<?php print h(IMAGE_PATH . $item['image']);?>" class="item_image"></td>
+            <td><?php print h($item['name']); ?></td>
+            <td><?php print h(number_format($item['price'])); ?>円</td>
             <td>
               <form method="post" action="admin_change_stock.php">
                 <div class="form-group">
                   <!-- sqlインジェクション確認のためあえてtext -->
-                  <input  type="text" name="stock" value="<?php print($item['stock']); ?>">
+                  <input type="text" name="stock" value="<?php print h($item['stock']); ?>">
                   個
                 </div>
                 <input type="submit" value="変更" class="btn btn-secondary">
-                <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
+                <input type="hidden" name="item_id" value="<?php print ($item['item_id']); ?>">
               </form>
             </td>
             <td>

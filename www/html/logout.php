@@ -2,6 +2,7 @@
 require_once '../conf/const.php';
 require_once MODEL_PATH . 'functions.php';
 
+// ログアウト処理
 session_start();
 $_SESSION = array();
 $params = session_get_cookie_params();

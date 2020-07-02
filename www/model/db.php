@@ -16,6 +16,7 @@ function get_db_connect(){
   return $dbh;
 }
 
+// select文をfetchで取得した結果を返す
 function fetch_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
@@ -27,6 +28,7 @@ function fetch_query($db, $sql, $params = array()){
   return false;
 }
 
+// select文をfetch allで取得した結果を返す
 function fetch_all_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
@@ -38,6 +40,7 @@ function fetch_all_query($db, $sql, $params = array()){
   return false;
 }
 
+// update文を実行する
 function execute_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
