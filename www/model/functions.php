@@ -1,5 +1,4 @@
 <?php
-//ユーザー定義関数をまとめて定義
 
 function dd($var){
   var_dump($var);
@@ -59,6 +58,8 @@ function get_errors(){
   return $errors;
 }
 
+//エラーメッセージはセッションに配列の形で保存される。
+//エラーメッセージが存在する場合にtrueを返す。存在しなければfalseを返す。
 function has_error(){
   return isset($_SESSION['__errors']) && count($_SESSION['__errors']) !== 0;
 }

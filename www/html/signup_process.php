@@ -5,14 +5,19 @@ require_once MODEL_PATH . 'user.php';
 
 session_start();
 
+//ログイン成功時、トップページへ
 if(is_logined() === true){
   redirect_to(HOME_URL);
 }
 
+//送られてきたnameの値を取得する関数を変数に代入
 $name = get_post('name');
+//送られてきたpasswordの値を取得する関数を変数に代入
 $password = get_post('password');
+//送られてきたpassword_confirmationの値を取得する関数を変数に代入
 $password_confirmation = get_post('password_confirmation');
 
+//DBに接続する関数を変数に代入
 $db = get_db_connect();
 
 try{

@@ -4,6 +4,7 @@ require_once MODEL_PATH . 'functions.php';
 
 session_start();
 
+//ログイン成功時、トップページへ
 if(is_logined() === true){
   redirect_to(HOME_URL);
 }
