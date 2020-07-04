@@ -163,7 +163,9 @@ function h($str){
 // HTMLエンティティ化（１次元配列）
 function entity_array($array){
   foreach($array as $key => $value){
-    $array[$key] = h($value);
+    if(is_int($value) === false){
+      $array[$key] = h($value);
+    }
   }
   return $array;
 }
@@ -171,7 +173,9 @@ function entity_array($array){
 function entity_arrays($arrays){
   foreach($arrays as $keys => $values){
     foreach($values as $key => $value){
-      $arrays[$keys][$key] = h($value);
+      if(is_int($value) === false){
+        $arrays[$keys][$key] = h($value);
+      }
     }
   }
   return $arrays;
