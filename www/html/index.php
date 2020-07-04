@@ -18,6 +18,7 @@ $user = get_login_user($db);
 // 購入可能な商品の情報を取得
 $items = get_open_items($db);
 // HTMLエンティティ化
+$user = entity_array($user);
 $items = entity_arrays($items);
 // ホームページのviewファイル出力
 include_once VIEW_PATH . 'index_view.php';

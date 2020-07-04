@@ -29,6 +29,7 @@ if(purchase_carts($db, $carts) === false){
 // カート内の合計金額
 $total_price = sum_carts($carts);
 // HTMLエンティティ化
+$user = entity_array($user);
 $carts = entity_arrays($carts);
 // 購入後画面のviewファイル出力
 include_once '../view/finish_view.php';

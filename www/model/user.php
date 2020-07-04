@@ -113,7 +113,7 @@ function is_valid_password($password, $password_confirmation){
   return $is_valid;
 }
 // ユーザ情報を新規登録
-function insert_user($db, $name, $password){]
+function insert_user($db, $name, $password){
   // SQL文作成
   $sql = "
     INSERT INTO

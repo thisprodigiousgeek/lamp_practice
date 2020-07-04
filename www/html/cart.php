@@ -21,6 +21,7 @@ $carts = get_user_carts($db, $user['user_id']);
 // カート内の合計金額を取得する
 $total_price = sum_carts($carts);
 // HTMLエンティティ化
+$user = entity_array($user);
 $carts = entity_arrays($carts);
 // カートページのviewファイル出力
 include_once VIEW_PATH . 'cart_view.php';
