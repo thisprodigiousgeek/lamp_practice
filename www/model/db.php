@@ -15,7 +15,7 @@ function get_db_connect(){
   }
   return $dbh;
 }
-
+// クエリを実行し、成功すればレコード1行（１次元）を返し、失敗すればfalseを返す
 function fetch_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
@@ -26,7 +26,7 @@ function fetch_query($db, $sql, $params = array()){
   }
   return false;
 }
-
+// クエリを実行し、成功すればレコード全て（２次元）を返し、失敗すればfalseを返す
 function fetch_all_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
@@ -37,7 +37,7 @@ function fetch_all_query($db, $sql, $params = array()){
   }
   return false;
 }
-
+// クエリ実行が、成功でtrue、失敗でfalse　を返す
 function execute_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
