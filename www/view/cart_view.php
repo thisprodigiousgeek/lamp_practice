@@ -31,20 +31,21 @@
             <td><?php print(h($cart['name'])); ?></td>
             <td><?php print(number_format(h($cart['price']))); ?>円</td>
             <td>
-              <form method="post" action="cart_change_amount.php"> <!-- ここに送ってるのでここでトークンチェックをする-->
+              <form method="post" action="cart_change_amount.php">
                 <input type="number" name="amount" value="<?php print(h($cart['amount'])); ?>">
                 個
                 <input type="submit" value="変更" class="btn btn-secondary">
                 <input type="hidden" name="cart_id" value="<?php print(h($cart['cart_id'])); ?>">
-                <input type="hidden" name="token" value="<?php print($token); ?>">　<!-- 6.23★ フォームと一緒に送る-->
+                <input type="hidden" name="token" value="<?php print($token); ?>">
               </form>
             </td>
             <td><?php print(number_format(h($cart['price'] )* h($cart['amount']))); ?>円</td>
             <td>
 
               <form method="post" action="cart_delete_cart.php">
-                <input type="submit" value="削除" class="btn btn-danger delete">
+                <input type="submit" value="削除" class="btn btn-danger delete">   
                 <input type="hidden" name="cart_id" value="<?php print(h($cart['cart_id'])); ?>">
+                <input type="hidden" name="token" value="<?php print($token); ?>">
               </form>
 
             </td>

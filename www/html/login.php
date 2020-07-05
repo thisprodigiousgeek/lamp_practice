@@ -4,6 +4,7 @@ require_once MODEL_PATH . 'functions.php';
 
 session_start();
 
+//ログインしていなければログイン画面へ
 if(is_logined() === true){
   redirect_to(HOME_URL);
 }
