@@ -1,7 +1,9 @@
 <?php 
+// 関数の取得
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
+// ユーザーのカート内の全ての情報を取得
 function get_user_carts($db, $user_id){
   $sql = "
     SELECT
@@ -25,7 +27,7 @@ function get_user_carts($db, $user_id){
   ";
   return fetch_all_query($db, $sql);
 }
-
+// ユーザーのカート内にある特定の商品情報の取得
 function get_user_cart($db, $user_id, $item_id){
   $sql = "
     SELECT
@@ -53,7 +55,7 @@ function get_user_cart($db, $user_id, $item_id){
   return fetch_query($db, $sql);
 
 }
-
+// カートに追加する際のチェック
 function add_cart($db, $user_id, $item_id ) {
   $cart = get_user_cart($db, $user_id, $item_id);
   if($cart === false){
@@ -61,7 +63,7 @@ function add_cart($db, $user_id, $item_id ) {
   }
   return update_cart_amount($db, $cart['cart_id'], $cart['amount'] + 1);
 }
-
+// カートに追加
 function insert_cart($db, $user_id, $item_id, $amount = 1){
   $sql = "
     INSERT INTO
@@ -76,6 +78,7 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
   return execute_query($db, $sql);
 }
 
+// カート内の数を変更
 function update_cart_amount($db, $cart_id, $amount){
   $sql = "
     UPDATE
@@ -89,6 +92,7 @@ function update_cart_amount($db, $cart_id, $amount){
   return execute_query($db, $sql);
 }
 
+// カートの削除
 function delete_cart($db, $cart_id){
   $sql = "
     DELETE FROM
@@ -101,6 +105,7 @@ function delete_cart($db, $cart_id){
   return execute_query($db, $sql);
 }
 
+// 購入時の関数
 function purchase_carts($db, $carts){
   if(validate_cart_purchase($carts) === false){
     return false;
@@ -114,10 +119,10 @@ function purchase_carts($db, $carts){
       set_error($cart['name'] . 'の購入に失敗しました。');
     }
   }
-  
   delete_user_carts($db, $carts[0]['user_id']);
 }
 
+// カート内の削除
 function delete_user_carts($db, $user_id){
   $sql = "
     DELETE FROM
@@ -129,7 +134,7 @@ function delete_user_carts($db, $user_id){
   execute_query($db, $sql);
 }
 
-
+// カート内の合計金額
 function sum_carts($carts){
   $total_price = 0;
   foreach($carts as $cart){
@@ -138,11 +143,14 @@ function sum_carts($carts){
   return $total_price;
 }
 
+// 購入時の確認
 function validate_cart_purchase($carts){
+  
   if(count($carts) === 0){
     set_error('カートに商品が入っていません。');
     return false;
   }
+  
   foreach($carts as $cart){
     if(is_open($cart) === false){
       set_error($cart['name'] . 'は現在購入できません。');
@@ -156,4 +164,3 @@ function validate_cart_purchase($carts){
   }
   return true;
 }
-
