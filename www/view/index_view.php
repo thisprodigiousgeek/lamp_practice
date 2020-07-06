@@ -4,7 +4,7 @@
   <?php include VIEW_PATH . 'templates/head.php'; ?>
 
   <title>商品一覧</title>
-  <link rel="stylesheet" href="<?php print(h(STYLESHEET_PATH . 'index.css')); ?>">
+  <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'index.css'); ?>">
 </head>
 <body>
   <?php include VIEW_PATH . 'templates/header_logined.php'; ?>
@@ -23,9 +23,9 @@
               <?php print(h($item['name'])); ?>
             </div>
             <figure class="card-body">
-              <img class="card-img" src="<?php print(h(IMAGE_PATH . $item['image'])); ?>">
+              <img class="card-img" src="<?php print(IMAGE_PATH . $item['image']); ?>">
               <figcaption>
-                <?php print(number_format(h($item['price']))); ?>円
+                <?php print(number_format($item['price'])); ?>円
                 <?php if($item['stock'] > 0){ ?>
                   <form action="index_add_cart.php" method="post">
                     <input type="submit" value="カートに追加" class="btn btn-primary btn-block">
