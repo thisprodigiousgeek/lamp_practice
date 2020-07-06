@@ -3,7 +3,7 @@
 function get_db_connect(){
   // MySQL用のDSN文字列
   $dsn = 'mysql:dbname='. DB_NAME .';host='. DB_HOST .';charset='.DB_CHARSET;
- 
+
   try {
     // データベースに接続
     $dbh = new PDO($dsn, DB_USER, DB_PASS, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4'));
