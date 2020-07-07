@@ -1,8 +1,9 @@
-<?php 
+<?php
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
 function get_user_carts($db, $user_id){
+  $params = array($user_id);
   $sql = "
     SELECT
       items.item_id,
@@ -21,12 +22,13 @@ function get_user_carts($db, $user_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = {$user_id}
+      carts.user_id = ?
   ";
-  return fetch_all_query($db, $sql);
+  return fetch_all_query($db, $sql, $params);
 }
 
 function get_user_cart($db, $user_id, $item_id){
+  $params = array($user_id, $item_id);
   $sql = "
     SELECT
       items.item_id,
@@ -45,12 +47,12 @@ function get_user_cart($db, $user_id, $item_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = {$user_id}
+      carts.user_id = ?
     AND
-      items.item_id = {$item_id}
+      items.item_id = ?
   ";
 
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql, $params);
 
 }
 
@@ -63,6 +65,7 @@ function add_cart($db, $user_id, $item_id ) {
 }
 
 function insert_cart($db, $user_id, $item_id, $amount = 1){
+  $params = array($item_id, $user_id, $amount);
   $sql = "
     INSERT INTO
       carts(
@@ -70,35 +73,37 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
         user_id,
         amount
       )
-    VALUES({$item_id}, {$user_id}, {$amount})
+    VALUES(?, ?, ?)
   ";
 
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, $params);
 }
 
 function update_cart_amount($db, $cart_id, $amount){
+  $params = array($amount, $cart_id);
   $sql = "
     UPDATE
       carts
     SET
-      amount = {$amount}
+      amount = ?
     WHERE
-      cart_id = {$cart_id}
+      cart_id = ?
     LIMIT 1
   ";
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, $params);
 }
 
 function delete_cart($db, $cart_id){
+  $params = array($cart_id);
   $sql = "
     DELETE FROM
       carts
     WHERE
-      cart_id = {$cart_id}
+      cart_id = ?
     LIMIT 1
   ";
 
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, $params);
 }
 
 function purchase_carts($db, $carts){
@@ -107,26 +112,27 @@ function purchase_carts($db, $carts){
   }
   foreach($carts as $cart){
     if(update_item_stock(
-        $db, 
-        $cart['item_id'], 
+        $db,
+        $cart['item_id'],
         $cart['stock'] - $cart['amount']
       ) === false){
       set_error($cart['name'] . 'の購入に失敗しました。');
     }
   }
-  
+
   delete_user_carts($db, $carts[0]['user_id']);
 }
 
 function delete_user_carts($db, $user_id){
+  $params = array($user_id);
   $sql = "
     DELETE FROM
       carts
     WHERE
-      user_id = {$user_id}
+      user_id = ?
   ";
 
-  execute_query($db, $sql);
+  execute_query($db, $sql, $params);
 }
 
 
