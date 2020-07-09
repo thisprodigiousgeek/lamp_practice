@@ -138,3 +138,16 @@ function is_valid_upload_image($image){
 function h($str){
   return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
 }
+
+function get_token(){
+  $token =  bin2hex(random_bytes(10));
+  set_session('token', $token);
+  return $token;
+}
+
+function is_token($token){
+  if($token !== get_session('token')){
+    return false;
+  }
+  return true;
+}
