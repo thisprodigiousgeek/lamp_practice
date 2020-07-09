@@ -11,18 +11,27 @@ if(is_logined() === true){
 
 $name = get_post('name');
 $password = get_post('password');
+$token = get_post('token');
 
 $db = get_db_connect();
 
-
-$user = login_as($db, $name, $password);
-if( $user === false){
-  set_error('ログインに失敗しました。');
+if (is_token($token) === true){
+  $user = login_as($db, $name, $password);
+  if($user === false){
+    set_error('ログインに失敗しました。');
+    redirect_to(LOGIN_URL);
+  }
+} else {
+  set_error('不正なリクエストです。');
   redirect_to(LOGIN_URL);
 }
 
-set_message('ログインしました。');
-if ($user['type'] === USER_TYPE_ADMIN){
+
+
+if ($user['type'] === USER_TYPE_ADMIN && is_token($token) === true){
+  set_message('ログインしました。');
   redirect_to(ADMIN_URL);
+} else {
+  set_error('不正なリクエストです。');
+  redirect_to(HOME_URL);
 }
-redirect_to(HOME_URL);

@@ -12,6 +12,7 @@ if(is_logined() === false){
 
 $db = get_db_connect();
 $user = get_login_user($db);
+$token = get_token();
 
 $items = get_open_items($db);
 
