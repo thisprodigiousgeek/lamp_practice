@@ -4,6 +4,7 @@ require_once MODEL_PATH . 'db.php';
 
 // DB利用
 
+//指定した商品情報を取得する関数
 function get_item($db, $item_id){
   $sql = "
     SELECT
@@ -22,6 +23,7 @@ function get_item($db, $item_id){
   return fetch_query($db, $sql, [$item_id]);
 }
 
+//全ての商品情報を取得する関数
 function get_items($db, $is_open = false){
   $sql = '
     SELECT

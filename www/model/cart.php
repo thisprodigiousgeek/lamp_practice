@@ -3,6 +3,7 @@ require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
 //ログインユーザーのカート内商品情報を取得する関数
+//carts.item_idをSELECT句から削除。7/7　issue "テーブル定義 課題2 #20"
 function get_user_carts($db, $user_id){
   $sql = "
     SELECT
@@ -13,7 +14,6 @@ function get_user_carts($db, $user_id){
       items.status,
       items.image,
       carts.cart_id,
-      carts.item_id,
       carts.user_id,
       carts.amount
     FROM
@@ -25,11 +25,11 @@ function get_user_carts($db, $user_id){
     WHERE
       carts.user_id = ?
   ";
-  return fetch_all_query($db, $sql, [$user_id]);
 }
+return fetch_all_query($db, $sql, [$user_id]);
 
 function get_user_cart($db, $user_id, $item_id){
-  $sql = "
+  $sql = " 
     SELECT
       items.item_id,
       items.name,

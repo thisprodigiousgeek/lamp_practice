@@ -14,10 +14,10 @@ if(is_logined() === false){
 
 //DB接続を行う関数を変数に代入
 $db = get_db_connect();
-//ログイン中のユーザーIDを取得する関数を変数に代入
-$user = get_login_user($db); 
+//ログイン中のユーザー情報を取得する関数を変数に代入
+$user = get_login_user($db);
 
-//ユーザーごとのカート内商品情報を取得する関数を変数に代入
+//ユーザーごとのカート内商品情報を取得する関数を変数に代入 user_idごと
 $carts = get_user_carts($db, $user['user_id']);
 
 //送られてきたtokenの値を取得する関数を変数に代入
