@@ -31,7 +31,32 @@ function fetch_all_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
     $statement->execute($params);
-    return $statement->fetchAll();
+    $data = $statement->fetchAll();
+    
+    //配列の一つ一つにh関数の処理をする
+    //$dataとはどんな構造の配列か
+      //配列の中に配列がある
+    //一次元配列と二次元配列の違いは何か
+      //一次元配列は一つのボックスに中にいくつか値が入っている
+      //二次元配列は複数のボックスがありそれぞれにいくつかのあたいが入っている
+    //配列の一個一個を取り出すにはどういう構文を使うか
+      //foreachで一つ一つ取り出す
+    //$dataの一個一個の要素をh関数で処理するにはどうしたらよいか
+
+    //returnとは何か　この関数では何をreturnするか
+    // functionで定義された関数が使われたときに最終的に返される値
+    
+
+    foreach($data as &$hvalues){
+
+      foreach($hvalues as &$hvalue){
+        $hvalue = h($hvalue);
+      }
+      unset($hvalue);
+    }
+    unset($hvalues);
+
+    return $data;
   }catch(PDOException $e){
     set_error('データ取得に失敗しました。');
   }

@@ -25,7 +25,7 @@ function get_user_carts($db, $user_id){
   ";
   return fetch_all_query($db, $sql);
 }
-//ユーザーカートの中のアイテム別の情報の取得(数量の変更など)
+//ユーザーカートの中のアイテム別の情報の取得
 function get_user_cart($db, $user_id, $item_id){
   $sql = "
     SELECT

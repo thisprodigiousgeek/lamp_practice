@@ -97,6 +97,7 @@ function is_valid_password($password, $password_confirmation){
     set_error('パスワードがパスワード(確認用)と一致しません。');
     $is_valid = false;
   }
+
   return $is_valid;
 }
 //新規ユーザーの登録情報の追加

@@ -134,6 +134,11 @@ function is_valid_upload_image($image){
   }
   return true;
 }
+
 function h($str){
   return htmlspecialchars($str,ENT_QUOTES,'UTF-8');
+}
+
+function printh($str){
+  return print(h($str));
 }
