@@ -11,9 +11,8 @@ if(is_logined() === false){
 }
 
 $db = get_db_connect();
-
 $user = get_login_user($db);
-
+$token = get_token();
 if(is_admin($user) === false){
   redirect_to(LOGIN_URL);
 }
