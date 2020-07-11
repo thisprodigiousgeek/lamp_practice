@@ -25,8 +25,9 @@ function get_user_carts($db, $user_id){
     WHERE
       carts.user_id = ?
   ";
-}
+
 return fetch_all_query($db, $sql, [$user_id]);
+}
 
 function get_user_cart($db, $user_id, $item_id){
   $sql = " 
