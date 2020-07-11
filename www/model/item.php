@@ -98,7 +98,6 @@ function update_item_status($db, $item_id, $status){
       item_id = {$item_id}
     LIMIT 1
   ";
-  
   return execute_query($db, $sql);
 }
 //アイテムの在庫情報をアップデートする

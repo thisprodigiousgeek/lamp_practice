@@ -42,7 +42,7 @@ function fetch_all_query($db, $sql, $params = array()){
     //配列の一個一個を取り出すにはどういう構文を使うか
       //foreachで一つ一つ取り出す
     //$dataの一個一個の要素をh関数で処理するにはどうしたらよいか
-
+      //$dataをforeachで取り出して取り出したボックスからforeachで取り出す
     //returnとは何か　この関数では何をreturnするか
     // functionで定義された関数が使われたときに最終的に返される値
     
@@ -50,12 +50,13 @@ function fetch_all_query($db, $sql, $params = array()){
     foreach($data as &$hvalues){
 
       foreach($hvalues as &$hvalue){
-        $hvalue = h($hvalue);
+        if(is_numeric($hvalue) === false){
+          $hvalue = h($hvalue);
+        }
       }
       unset($hvalue);
     }
     unset($hvalues);
-
     return $data;
   }catch(PDOException $e){
     set_error('データ取得に失敗しました。');
