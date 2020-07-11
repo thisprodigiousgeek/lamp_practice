@@ -65,6 +65,7 @@ function add_cart($db, $user_id, $item_id ) {
   //カート内商品情報を取得するget_user_cart関数を実行し、結果を$cartに代入する。
   $cart = get_user_cart($db, $user_id, $item_id);
   //もしカート内商品情報が取得できなかった場合(falseが返ってきた場合)、insert_cart関数を返す(実行する)
+  //なぜかここが必ずfalseになる。
   if($cart === false){
     return insert_cart($db, $user_id, $item_id);
   }
