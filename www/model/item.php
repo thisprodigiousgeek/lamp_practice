@@ -148,7 +148,36 @@ function delete_item($db, $item_id){
   return execute_query($db, $sql, $params);
 }
 
+function insert_history($db, $user_id){
+  $params = array($user_id);
+  $sql = "
+  INSERT INTO
+  histories(
+    user_id,
+    create_datetime
+    )
+  VALUES(?, now())
+  ";
 
+  return execute_query($db, $sql, $params);
+}
+
+function insert_history_dateils($db, $history_id, $item_id, $amount, $price){
+  $params = array($history_id, $item_id, $amount, $price);
+  $sql = "
+  INSERT INTO
+  history_dateils(
+    history_id,
+    item_id,
+    amount,
+    price,
+    create_datetime
+    )
+    VALUES(?, ?, ?, ?, now())
+  ";
+
+  return execute_query($db, $sql, $params);
+}
 // 非DB
 
 function is_open($item){
