@@ -21,6 +21,7 @@ define('HOME_URL', '/index.php');
 define('CART_URL', '/cart.php');
 define('FINISH_URL', '/finish.php');
 define('ADMIN_URL', '/admin.php');
+define('ORDER_URL', '/order.php');
 
 //正規表現
 define('REGEXP_ALPHANUMERIC', '/\A[0-9a-zA-Z]+\z/');
