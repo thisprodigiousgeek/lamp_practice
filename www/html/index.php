@@ -13,8 +13,9 @@ if(is_logined() === false){
 
 //DB接続を行う関数を変数に代入
 $db = get_db_connect();
-//ログインユーザーのIDを取得する関数を変数に代入
+//ログインユーザーの情報を取得する関数を変数に代入
 $user = get_login_user($db);
+var_dump($user);
 
 //商品情報を取得する関数を変数に代入
 $items = get_open_items($db);

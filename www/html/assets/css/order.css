@@ -1,0 +1,12 @@
+table{
+    width: 900px;
+    border-collapse: collapse;
+}
+table, thead, tr, th, td{
+    border: solid 1px;
+    padding: 10px;
+    text-align: center;
+}
+h1{
+  font-size: 25px;
+}

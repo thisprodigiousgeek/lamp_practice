@@ -1,21 +1,21 @@
 .add_item_form{
-  border: solid 1px #dddddd;
-  margin-bottom: 10px;
-  padding: 10px;
-}
-
-.close_item {
-  background-color: #dddddd;
-}
-
-.item_image{
-  height: 150px;
-}
-
-.operation {
-  margin-bottom: 20px;
-}
-
-input[type=number]{
-  width: 10em;
-}
+    border: solid 1px #dddddd;
+    margin-bottom: 10px;
+    padding: 10px;
+  }
+  
+  .close_item {
+    background-color: #dddddd;
+  }
+  
+  .item_image{
+    height: 150px;
+  }
+  
+  .operation {
+    margin-bottom: 20px;
+  }
+  
+  input[type=number]{
+    width: 10em;
+  }

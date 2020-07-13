@@ -4,6 +4,7 @@ require_once MODEL_PATH . 'db.php';
 
 // DB利用
 
+//指定した商品情報を取得する関数
 function get_item($db, $item_id){
   $sql = "
     SELECT
@@ -22,6 +23,7 @@ function get_item($db, $item_id){
   return fetch_query($db, $sql, [$item_id]);
 }
 
+//全ての商品情報を取得する関数
 function get_items($db, $is_open = false){
   $sql = '
     SELECT
@@ -53,6 +55,7 @@ function get_open_items($db){
 
 function regist_item($db, $name, $price, $stock, $status, $image){
   $filename = get_upload_filename($image);
+  //var_dump($filename);  //OK
   if(validate_item($name, $price, $stock, $filename, $status) === false){
     return false;
   }
@@ -68,7 +71,6 @@ function regist_item_transaction($db, $name, $price, $stock, $status, $image, $f
   }
   $db->rollback();
   return false;
-  
 }
 
 function insert_item($db, $name, $price, $stock, $filename, $status){
@@ -82,8 +84,8 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
         image,
         status
       )
-    VALUES('?', ?, ?, '?', ?);
-  ";  //文字列は''で囲む？
+    VALUES(?, ?, ?, ?, ?);
+  ";
 
   return execute_query($db, $sql, [$name, $price, $stock, $filename, $status_value]);
 }

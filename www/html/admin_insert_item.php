@@ -14,7 +14,7 @@ if(is_logined() === false){
 //DB接続を行う関数を変数に代入
 $db = get_db_connect();
 
-//ログイン中のユーザーIDを取得する関数を変数に代入
+//ログイン中のユーザー情報を取得する関数を変数に代入
 $user = get_login_user($db);
 
 //取得したユーザー情報が管理者でなかった場合、ログイン画面へ
@@ -29,6 +29,9 @@ $status = get_post('status');
 $stock = get_post('stock');
 $image = get_file('image');
 $token = get_post('token'); 
+
+//$a=validate_item($name, $price, $stock, $filename, $status);
+//var_dump($a); //true
 
 //トークンがあれば処理を行う(CSRF対策)
 if(is_valid_csrf_token($token)) {
