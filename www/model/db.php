@@ -44,6 +44,7 @@ function execute_query($db, $sql, $params = array()){ //3つ目の引数は省�
     return $statement->execute($params);
   }catch(PDOException $e){
     set_error('更新に失敗しました。');
+    set_error($e->getMessage());
   }
   return false;
 }

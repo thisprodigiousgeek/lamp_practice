@@ -48,7 +48,7 @@ function get_user_cart($db, $user_id, $item_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = ?　
+      carts.user_id = ?
     AND
       items.item_id = ?
   ";

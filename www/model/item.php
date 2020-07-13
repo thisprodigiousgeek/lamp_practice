@@ -54,6 +54,7 @@ function get_open_items($db){
 }
 
 function regist_item($db, $name, $price, $stock, $status, $image){
+  var_dump($name, $price, $stock, $status, $image);
   $filename = get_upload_filename($image);
   if(validate_item($name, $price, $stock, $filename, $status) === false){
     return false;
@@ -84,8 +85,8 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
         image,
         status
       )
-    VALUES('?', ?, ?, '?', ?);
-  ";  //文字列は''で囲む？
+    VALUES(?, ?, ?, '?', ?);
+  ";
 
   return execute_query($db, $sql, [$name, $price, $stock, $filename, $status_value]);
 }
