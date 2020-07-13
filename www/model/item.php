@@ -54,7 +54,6 @@ function get_open_items($db){
 }
 
 function regist_item($db, $name, $price, $stock, $status, $image){
-  var_dump($name, $price, $stock, $status, $image);
   $filename = get_upload_filename($image);
   if(validate_item($name, $price, $stock, $filename, $status) === false){
     return false;
