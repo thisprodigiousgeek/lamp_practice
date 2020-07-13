@@ -55,6 +55,7 @@ function get_open_items($db){
 
 function regist_item($db, $name, $price, $stock, $status, $image){
   $filename = get_upload_filename($image);
+  //var_dump($filename);  //OK
   if(validate_item($name, $price, $stock, $filename, $status) === false){
     return false;
   }
@@ -70,7 +71,6 @@ function regist_item_transaction($db, $name, $price, $stock, $status, $image, $f
   }
   $db->rollback();
   return false;
-  
 }
 
 function insert_item($db, $name, $price, $stock, $filename, $status){
@@ -84,7 +84,7 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
         image,
         status
       )
-    VALUES(?, ?, ?, '?', ?);
+    VALUES(?, ?, ?, ?, ?);
   ";
 
   return execute_query($db, $sql, [$name, $price, $stock, $filename, $status_value]);
