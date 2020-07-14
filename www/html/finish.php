@@ -26,7 +26,6 @@ if(is_token($token) === true){
   redirect_to(CART_URL);
 }
 
-
 $total_price = sum_carts($carts);
 
 include_once '../view/finish_view.php';
