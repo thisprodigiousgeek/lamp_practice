@@ -113,6 +113,14 @@ function purchase_carts($db, $carts){
 
   try{
     $db->beginTransaction();
+    if(insert_history(
+      $db,
+      $carts[0]['user_id']
+    ) === false){
+      set_error('履歴の追加に失敗しました。');
+      throw  new Exception('履歴の追加に失敗しました。');
+    }
+    $history_id = $db->lastinsertId();
     foreach($carts as $cart){
       if(update_item_stock(
           $db,
@@ -120,14 +128,8 @@ function purchase_carts($db, $carts){
           $cart['stock'] - $cart['amount']
         ) === false){
         set_error($cart['name'] . 'の購入に失敗しました。');
+        throw  new Exception($cart['name'] . 'の購入に失敗しました。');
       }
-      if(insert_history(
-        $db,
-        $carts[0]['user_id']
-      ) === false){
-        set_error('履歴の追加に失敗しました。');
-      }
-      $history_id = $db->lastinsertId();
       if(insert_history_dateils(
         $db,
         $history_id,
@@ -136,6 +138,7 @@ function purchase_carts($db, $carts){
         $cart['price']
       ) === false){
         set_error('購入詳細の追加に失敗しました。');
+        throw  new Exception('購入明細の追加に失敗しました。');
       }
     }
     delete_user_carts($db, $carts[0]['user_id']);
