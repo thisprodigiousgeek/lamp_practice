@@ -16,10 +16,10 @@ function get_item($db, $item_id){
     FROM
       items
     WHERE
-      item_id = {$item_id}
+      item_id = ?
   ";
 
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql, array($item_id));
 }
 //公開されているアイテムの情報を取得する
 function get_items($db, $is_open = false){
@@ -93,12 +93,12 @@ function update_item_status($db, $item_id, $status){
     UPDATE
       items
     SET
-      status = {$status}
+      status = ?
     WHERE
-      item_id = {$item_id}
+      item_id = ?
     LIMIT 1
   ";
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, array($status, $item_id));
 }
 //アイテムの在庫情報をアップデートする
 function update_item_stock($db, $item_id, $stock){
@@ -106,13 +106,23 @@ function update_item_stock($db, $item_id, $stock){
     UPDATE
       items
     SET
-      stock = {$stock}
+       stock = ?
     WHERE
-      item_id = {$item_id}
+      item_id = ?
     LIMIT 1
   ";
-  
-  return execute_query($db, $sql);
+
+  // $params = array(
+  //   ':stock' => $stock,
+  //   ':item_id' => $item_id
+  // );
+
+  //このままではだめなので変数を直接展開せずにいったん？にしてバインドする
+  //execute_queryをそのままいかす
+  //$stmt->execute()ではなく$stmt->execute($params)になっているのはどうゆうことか
+    //bindValueの文を書かなくても$paramsにarrayで書き込めばいいから
+  //execute_queryの第三引数が$params=array()という式になっているがこれがどういう意味か
+  return execute_query($db, $sql, array($stock, $item_id));
 }
 //アイテムの削除の実行
 function destroy_item($db, $item_id){
