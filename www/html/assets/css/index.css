@@ -1,3 +1,9 @@
 .item {
     margin-top: 10px;
   }
+
+#sort {
+    width: 420px;
+    margin-left: auto;
+    text-align: center;
+}

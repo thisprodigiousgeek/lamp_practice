@@ -9,7 +9,20 @@
 <body>
   <?php include VIEW_PATH . 'templates/header_logined.php'; ?>
   
-
+  <div id="sort">
+    <p>商品の並べ替え</p>
+      <form method="GET">
+        <label>
+        <select name="sort_products">
+          <option value="1">新着順</option>
+          <option value="2">価格の安い順</option>
+          <option value="3">価格の高い順</option>
+        </select>
+        </label>
+        <label><input type="submit" name="sort" value="並べ替える"></label>
+      </form>
+  </div>
+  
   <div class="container">
     <h1>商品一覧</h1>
     <?php include VIEW_PATH . 'templates/messages.php'; ?>

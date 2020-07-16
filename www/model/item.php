@@ -23,6 +23,66 @@ function get_item($db, $item_id){
   return fetch_query($db, $sql, [$item_id]);
 }
 
+//並べ替えた商品情報を取得する関数(created DESC)
+function get_created_desc_items($db){
+  $sql = "
+    SELECT           
+      item_id, 
+      name,
+      stock,
+      price,
+      image,
+      status
+    FROM 
+      items
+    WHERE 
+      status = 1
+    ORDER BY
+      created DESC
+    ";
+  return fetch_all_query($db, $sql);
+}
+
+//並べ替えた商品情報を取得する関数(price ASC)
+function get_price_asc_items($db){
+  $sql = "
+    SELECT           
+      item_id, 
+      name,
+      stock,
+      price,
+      image,
+      status
+    FROM 
+      items
+    WHERE 
+      status = 1
+    ORDER BY
+      price ASC
+    ";
+  return fetch_all_query($db, $sql);
+}
+
+//並べ替えた商品情報を取得する関数(price DESC)
+function get_price_desc_items($db){
+  $sql = "
+    SELECT           
+      item_id, 
+      name,
+      stock,
+      price,
+      image,
+      status
+    FROM 
+      items
+    WHERE 
+      status = 1
+    ORDER BY
+      price DESC
+    ";
+  return fetch_all_query($db, $sql);
+}
+
 //全ての商品情報を取得する関数
 function get_items($db, $is_open = false){
   $sql = '
