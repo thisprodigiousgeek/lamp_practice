@@ -52,6 +52,112 @@ function get_open_items($db){
   return get_items($db, true);
 }
 
+function get_history($db, $user_id)
+{
+  $params = array($user_id);
+  $sql = "
+  SELECT
+    h.history_id,
+    h.create_datetime,
+    sum(i.price * hd.amount) as total_price
+  FROM
+    histories as h
+  INNER JOIN
+    history_dateils as hd
+  ON
+    h.history_id = hd.history_id
+  INNER JOIN
+    items as i
+  ON
+    i.item_id = hd.item_id
+  WHERE
+    user_id = ?
+  GROUP BY
+    h.history_id
+  ORDER BY
+    h.create_datetime
+  DESC
+    ";
+  return fetch_all_query($db, $sql, $params);
+}
+
+function get_all_history($db)
+{
+  $sql = "
+  SELECT
+    h.history_id,
+    h.create_datetime,
+    sum(i.price * hd.amount) as total_price
+  FROM
+    histories as h
+  INNER JOIN
+    history_dateils as hd
+  ON
+    h.history_id = hd.history_id
+  INNER JOIN
+    items as i
+  ON
+    i.item_id = hd.item_id
+  GROUP BY
+    h.history_id
+  ORDER BY
+    h.create_datetime
+    DESC
+  ";
+  return fetch_all_query($db, $sql);
+}
+
+function get_history_detail($db, $user_id, $history_id){
+  $params = array($user_id, $history_id);
+  $sql = "
+SELECT
+    i.name,
+    hd.price,
+    hd.amount,
+    hd.price * hd.amount as sub_total_price,
+    hd.create_datetime
+  FROM
+    history_dateils as hd
+  INNER JOIN
+    items as i
+  ON
+    i.item_id = hd.item_id
+  INNER JOIN
+    histories as h
+  ON
+    h.history_id = hd.history_id
+  WHERE
+    h.user_id = ?
+    and
+    hd.history_id = ?
+  ";
+  return fetch_all_query($db, $sql, $params);
+}
+
+function get_all_history_detail($db, $history_id){
+  $params = array($history_id);
+  $sql = "
+  SELECT
+    i.name,
+    hd.price,
+    hd.amount,
+    hd.price * hd.amount as sub_total_price
+  FROM
+    history_dateils as hd
+  INNER JOIN
+    items as i
+  ON
+    hd.item_id = i.item_id
+  INNER JOIN
+    histories as h
+  ON
+    h.history_id = hd.history_id
+  WHERE
+    h.history_id = ?
+  ";
+  return fetch_all_query($db, $sql, $params);
+}
+
 function regist_item($db, $name, $price, $stock, $status, $image){
   $filename = get_upload_filename($image);
   if(validate_item($name, $price, $stock, $filename, $status) === false){

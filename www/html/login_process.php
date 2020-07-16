@@ -28,10 +28,13 @@ if (is_token($token) === true){
 
 
 
-if ($user['type'] === USER_TYPE_ADMIN && is_token($token) === true){
+if ($user['type'] === USER_TYPE_ADMIN){
   set_message('ログインしました。');
   redirect_to(ADMIN_URL);
+} elseif ($user_['type'] !== USER_TYPE_ADMIN) {
+  set_message('ログインしました。');
+  redirect_to(HOME_URL);
 } else {
   set_error('不正なリクエストです。');
-  redirect_to(HOME_URL);
+  redirect_to(LOGIN_URL);
 }
