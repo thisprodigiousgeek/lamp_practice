@@ -93,13 +93,13 @@ function update_item_status($db, $item_id, $status){
     UPDATE
       items
     SET
-      status = {$status}
+      status = :status
     WHERE
-      item_id = {$item_id}
+      item_id = :item_id
     LIMIT 1
   ";
   
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, array(':status' => $status, ':item_id' => $item_id));
 }
 
 function update_item_stock($db, $item_id, $stock){
