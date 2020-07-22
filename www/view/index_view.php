@@ -14,9 +14,9 @@
       <form method="GET">
         <label>
         <select name="sort_products">
-          <option value="1">新着順</option>
-          <option value="2">価格の安い順</option>
-          <option value="3">価格の高い順</option>
+          <option value="1" <?php if($sort === '1') print 'selected'; ?>>新着順</option>
+          <option value="2" <?php if($sort === '2') print 'selected'; ?>>価格の安い順</option>
+          <option value="3" <?php if($sort === '3') print 'selected'; ?>>価格の高い順</option>
         </select>
         </label>
         <label><input type="submit" name="sort" value="並べ替える"></label>

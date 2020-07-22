@@ -31,7 +31,7 @@ if(isset($_GET['sort']) === TRUE) {
 
 //並べ替えボタンが押されなかった場合
 } else {
-  $items = get_open_items($db);
+  $items = get_created_desc_items($db);
 }
 
 include_once VIEW_PATH . 'index_view.php';
