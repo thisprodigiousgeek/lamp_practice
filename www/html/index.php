@@ -29,9 +29,13 @@ if(isset($_GET['sort']) === TRUE) {
       $items = get_price_desc_items($db);
     }
 
-//並べ替えボタンが押されなかった場合
+//並べ替えボタンが押されなかった場合（新着順の表示）
 } else {
   $items = get_created_desc_items($db);
 }
+
+//全ユーザーの購入数（上位3つ）を求める関数を、変数に代入
+$rankings = get_ranking($db);
+//print_r($rankings);
 
 include_once VIEW_PATH . 'index_view.php';
