@@ -33,18 +33,18 @@ define('USER_PASSWORD_LENGTH_MAX', 100);
 
 define('USER_TYPE_ADMIN', 1);
 define('USER_TYPE_NORMAL', 2);
-
+// 文字数制限
 define('ITEM_NAME_LENGTH_MIN', 1);
 define('ITEM_NAME_LENGTH_MAX', 100);
 
 define('ITEM_STATUS_OPEN', 1);
 define('ITEM_STATUS_CLOSE', 0);
-
+// 指定されているitemステータス
 define('PERMITTED_ITEM_STATUSES', array(
   'open' => 1,
   'close' => 0,
 ));
-
+// 指定されている画像拡張子
 define('PERMITTED_IMAGE_TYPES', array(
   IMAGETYPE_JPEG => 'jpg',
   IMAGETYPE_PNG => 'png',

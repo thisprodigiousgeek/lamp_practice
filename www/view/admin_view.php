@@ -14,7 +14,7 @@
     <h1>商品管理</h1>
 
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
-
+    <!-- 商品追加 -->
     <form 
       method="post" 
       action="admin_insert_item.php" 
@@ -47,7 +47,7 @@
       <input type="submit" value="商品追加" class="btn btn-primary">
     </form>
 
-
+    <!-- 既存商品一覧・変更 -->
     <?php if(count($items) > 0){ ?>
       <table class="table table-bordered text-center">
         <thead class="thead-light">
