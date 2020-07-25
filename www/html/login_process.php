@@ -19,7 +19,9 @@ $session_token = is_valid_csrf_token($token);
 if($session_token === false){
   set_error('ログインに失敗しました。');
   redirect_to(LOGIN_URL);
-} else if($token_form !== $session_token){
+}
+
+if($token_form !== $session_token){
   set_error('ログインに失敗しました。');
   redirect_to(LOGIN_URL);
 }
