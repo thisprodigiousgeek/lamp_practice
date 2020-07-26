@@ -84,21 +84,21 @@ function get_price_desc_items($db){
 }
 
 //全ユーザーの購入数、上位3つを取得する関数 
-//サブクエリで商品名に応じた画像も取得する。
 function get_ranking($db){
   $sql="
-    SELECT 
-      item_name,
-      SUM(amount) AS total,
-      (SELECT image FROM items WHERE name = statements.item_name) AS image
-    FROM
-      statements
-    GROUP BY 
-      item_name
-    ORDER BY
-      total DESC
-    LIMIT
-      3
+  SELECT 
+    name, 
+    image, 
+    SUM(amount) AS total
+  FROM 
+    statements
+  JOIN 
+    items on statements.item_id = items.item_id
+  GROUP BY 
+    statements.item_id
+  ORDER BY 
+    total DESC
+  LIMIT 3
   ";
   return fetch_all_query($db, $sql);
 }

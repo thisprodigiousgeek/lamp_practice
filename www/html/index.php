@@ -36,6 +36,5 @@ if(isset($_GET['sort']) === TRUE) {
 
 //全ユーザーの購入数（上位3つ）を求める関数を、変数に代入
 $rankings = get_ranking($db);
-//print_r($rankings);
 
 include_once VIEW_PATH . 'index_view.php';
