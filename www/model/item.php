@@ -83,6 +83,26 @@ function get_price_desc_items($db){
   return fetch_all_query($db, $sql);
 }
 
+//全ユーザーの購入数、上位3つを取得する関数 
+function get_ranking($db){
+  $sql="
+  SELECT 
+    name, 
+    image, 
+    SUM(amount) AS total
+  FROM 
+    statements
+  JOIN 
+    items on statements.item_id = items.item_id
+  GROUP BY 
+    statements.item_id
+  ORDER BY 
+    total DESC
+  LIMIT 3
+  ";
+  return fetch_all_query($db, $sql);
+}
+
 //全ての商品情報を取得する関数
 function get_items($db, $is_open = false){
   $sql = '
