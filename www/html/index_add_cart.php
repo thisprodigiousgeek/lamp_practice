@@ -16,11 +16,19 @@ $user = get_login_user($db);
 
 
 $item_id = get_post('item_id');
+$token = get_post('token');
+
+$session_token = is_valid_csrf_token($token);
 
 if(add_cart($db,$user['user_id'], $item_id)){
   set_message('カートに商品を追加しました。');
 } else {
   set_error('カートの更新に失敗しました。');
+}
+
+if($session_token === false){
+  set_error('ログインに失敗しました。');
+  redirect_to(LOGIN_URL);
 }
 
 redirect_to(HOME_URL);

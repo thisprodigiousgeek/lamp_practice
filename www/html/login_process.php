@@ -11,17 +11,13 @@ if(is_logined() === true){
 
 $name = get_post('name');
 $password = get_post('password');
-$token_form = get_post('token');
+$token = get_post('token');
 
 $db = get_db_connect();
 
 $session_token = is_valid_csrf_token($token);
-if($session_token === false){
-  set_error('ログインに失敗しました。');
-  redirect_to(LOGIN_URL);
-}
 
-if($token_form !== $session_token){
+if($session_token === false){
   set_error('ログインに失敗しました。');
   redirect_to(LOGIN_URL);
 }

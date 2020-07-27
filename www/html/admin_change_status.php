@@ -21,6 +21,10 @@ if(is_admin($user) === false){
 $item_id = get_post('item_id');
 $changes_to = get_post('changes_to');
 
+$token = get_post('token');
+
+$session_token = is_valid_csrf_token($token);
+
 if($changes_to === 'open'){
   update_item_status($db, $item_id, ITEM_STATUS_OPEN);
   set_message('ステータスを変更しました。');
@@ -31,5 +35,9 @@ if($changes_to === 'open'){
   set_error('不正なリクエストです。');
 }
 
+if($session_token === false){
+  set_error('ユーザー登録に失敗しました。');
+  redirect_to(LOGIN_URL);
+}
 
 redirect_to(ADMIN_URL);
