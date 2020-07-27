@@ -18,17 +18,17 @@ $token = get_post('token');
 
 $session_token = is_valid_csrf_token($token);
 
+if($session_token === false){
+  set_error('購入できませんでした。');
+  redirect_to(LOGIN_URL);
+}
+
 $carts = get_user_carts($db, $user['user_id']);
 
 if(purchase_carts($db, $carts) === false){
   set_error('商品が購入できませんでした。');
   redirect_to(CART_URL);
 } 
-
-if($session_token === false){
-  set_error('購入できませんでした。');
-  redirect_to(LOGIN_URL);
-}
 
 $total_price = sum_carts($carts);
 

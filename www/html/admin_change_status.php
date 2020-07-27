@@ -25,6 +25,11 @@ $token = get_post('token');
 
 $session_token = is_valid_csrf_token($token);
 
+if($session_token === false){
+  set_error('ユーザー登録に失敗しました。');
+  redirect_to(LOGIN_URL);
+}
+
 if($changes_to === 'open'){
   update_item_status($db, $item_id, ITEM_STATUS_OPEN);
   set_message('ステータスを変更しました。');
@@ -33,11 +38,6 @@ if($changes_to === 'open'){
   set_message('ステータスを変更しました。');
 }else {
   set_error('不正なリクエストです。');
-}
-
-if($session_token === false){
-  set_error('ユーザー登録に失敗しました。');
-  redirect_to(LOGIN_URL);
 }
 
 redirect_to(ADMIN_URL);

@@ -19,15 +19,15 @@ $token = get_post('token');
 
 $session_token = is_valid_csrf_token($token);
 
+if($session_token === false){
+  set_error('カートの削除に失敗しました。');
+  redirect_to(LOGIN_URL);
+}
+
 if(delete_cart($db, $cart_id)){
   set_message('カートを削除しました。');
 } else {
   set_error('カートの削除に失敗しました。');
-}
-
-if($session_token === false){
-  set_error('カートの削除に失敗しました。');
-  redirect_to(LOGIN_URL);
 }
 
 redirect_to(CART_URL);

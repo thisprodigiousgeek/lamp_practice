@@ -20,15 +20,15 @@ $token = get_post('token');
 
 $session_token = is_valid_csrf_token($token);
 
+if($session_token === false){
+  set_error('購入数の更新に失敗しました。');
+  redirect_to(LOGIN_URL);
+}
+
 if(update_cart_amount($db, $cart_id, $amount)){
   set_message('購入数を更新しました。');
 } else {
   set_error('購入数の更新に失敗しました。');
-}
-
-if($session_token === false){
-  set_error('購入数の更新に失敗しました。');
-  redirect_to(LOGIN_URL);
 }
 
 redirect_to(CART_URL);

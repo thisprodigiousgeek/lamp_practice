@@ -25,15 +25,15 @@ $token = get_post('token');
 
 $session_token = is_valid_csrf_token($token);
 
+if($session_token === false){
+  set_error('在庫数の変更に失敗しました。');
+  redirect_to(LOGIN_URL);
+}
+
 if(update_item_stock($db, $item_id, $stock)){
   set_message('在庫数を変更しました。');
 } else {
   set_error('在庫数の変更に失敗しました。');
-}
-
-if($session_token === false){
-  set_error('在庫数の変更に失敗しました。');
-  redirect_to(LOGIN_URL);
 }
 
 redirect_to(ADMIN_URL);
