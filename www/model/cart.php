@@ -114,7 +114,35 @@ function purchase_carts($db, $carts){
       set_error($cart['name'] . 'の購入に失敗しました。');
     }
   }
+
+  $sql = "
+    INSERT INTO
+    orders(
+      user_id
+      )
+    VALUES(:user_id)
+  ";
+
+  $user_id = $carts[0]['user_id'];
+  execute_query($db, $sql, array(':user_id' => $user_id));
+
+  $order_id = $db->lastInsertId();
   
+  foreach($carts as $cart){
+    $sql = "
+    INSERT INTO
+    order_details(
+      order_id,
+      order_price,
+      order_amount,
+      item_id
+      )
+    VALUES(:order_id, :order_price, :order_amount, :item_id)
+  ";
+
+  execute_query($db, $sql, array(':order_id' => $order_id, ':order_price' => $cart['price'], ':order_amount' => $cart['amount'], ':item_id' => $cart['item_id']));
+  }
+
   delete_user_carts($db, $carts[0]['user_id']);
 }
 
