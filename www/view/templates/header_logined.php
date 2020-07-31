@@ -16,6 +16,12 @@
           <li class="nav-item">
             <a class="nav-link" href="<?php print(ADMIN_URL);?>">管理</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="<?php print(ORDER_ADMIN_URL);?>">購入履歴(管理用)</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="<?php print(ORDER_DETAIL_ADMIN_URL);?>">購入明細(管理用)</a>
+          </li>
         <?php } ?>
       </ul>
     </div>
