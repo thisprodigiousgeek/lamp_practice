@@ -105,17 +105,64 @@ function purchase_carts($db, $carts){
   if(validate_cart_purchase($carts) === false){
     return false;
   }
-  foreach($carts as $cart){
-    if(update_item_stock(
-        $db, 
-        $cart['item_id'], 
-        $cart['stock'] - $cart['amount']
-      ) === false){
-      set_error($cart['name'] . 'の購入に失敗しました。');
+
+  $db->beginTransaction();
+  try{
+
+    foreach($carts as $cart){
+      if(update_item_stock(
+          $db, 
+          $cart['item_id'], 
+          $cart['stock'] - $cart['amount']
+        ) === false){
+        throw new Exception('処理できませんでした');
+        set_error($cart['name'] . 'の購入に失敗しました。');
+      }
     }
+
+    $sql = "
+      INSERT INTO
+      orders(
+        user_id
+        )
+      VALUES(:user_id)
+    ";
+
+    $user_id = $carts[0]['user_id'];
+    if(false === execute_query($db, $sql, array(':user_id' => $user_id))){
+      throw new Exception('処理できませんでした');
+    }
+
+    $order_id = $db->lastInsertId();
+    
+    foreach($carts as $cart){
+      $sql = "
+      INSERT INTO
+      order_details(
+        order_id,
+        order_price,
+        order_amount,
+        item_id
+        )
+      VALUES(:order_id, :order_price, :order_amount, :item_id)
+    ";
+
+      if(false === execute_query($db, $sql, array(':order_id' => $order_id, ':order_price' => $cart['price'], ':order_amount' => $cart['amount'], ':item_id' => $cart['item_id']))){
+        throw new Exception('処理できませんでした');
+      }
+    }
+
+    delete_user_carts($db, $carts[0]['user_id']);
+
+    $db->commit();
+
+    return true;
+  }catch (Exception $e){
+    $db->rollback();
+    set_error('処理できませんでした');
+
+    return false;
   }
-  
-  delete_user_carts($db, $carts[0]['user_id']);
 }
 
 function delete_user_carts($db, $user_id){
