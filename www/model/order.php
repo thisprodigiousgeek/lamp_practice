@@ -3,7 +3,6 @@ require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
 //order_productsテーブルから購入履歴情報+合計金額を取得
-//ユーザーIDごと　サブクエリで合計金額を取得。
 function get_orders($db,$user_id){
     $sql = "
       SELECT

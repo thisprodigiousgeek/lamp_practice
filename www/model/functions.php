@@ -19,7 +19,7 @@ function get_get($name){
 
 function get_post($name){
   if(isset($_POST[$name]) === true){
-    return $_POST[$name]; //送信されてきた$nameの値を取得
+    return $_POST[$name];
   };
   return '';
 }
@@ -41,7 +41,7 @@ function get_session($name){
 
 function set_session($name, $value){
   $_SESSION[$name] = $value;
-}          //キー    //値
+}
 
 function set_error($error){
   $_SESSION['__errors'][] = $error;
@@ -56,7 +56,6 @@ function get_errors(){
   return $errors;
 }
 
-//エラーメッセージはセッションに配列の形で保存される。
 //エラーメッセージが存在する場合にtrueを返す。存在しなければfalseを返す。
 function has_error(){
   return isset($_SESSION['__errors']) && count($_SESSION['__errors']) !== 0;
@@ -145,23 +144,23 @@ function h ($str){
 
 //トークンを生成する関数の定義。
 function get_csrf_token(){
-  // get_random_string()はユーザー定義関数。
-  $token = get_random_string(30);  //ランダム30文字
-  // set_session()はユーザー定義関数。
-  // $tokenをsessionに保存し
-  set_session('csrf_token', $token); //(キー, 値)
-               //=$name?   =$value? トークンをセッションに保存そのきー名で
+
+  //ランダム30文字
+  $token = get_random_string(30);  
+
+  //$tokenをsessionに保存
+  set_session('csrf_token', $token);
+
   //$tokenを取得  
   return $token;
 }
 
-// トークンのチェックを行う関数の定義
+// トークンのチェックを行う関数
 function is_valid_csrf_token($token){
   //$tokenの中身が空ならfalseを返す
   if($token === '') { 
     return false; 
   }
-  // get_session()はユーザー定義関数
-  // ===成立でtrue返す　比較してる
+
   return $token === get_session('csrf_token');
-}        //フォームから送られてきたトークン //セッションに保存されたトークン
+}
