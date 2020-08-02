@@ -31,16 +31,14 @@ function get_file($name){
   return array();
 }
 
-//????????????
 function get_session($name){
   //セッション変数に、キーと値があるときに、そのままその値を返す
   if(isset($_SESSION[$name]) === true){
     return $_SESSION[$name];
   };
-  return ''; //該当キーが無ければ空文字を返す??????
+  return '';
 }
 
-//????????????
 function set_session($name, $value){
   $_SESSION[$name] = $value;
 }          //キー    //値

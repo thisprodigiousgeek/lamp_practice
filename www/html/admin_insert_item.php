@@ -30,9 +30,6 @@ $stock = get_post('stock');
 $image = get_file('image');
 $token = get_post('token'); 
 
-//$a=validate_item($name, $price, $stock, $filename, $status);
-//var_dump($a); //true
-
 //トークンがあれば処理を行う(CSRF対策)
 if(is_valid_csrf_token($token)) {
   if(regist_item($db, $name, $price, $stock, $status, $image)){

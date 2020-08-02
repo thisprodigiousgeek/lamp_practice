@@ -4,7 +4,6 @@ require_once MODEL_PATH . 'db.php';
 
 //order_productsテーブルから購入履歴情報+合計金額を取得
 //ユーザーIDごと　サブクエリで合計金額を取得。
-//★　最初はこの関数内で、ユーザーのタイプに応じてSQLを変えていたが、上手くいかなかった。
 function get_orders($db,$user_id){
     $sql = "
       SELECT

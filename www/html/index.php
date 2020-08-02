@@ -20,7 +20,6 @@ $user = get_login_user($db);
 if(isset($_GET['sort']) === TRUE) {
     $sort = get_get('sort_products');
 
-    //★★もっと効率の良い書き方はないか？
     if($sort === "1") {
       $items = get_created_desc_items($db);
     } else if($sort === "2") {

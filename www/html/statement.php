@@ -29,14 +29,5 @@ $total = get_post('total');
 //オーダーIDに応じた購入明細情報の取得(order_idごと)
 $statements = get_statements($db,$order_id);
 
-//購入した商品の合計金額
-//$statements_total_price = sum_orders($orders);
-
-//購入明細情報の取得(order_idごと)
-//$statements = get_statements($db,$user['order_id']);
-//var_dump($statement);
-//購入した商品の合計金額
-//$order_total_price = sum_orders($orders);
-
 include_once VIEW_PATH . '/statement_view.php';
 ?>
