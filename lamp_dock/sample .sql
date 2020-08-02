@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: mysql
--- 生成日時: 2020 年 8 月 01 日 23:46
+-- 生成日時: 2020 年 8 月 02 日 11:46
 -- サーバのバージョン： 5.7.30
 -- PHP のバージョン: 7.4.6
 
@@ -85,7 +85,8 @@ INSERT INTO `comics_form` (`form_id`, `name`, `tel`, `mail`, `sex`, `help`, `cre
 (6, 'sampleuser', '080-5260-3811', 'st-niguchi@hotmail.co.jp', 'man', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2020-07-26 02:38:13'),
 (7, 'doraemon', '0993-21-4578', 'niguchi@hotmail.co.jp', 'man', 'うまくいかないです', '2020-07-26 02:39:12'),
 (8, 'tanakasachiko', '0993-41-3356', 'asasasasas@hotmail.co.jp', 'woman', 'いつもありがとうございます', '2020-07-26 02:40:08'),
-(9, 'sampleuser', '0993-41-3356', 'niguchi@hotmail.co.jp', 'woman', 'aaa', '2020-08-02 01:51:07');
+(9, 'sampleuser', '0993-41-3356', 'niguchi@hotmail.co.jp', 'woman', 'aaa', '2020-08-02 01:51:07'),
+(10, 'tanakasachiko', '0993-41-3356', 'asasas@hotmail.co.jp', 'man', 'asasasasddddddddd', '2020-08-02 10:28:03');
 
 -- --------------------------------------------------------
 
@@ -467,7 +468,7 @@ ALTER TABLE `comics_carts`
 -- テーブルのAUTO_INCREMENT `comics_form`
 --
 ALTER TABLE `comics_form`
-  MODIFY `form_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `form_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- テーブルのAUTO_INCREMENT `comics_information`
