@@ -23,6 +23,8 @@ $price = get_post('price');
 $status = get_post('status');
 $stock = get_post('stock');
 
+h($name);
+
 $image = get_file('image');
 
 if(regist_item($db, $name, $price, $stock, $status, $image)){
