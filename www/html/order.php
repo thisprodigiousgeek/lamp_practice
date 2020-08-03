@@ -3,16 +3,12 @@ require_once '../conf/const.php';
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'user.php';
 require_once MODEL_PATH . 'item.php';
-//下の二つで同じ変数を別々に定義しているとエラーになるので注意。
 require_once MODEL_PATH . 'order.php';
 require_once MODEL_PATH . 'statement.php';
 
-
-
-
 session_start();
 
-//ログインしていなければ (=ユーザーIDがセッションに保存されていなければ)、ログイン画面へ
+//ログインしていなければ、ログイン画面へ
 if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }

@@ -3,23 +3,10 @@
 <head>
   <?php include VIEW_PATH . 'templates/head.php'; ?>
   <title>購入履歴</title>
-  <!--★なぜかCSSが反映されない★-->
+
   <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'order.css'); ?>">
-  <style>
-    table{
-        width: 900px;
-        border-collapse: collapse;
-    }
-    table, thead, tr, th, td{
-        border: solid 1px;
-        padding: 10px;
-        text-align: center;
-    }
-    h1{
-      font-size: 25px;
-    }
-  </style>
 </head>
+
 <body>
   <?php include VIEW_PATH . 'templates/header_logined.php'; ?>
   <h1>＜購入履歴＞</h1>

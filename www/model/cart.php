@@ -3,7 +3,6 @@ require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
 //ログインユーザーのカート内商品情報を取得する関数
-//carts.item_idをSELECT句から削除。7/7　issue "テーブル定義 課題2 #20"
 function get_user_carts($db, $user_id){
   $sql = "
     SELECT
@@ -53,27 +52,26 @@ function get_user_cart($db, $user_id, $item_id){
       items.item_id = ?
   ";
 
-  //クエリ実行。失敗でfalse
   return fetch_query($db, $sql, [$user_id, $item_id]); 
-                                //一つ目の？　2つ目の？　に当てはめられるようになる　//3つ目は必ず配列で。渡す値が１つでも。
-}                                                                               //1つだけの場合[$user_id]
+}
 
-//カートに入れるボタンを押したときの処理を記述した関数
+//カートに入れるボタンを押したときの処理
 //カートに商品がある⇒購入予定数を＋１
 //カートに商品がない⇒新しくカートに商品情報を登録
 function add_cart($db, $user_id, $item_id ) {
   //カート内商品情報を取得するget_user_cart関数を実行し、結果を$cartに代入する。
   $cart = get_user_cart($db, $user_id, $item_id);
+
   //もしカート内商品情報が取得できなかった場合(falseが返ってきた場合)、insert_cart関数を返す(実行する)
-  //なぜかここが必ずfalseになる。
   if($cart === false){
     return insert_cart($db, $user_id, $item_id);
   }
-  //cartsテーブル内の購入予定数を＋１する関数を返す(実行する)
+
+  //cartsテーブル内の購入予定数を＋１する関数を返す
   return update_cart_amount($db, $cart['cart_id'], $cart['amount'] + 1);
 }
 
-//cartsテーブルに、選択した商品の情報を登録する　※user_id,item_idは、送られてくる値。
+//cartsテーブルに、選択した商品の情報を登録する
 function insert_cart($db, $user_id, $item_id, $amount = 1){
   $sql = "
     INSERT INTO
@@ -100,7 +98,6 @@ function update_cart_amount($db, $cart_id, $amount){
     LIMIT 1
   ";
 
-  //クエリを実行する
   return execute_query($db, $sql, [$amount, $cart_id]);
 }
 
@@ -141,14 +138,12 @@ function purchase_carts($db, $carts){
   delete_user_carts($db, $carts[0]['user_id']);
 
   // 3⃣ 購入履歴への商品情報登録　4⃣ 購入明細への商品情報登録
-  //statementsテーブルに1商品しか登録できない。1つなら購入（登録）できるが、商品を複数購入（登録）するとエラーが出る。
-  //　→　statementsテーブルの先頭にstatements_idを追加。A_I指定。そのほかの値は全て重複を許可することで成功　7/4
   order_products_statements($db, $carts);
 
-  //エラーがある場合はロールバック(処理を取り消す)
+  //エラーがある場合はロールバック
   if(has_error() === true){
     $db->rollback();
-  //エラーが無ければコミット(処理を確定)
+  //エラーが無ければコミット
   } else {
     $db->commit();
   }
