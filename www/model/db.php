@@ -48,7 +48,6 @@ function fetch_all_query($db, $sql, $params = array()){
     
 
     foreach($data as &$hvalues){
-
       foreach($hvalues as &$hvalue){
         if(is_numeric($hvalue) === false){
           $hvalue = h($hvalue);
@@ -63,6 +62,7 @@ function fetch_all_query($db, $sql, $params = array()){
   }
   return false;
 }
+
 //クエリの実行
 function execute_query($db, $sql, $params = array()){
   try{
