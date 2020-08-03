@@ -55,7 +55,9 @@
       </table>
       <p class="text-right">合計金額: <?php print number_format($total_price); ?>円</p>
       <form method="post" action="finish.php">
+
         <input type="hidden" name="token" value="<?php print(get_csrf_token()); ?>">  
+
         <input class="btn btn-block btn-primary" type="submit" value="購入する">
       </form>
     <?php } else { ?>
