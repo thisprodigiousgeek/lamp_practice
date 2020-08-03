@@ -1,8 +1,8 @@
 <?php
 require_once '../conf/const.php';
 require_once MODEL_PATH . 'functions.php';
+require_once MODEL_PATH . 'order.php';
 require_once MODEL_PATH . 'user.php';
-require_once MODEL_PATH . 'item.php';
 
 session_start();
 
@@ -18,7 +18,6 @@ if(is_admin($user) === false){
   redirect_to(LOGIN_URL);
 }
 
-$items = get_all_items($db);
+$orders = get_order_items($db);
 
-$token = get_csrf_token();
-include_once VIEW_PATH . '/order_admin.php';
+include_once VIEW_PATH . '/order_admin_view.php';

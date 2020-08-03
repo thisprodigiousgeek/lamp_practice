@@ -22,6 +22,13 @@
           <li class="nav-item">
             <a class="nav-link" href="<?php print(ORDER_DETAIL_ADMIN_URL);?>">購入明細(管理用)</a>
           </li>
+        <?php }else{ ?>
+          <li class="nav-item">
+            <a class="nav-link" href="<?php print(ORDER_NORMAL_URL);?>">購入履歴</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="<?php print(ORDER_DETAIL_NORMAL_URL);?>">購入明細</a>
+          </li>
         <?php } ?>
       </ul>
     </div>
