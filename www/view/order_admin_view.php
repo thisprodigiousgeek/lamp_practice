@@ -27,10 +27,10 @@
         </thead>
         <tbody>
           <?php foreach($orders as $order){ ?>
-          <tr class="<?php print(is_open($item) ? '' : 'close_item'); ?>">
+          <tr>
             <td><?php print ($order['order_id']); ?></td>
             <td><?php print ($order['created']); ?></td>
-            <td><?php print number_format($total_price); ?>円</td>
+            <td><?php print number_format($order_total_price); ?>円</td>
           </tr>
           <?php } ?>
         </tbody>

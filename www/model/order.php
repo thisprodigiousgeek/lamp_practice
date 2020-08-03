@@ -12,7 +12,7 @@ function get_orders($db){
         orders
     ";
   
-    return fetch_query($db, $sql);
+    return fetch_all_query($db, $sql);
 }
 
 function get_order_items($db){
