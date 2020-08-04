@@ -14,10 +14,12 @@ $db = get_db_connect();
 
 $user = get_login_user($db);
 
-if(is_admin($user) === false){
-  redirect_to(LOGIN_URL);
+var_dump($user);
+
+if(is_admin($user) === true){
+  $orders = get_order_items($db);
+}else if(is_admin($user) === false){
+
 }
 
-$orders = get_order_items($db);
-
-include_once VIEW_PATH . '/order_admin_view.php';
+include_once VIEW_PATH . '/order_view.php';

@@ -31,6 +31,7 @@
             <td><?php print ($order['order_id']); ?></td>
             <td><?php print ($order['created']); ?></td>
             <td><?php print number_format($order['total']); ?>円</td>
+            <td><a href="order_detail.php?order_id=<?php print ($order['order_id']); ?>" class="btn btn-primary">明細</a></td>
           </tr>
           <?php } ?>
         </tbody>
