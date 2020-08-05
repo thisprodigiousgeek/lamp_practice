@@ -14,12 +14,11 @@ $db = get_db_connect();
 
 $user = get_login_user($db);
 
-var_dump($user);
-
 if(is_admin($user) === true){
-  $orders = get_order_items($db);
+  $orders = get_orders($db);
 }else if(is_admin($user) === false){
-
+  $normal_user = $user['user_id'];
+  $orders = get_user_orders($db, $normal_user);
 }
 
 include_once VIEW_PATH . '/order_view.php';

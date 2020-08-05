@@ -22,10 +22,26 @@ function get_orders($db){
     return fetch_all_query($db, $sql);
 }
 
-function get_order_items($db){
-    return get_orders($db);
+function get_user_orders($db, $normal_user){
+    $sql = "
+      SELECT
+        orders.order_id, 
+        orders.user_id,
+        orders.created,
+        SUM(order_price*order_amount) AS total
+      FROM
+        orders
+      INNER JOIN 
+        order_details
+      ON 
+        orders.order_id = order_details.order_id
+      WHERE
+        orders.user_id = :user_id
+      GROUP BY
+        orders.order_id
+    ";
+  
+    return fetch_all_query($db, $sql, array(':user_id' => $normal_user));
 }
-
-
 
 ?>
