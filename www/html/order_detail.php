@@ -15,7 +15,6 @@ $db = get_db_connect();
 $user = get_login_user($db);
 $order_id = get_get('order_id');
 
-var_dump($order_id);
 $orders = get_user_order_totals($db, $order_id);
 $order_details = get_user_order_details($db, $order_id);
 
