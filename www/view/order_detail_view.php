@@ -15,7 +15,7 @@
 
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
 
-    <?php if(count($orders) > 0){ ?>
+    <?php if(count($orders) > 0 && count($order_details) > 0){ ?>
       <table class="table table-bordered text-center">
         <thead class="thead-light">
           <tr>
@@ -30,8 +30,8 @@
           <?php foreach($order_details as $order_detail){ ?>
           <tr>
             <td><?php print ($order_detail['name']); ?></td>
-            <td><?php print ($order_detail['price']); ?></td>
-            <td><?php print ($order_detail['amount']); ?></td>
+            <td><?php print ($order_detail['order_price']); ?></td>
+            <td><?php print ($order_detail['order_amount']); ?></td>
             <td><?php print number_format($order['total']); ?>円</td>
           </tr>
           <?php } ?>
@@ -39,7 +39,7 @@
         </tbody>
       </table>
     <?php } else { ?>
-      <p>購入履歴はありません。</p>
+      <p>購入明細はありません。</p>
     <?php } ?> 
   </div>
 </body>
