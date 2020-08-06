@@ -47,13 +47,19 @@ function get_user_orders($db, $normal_user){
 function get_user_order_totals($db, $order_id){
     $sql = "
       SELECT
+        orders.order_id, 
+        orders.created,
         SUM(order_price*order_amount) AS total
       FROM
+        orders
+      INNER JOIN 
         order_details
+      ON 
+        orders.order_id = order_details.order_id
       WHERE
-        order_id = :order_id
+        orders.order_id = :order_id
       GROUP BY
-      order_details.order_id
+        orders.order_id
     ";
   
     return fetch_all_query($db, $sql, array(':order_id' => $order_id));
