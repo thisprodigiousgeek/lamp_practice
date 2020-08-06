@@ -30,7 +30,7 @@
           <?php foreach($order_details as $order_detail){ ?>
           <tr>
             <td><?php print h($order_detail['name']); ?></td>
-            <td><?php print ($order_detail['order_price']); ?></td>
+            <td><?php print number_format($order_detail['order_price']); ?>円</td>
             <td><?php print ($order_detail['order_amount']); ?></td>
             <td><?php print number_format($order['total']); ?>円</td>
           </tr>
