@@ -20,6 +20,12 @@ if(is_admin($user) === false){
 
 $item_id = get_post('item_id');
 $changes_to = get_post('changes_to');
+$token = get_post('token');
+
+if(is_valid_csrf_token($token) === false){
+  set_error('不正なページ移動です。');
+  redirect_to(LOGIN_URL);
+}
 
 if($changes_to === 'open'){
   update_item_status($db, $item_id, ITEM_STATUS_OPEN);
