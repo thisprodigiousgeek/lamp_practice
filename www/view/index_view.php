@@ -9,6 +9,14 @@
 <body>
   <?php include VIEW_PATH . 'templates/header_logined.php'; ?>
   
+  <form action="index.php">
+    <select name="">
+      <option value=""></option>
+      <option value=""></option>
+      <option value=""></option>
+    </select>
+    <input type="submit" value="並び替え">
+  </form>
 
   <div class="container">
     <h1>商品一覧</h1>
