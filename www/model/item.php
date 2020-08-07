@@ -22,7 +22,7 @@ function get_item($db, $item_id){
   return fetch_query($db, $sql, array($item_id));
 }
 //公開されているアイテムの情報を取得する
-function get_items($db, $is_open = false, $start_item){
+function get_items($db, $start_item, $is_open = false){
   $sql = '
     SELECT
       item_id, 
@@ -66,11 +66,11 @@ function get_items2($db, $is_open = false){
 }
 //アイテムのデータベースの情報
 function get_all_items($db){
-  return get_items($db);
+  return get_items2($db);
 }
 //公開されているアイテムのデータベースの情報
 function get_open_items($db, $start_item){
-  return get_items($db, true, $start_item);
+  return get_items($db, $start_item, true);
 }
 
 function get_open_item($db){

@@ -42,18 +42,20 @@
       </div>
     </div>
   </div>
-  <?php if($now != 1){ ?>
-    <a href="/index.php?page=<?php print($now - 1) ?>">前へ</a>
-  <?php } ?>
-  <?php for($i = 1;$i <= $total_page; $i++){
-    if($page == $i){
-      print('　' . $i . '　');
-    }else{
-      print("<a href=/index.php?page=$i> 　$i  </a>");
-    }
-  } ?>
-  <?php if($now != $total_page){ ?>
-    <a href="/index.php?page=<?php print($now + 1) ?>">次へ</a>
-  <?php } ?>
+  <div class="text-center">
+    <?php if($now != 1){ ?>
+      <a class="btn btn-info" href="/index.php?page=<?php print($now - 1) ?>">前へ</a>
+    <?php } ?>
+    <?php for($i = 1;$i <= $total_page; $i++){
+      if($page == $i){ ?>
+        <p class="btn btn-primary"><?php print('' . $i . '');?> </p>
+      <?php }else{
+        print("<a class='btn btn-info'  href=/index.php?page=$i> $i  </a>");
+      }
+    } ?>
+    <?php if($now != $total_page){ ?>
+      <a class="btn btn-info" href="/index.php?page=<?php print($now + 1) ?>">次へ</a>
+    <?php } ?>
+    </div>
 </body>
 </html>
