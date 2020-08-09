@@ -30,7 +30,8 @@ function get_items($db, $is_open = false){
       stock,
       price,
       image,
-      status
+      status,
+      created
     FROM
       items
   ';
@@ -39,6 +40,10 @@ function get_items($db, $is_open = false){
       WHERE status = 1
     ';
   }
+
+  $sql .= '
+    ORDER BY created asc
+  ';
 
   return fetch_all_query($db, $sql);
 }
@@ -49,6 +54,54 @@ function get_all_items($db){
 
 function get_open_items($db){
   return get_items($db, true);
+}
+
+function get_sort_asc_items($db, $is_open = false){
+  $sql = '
+    SELECT
+      item_id, 
+      name,
+      stock,
+      price,
+      image,
+      status
+    FROM
+      items
+    WHERE 
+      status = 1
+    ORDER BY
+      price asc
+  ';
+
+  return fetch_all_query($db, $sql);
+}
+
+function get_sort_desc_items($db, $is_open = false){
+  $sql = '
+    SELECT
+      item_id, 
+      name,
+      stock,
+      price,
+      image,
+      status
+    FROM
+      items
+    WHERE 
+      status = 1
+    ORDER BY
+      price desc
+  ';
+
+  return fetch_all_query($db, $sql);
+}
+
+function get_open_sort_asc_items($db){
+  return get_sort_asc_items($db, true);
+}
+
+function get_open_sort_desc_items($db){
+  return get_sort_desc_items($db, true);
 }
 
 function regist_item($db, $name, $price, $stock, $status, $image){

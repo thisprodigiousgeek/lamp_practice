@@ -8,10 +8,23 @@
 </head>
 <body>
   <?php include VIEW_PATH . 'templates/header_logined.php'; ?>
-  
 
   <div class="container">
-    <h1>商品一覧</h1>
+
+    <div class="menu_top">
+        <h1>商品一覧</h1>
+      <div class="sort">
+        <form action="index.php" method="post">
+          <select name="sort">
+            <option value="0">新着順</option>
+            <option value="1" <?php if($sort === 1){print "selected";} ?>>価格の安い順</option>
+            <option value="2" <?php if($sort === 2){print "selected";} ?>>価格の高い順</option>
+          </select>
+          <input type="submit" value="並び替え">
+        </form>
+      </div>
+    </div>
+
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
 
     <div class="card-deck">
