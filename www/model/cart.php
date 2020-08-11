@@ -21,9 +21,9 @@ function get_user_carts($db, $user_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = {$user_id}
+      carts.user_id = ?
   ";
-  return fetch_all_query($db, $sql);
+  return fetch_all_query($db, $sql, array($user_id));
 }
 //ユーザーカートの中のアイテム別の情報の取得
 function get_user_cart($db, $user_id, $item_id){
@@ -45,12 +45,12 @@ function get_user_cart($db, $user_id, $item_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = {$user_id}
+      carts.user_id = ?
     AND
-      items.item_id = {$item_id}
+      items.item_id = ?
   ";
 
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql, array($user_id, $item_id));
 
 }
 //すでにカートに入っている商品を追加したときに個数だけ増やす
@@ -70,10 +70,10 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
         user_id,
         amount
       )
-    VALUES({$item_id}, {$user_id}, {$amount})
+    VALUES(?, ?, ?)
   ";
 
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, array($item_id, $user_id, $amount));
 }
 //個数の変更
 function update_cart_amount($db, $cart_id, $amount){
@@ -81,12 +81,14 @@ function update_cart_amount($db, $cart_id, $amount){
     UPDATE
       carts
     SET
-      amount = {$amount}
+      amount = ?
     WHERE
-      cart_id = {$cart_id}
+      cart_id = ?
     LIMIT 1
   ";
-  return execute_query($db, $sql);
+
+
+  return execute_query($db, $sql, array($amount, $cart_id));
 }
 //カートの削除
 function delete_cart($db, $cart_id){
@@ -94,11 +96,11 @@ function delete_cart($db, $cart_id){
     DELETE FROM
       carts
     WHERE
-      cart_id = {$cart_id}
+      cart_id = ?
     LIMIT 1
   ";
 
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, array($cart_id));
 }
 //在庫から購入数を引く
 function purchase_carts($db, $carts){
@@ -123,10 +125,10 @@ function delete_user_carts($db, $user_id){
     DELETE FROM
       carts
     WHERE
-      user_id = {$user_id}
+      user_id = ?
   ";
 
-  execute_query($db, $sql);
+  execute_query($db, $sql, array($user_id));
 }
 
 //一つの商品の合計金額

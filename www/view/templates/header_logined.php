@@ -12,6 +12,8 @@
         <li class="nav-item">
           <a class="nav-link" href="<?php print(LOGOUT_URL);?>">ログアウト</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<?php print(ORDER_URL);?>">注文履歴</a>
         <?php if(is_admin($user)){ ?>
           <li class="nav-item">
             <a class="nav-link" href="<?php print(ADMIN_URL);?>">管理</a>
