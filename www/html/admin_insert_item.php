@@ -28,7 +28,7 @@ $token = get_post('token');
 
 if(is_valid_csrf_token($token) === false){
   set_error('不正なページ移動です。');
-  redirect_to(LOGIN_URL);
+  redirect_to(ADMIN_URL);
 }
 
 if(regist_item($db, $name, $price, $stock, $status, $image)){
