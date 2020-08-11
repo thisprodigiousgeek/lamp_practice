@@ -37,7 +37,7 @@ define('USER_TYPE_NORMAL', 2);
 
 define('ITEM_NAME_LENGTH_MIN', 1);
 define('ITEM_NAME_LENGTH_MAX', 100);
-define('ITEM_LIMIT', 2);
+define('ITEM_LIMIT', 8);
 
 define('ITEM_STATUS_OPEN', 1);
 define('ITEM_STATUS_CLOSE', 0);
