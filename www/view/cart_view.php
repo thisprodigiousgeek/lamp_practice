@@ -32,6 +32,7 @@
             <td><?php print(number_format($cart['price'])); ?>円</td>
             <td>
               <form method="post" action="cart_change_amount.php">
+                <input type="hidden" name="token" value="<?php echo $token ?>">
                 <input type="number" name="amount" value="<?php print($cart['amount']); ?>">
                 個
                 <input type="submit" value="変更" class="btn btn-secondary">

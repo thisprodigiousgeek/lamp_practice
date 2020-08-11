@@ -106,6 +106,7 @@ function purchase_carts($db, $carts){
     return false;
   }
   foreach($carts as $cart){
+    $db->beginTransaction();
     if(update_item_stock(
         $db, 
         $cart['item_id'], 
@@ -113,6 +114,16 @@ function purchase_carts($db, $carts){
       ) === false){
       set_error($cart['name'] . 'の購入に失敗しました。');
     }
+    if(insert_purchase_history(
+      $db, 
+      $cart['item_id'], 
+      $cart['user_id'],
+      $cart['price'],
+      $cart['amount']
+    ) === false){
+    set_error($cart['name'] . 'の購入に失敗しました。');
+  }
+  $db->commit();
   }
   
   delete_user_carts($db, $carts[0]['user_id']);
