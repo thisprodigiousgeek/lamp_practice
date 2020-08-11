@@ -116,20 +116,6 @@ function update_item_stock($db, $item_id, $stock){
   return execute_query($db, $sql);
 }
 
-function insert_purchase_history($db, $item_id, $user_id, $price, $amount){
-  $sql = "
-    INSERT INTO
-      purchase_history(
-        item_id,
-        user_id,
-        price,
-        amount,
-      )
-    VALUES('{$item_id}', {$user_id}, {$price}, {$amount});
-  ";
-  return execute_query($db, $sql);
-}
-
 function destroy_item($db, $item_id){
   $item = get_item($db, $item_id);
   if($item === false){
