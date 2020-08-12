@@ -139,6 +139,19 @@ function h($str){
   return htmlspecialchars($str,ENT_QUOTES,'UTF-8');
 }
 
+
+function get_page($page, $total_page){
+  if(!isset($page) || $page === '' || $page <= 0){
+    $now = 1;
+    redirect_to('/index.php?page=1');
+  }else if($page > $total_page){
+    $now = $total_page;
+    redirect_to("/index.php?page=$total_page");
+  }else{
+    $now = $page;
+  }
+  return $now;
+
 function get_csrf_token(){
   // get_random_string()はユーザー定義関数。
   $token = get_random_string(30);

@@ -22,7 +22,7 @@ function get_item($db, $item_id){
   return fetch_query($db, $sql, array($item_id));
 }
 //公開されているアイテムの情報を取得する
-function get_items($db, $is_open = false){
+function get_items($db, $start_item, $is_open = false){
   $sql = '
     SELECT
       item_id, 
@@ -39,17 +39,44 @@ function get_items($db, $is_open = false){
       WHERE status = 1
     ';
   }
+    $sql .= '
+      LIMIT ?,' . ITEM_LIMIT;
 
+  return fetch_all_query($db, $sql, array($start_item));
+}
+
+function get_items2($db, $is_open = false){
+  $sql = '
+    SELECT
+      item_id, 
+      name,
+      stock,
+      price,
+      image,
+      status
+    FROM
+      items
+  ';
+  if($is_open === true){
+    $sql .= '
+      WHERE status = 1
+    ';
+  }
   return fetch_all_query($db, $sql);
 }
 //アイテムのデータベースの情報
 function get_all_items($db){
-  return get_items($db);
+  return get_items2($db);
 }
 //公開されているアイテムのデータベースの情報
-function get_open_items($db){
-  return get_items($db, true);
+function get_open_items($db, $start_item){
+  return get_items($db, $start_item, true);
 }
+
+function get_open_item($db){
+  return get_items2($db, true);
+}
+
 //追加しようとしている商品情報が問題ないか確認する
 function regist_item($db, $name, $price, $stock, $status, $image){
   $filename = get_upload_filename($image);
@@ -85,7 +112,7 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
     VALUES(?, ?, ?, ?, ?);
   ";
 
-  return execute_query($db, $sql, array($name, $price, $stock, $image, $status));
+  return execute_query($db, $sql, array($name, $price, $stock, $filename, $status_value));
 }
 //アイテムのステータス情報をアップデートする
 function update_item_status($db, $item_id, $status){

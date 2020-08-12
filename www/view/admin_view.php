@@ -97,7 +97,7 @@
                 <input type="hidden" name="token" value="<?php print(get_csrf_token()); ?>">
                 <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
               </form>
-
+<?php var_dump(IMAGE_PATH . $item['image']);?>
             </td>
           </tr>
           <?php } ?>
