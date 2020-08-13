@@ -6,7 +6,11 @@ require_once MODEL_PATH . 'item.php';
 
 session_start();
 
-is_valid_csrf_token($_POST['token']);
+
+if(is_valid_csrf_token($_POST['token']) === false){
+  set_error('トークンが一致しません');
+  redirect_to(LOGIN_URL);
+}
 
 
 if(is_logined() === false){

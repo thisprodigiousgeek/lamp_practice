@@ -44,6 +44,7 @@
         </select>
       </div>
       
+      <input type="hidden" name="token" value="<?php print($token); ?>">
       <input type="submit" value="商品追加" class="btn btn-primary">
     </form>
 
@@ -74,6 +75,7 @@
                 </div>
                 <input type="hidden" name="token" value="<?php print($token); ?>">
                 <input type="submit" value="変更" class="btn btn-secondary">
+                <input type="hidden" name="token" value="<?php print($token); ?>">
                 <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
               </form>
             </td>
@@ -87,13 +89,17 @@
                   <input type="submit" value="非公開 → 公開" class="btn btn-secondary">
                   <input type="hidden" name="changes_to" value="open">
                 <?php } ?>
+
                 <input type="hidden" name="token" value="<?php print($token); ?>">
+
                 <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
               </form>
 
               <form method="post" action="admin_delete_item.php">
                 <input type="submit" value="削除" class="btn btn-danger delete">
+
                 <input type="hidden" name="token" value="<?php print($token); ?>">
+
                 <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
               </form>
             </td>
