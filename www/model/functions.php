@@ -139,6 +139,7 @@ function h($str){
   return htmlspecialchars($str,ENT_QUOTES,'UTF-8');
 }
 
+
 function get_page($page, $total_page){
   if(!isset($page) || $page === '' || $page <= 0){
     $now = 1;
@@ -150,7 +151,10 @@ function get_page($page, $total_page){
     $now = $page;
   }
   return $now;
+
 }
+
+
 function get_csrf_token(){
   // get_random_string()はユーザー定義関数。
   $token = get_random_string(30);
@@ -160,9 +164,11 @@ function get_csrf_token(){
 }
 
 // トークンのチェック
+
 function is_valid_csrf_token($token){
   if($token === '') {
     return false;
   }
   // get_session()はユーザー定義関数
   return $token === get_session('csrf_token');
+}

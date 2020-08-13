@@ -155,7 +155,7 @@ function validate_cart_purchase($carts){
   }
   if(has_error() === true){
     return false;
-  }
+  }       
   return true;
 }
 
