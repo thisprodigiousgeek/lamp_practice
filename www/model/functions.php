@@ -152,6 +152,9 @@ function get_page($page, $total_page){
   }
   return $now;
 
+}
+
+
 function get_csrf_token(){
   // get_random_string()はユーザー定義関数。
   $token = get_random_string(30);
@@ -161,6 +164,7 @@ function get_csrf_token(){
 }
 
 // トークンのチェック
+
 function is_valid_csrf_token($token){
   if($token === '') {
     return false;

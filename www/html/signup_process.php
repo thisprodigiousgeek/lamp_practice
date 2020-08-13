@@ -9,6 +9,8 @@ if(is_valid_csrf_token($_POST['token']) === false){
   redirect_to(LOGIN_URL);
 }
 
+is_valid_csrf_token($_POST['token']);
+
 if(is_logined() === true){
   redirect_to(HOME_URL);
 }
