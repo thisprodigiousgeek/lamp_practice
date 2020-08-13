@@ -84,14 +84,8 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
       )
     VALUES(?,?,?,?,?);
   ";
-  $statement = $db->prepare($sql);
-  $statement->bindValue(1, $name,    PDO::PARAM_STR);
-  $statement->bindValue(2, $price,    PDO::PARAM_INT);
-  $statement->bindValue(3, $stock,    PDO::PARAM_INT);
-  $statement->bindValue(4, $filename,    PDO::PARAM_STR);
-  $statement->bindValue(5, $status_value,    PDO::PARAM_STR);
-
-  return execute_query($db, $sql);
+  $params = array($name, $price, $stock, $filename, $status_value);
+  return execute_query($db, $sql, $params);
 }
 
 function update_item_status($db, $item_id, $status){
