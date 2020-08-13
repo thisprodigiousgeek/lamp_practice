@@ -30,4 +30,5 @@ if(update_cart_amount($db, $cart_id, $amount)){
   set_error('購入数の更新に失敗しました。');
 }
 
+
 redirect_to(CART_URL);
