@@ -182,10 +182,10 @@ function add_history($db, $user_id)
 {
   $sql = "
     INSERT INTO  
-      history(user_id)
-    values(?)
+      history(user_id,create_datetime)
+    values(?,now())
   ";
-var_dump($user_id,$sql);
+
   return execute_query($db, $sql, [$user_id]);
 }
 
