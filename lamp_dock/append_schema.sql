@@ -32,3 +32,5 @@ ALTER TABLE 'result'
 
 ALTER TABLE 'detail'
     MODIFY 'detail_id' int(11) NOT NULL AUTO_INCREMENT;
+
+    aaaaaaaaaaaaa
