@@ -18,13 +18,17 @@ CREATE TABLE 'detail'(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `result`
-    ADD PRIMARY KEY (`result_id`);
+    ADD PRIMARY KEY (`result_id`),
+    ADD KEY ('user_id');
 
 ALTER TABLE `detail`
-    ADD PRIMARY KEY (`detail_id`);
+    ADD PRIMARY KEY (`detail_id`),
+    ADD KEY ('user_id'),
+    ADD KEY ('item_id'),
+    ADD KEY ('cart_id');
 
 ALTER TABLE 'result'
-    MODIFY 'result_id' int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+    MODIFY 'result_id' int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE 'detail'
-    MODIFY 'detail_id' int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+    MODIFY 'detail_id' int(11) NOT NULL AUTO_INCREMENT;
