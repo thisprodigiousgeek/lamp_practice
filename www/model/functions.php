@@ -9,6 +9,9 @@ function redirect_to($url){
   header('Location: ' . $url);
   exit;
 }
+//引数commentを与えると$_GET['comment']が存在するかどうかをチェックして
+//存在する場合は$_GET['comment']を返す
+//存在しない場合は空文字を返す
 
 function get_get($name){
   if(isset($_GET[$name]) === true){
@@ -88,10 +91,37 @@ function get_upload_filename($file){
 function get_random_string($length = 20){
   return substr(base_convert(hash('sha256', uniqid()), 16, 36), 0, $length);
 }
+/*
+substr---文字列の切り出し。
+<?php
+$str = 'abcde';
+print substr($str,1,3);
+?>
+出力結果 bcd
+---------------------------------------
+base_convert---数値を任意の基数に変換する。
+base_convert( string $number, int $frombase, int $tobase): string
+frombase = numberの変換前の基数
+tobase = numberの変換後の基数
+<?php
+$hexadecimal = 'a37334';
+print base_convert($hexadecimal,16,2);
+?>
+出力結果 101000110111001100110100
+-----------------------------------------
+hash---ハッシュ化。文字列を置換して元の文字を推測できなくする。
+-----------------------------------------
+sha256---アルゴリズム。
+----------------------------------------
+uniqid---唯一の値（ユニークID）を生成する。
+*/
 
 function save_image($image, $filename){
   return move_uploaded_file($image['tmp_name'], IMAGE_DIR . $filename);
 }
+/*
+move_uploded_file---ファイルの保存場所の変更。
+*/
 
 function delete_image($filename){
   if(file_exists(IMAGE_DIR . $filename) === true){
