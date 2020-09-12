@@ -45,6 +45,7 @@
       </div>
       
       <input type="submit" value="商品追加" class="btn btn-primary">
+      <input type="hidden" name="token" value="<?php print($token); ?>">
     </form>
 
 
@@ -63,7 +64,7 @@
           <?php foreach($items as $item){ ?>
           <tr class="<?php print(is_open($item) ? '' : 'close_item'); ?>">
             <td><img src="<?php print(IMAGE_PATH . $item['image']);?>" class="item_image"></td>
-            <td><?php print($item['name']); ?></td>
+            <td><?php print h($item['name']); ?></td>
             <td><?php print(number_format($item['price'])); ?>円</td>
             <td>
               <form method="post" action="admin_change_stock.php">
@@ -74,12 +75,13 @@
                 </div>
                 <input type="submit" value="変更" class="btn btn-secondary">
                 <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
+                <input type="hidden" name="token" value="<?php print($token); ?>">
               </form>
             </td>
             <td>
 
               <form method="post" action="admin_change_status.php" class="operation">
-                <?php if(is_open($item) === true){ ?>
+                <?php if (is_open($item) === true){ ?>
                   <input type="submit" value="公開 → 非公開" class="btn btn-secondary">
                   <input type="hidden" name="changes_to" value="close">
                 <?php } else { ?>
@@ -87,11 +89,13 @@
                   <input type="hidden" name="changes_to" value="open">
                 <?php } ?>
                 <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
+                <input type="hidden" name="token" value="<?php print($token); ?>">
               </form>
 
               <form method="post" action="admin_delete_item.php">
                 <input type="submit" value="削除" class="btn btn-danger delete">
                 <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
+                <input type="hidden" name="token" value="<?php print($token); ?>">
               </form>
 
             </td>
