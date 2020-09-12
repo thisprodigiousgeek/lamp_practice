@@ -31,7 +31,13 @@ function fetch_all_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
     $statement->execute($params);
-    return $statement->fetchAll();
+    $items = $statement->fetchAll();
+    foreach($items as $key =>$value){
+      foreach($value as $k => $v){
+        $items[$key][$k] = htmlspecialchars($v, ENT_QUOTES, 'utf-8');
+      }
+    }
+    return $items;
   }catch(PDOException $e){
     set_error('データ取得に失敗しました。');
   }
@@ -47,3 +53,6 @@ function execute_query($db, $sql, $params = array()){
   }
   return false;
 }
+/*
+41行目と４４行目
+*/
