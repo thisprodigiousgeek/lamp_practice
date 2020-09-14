@@ -15,7 +15,7 @@ function get_db_connect(){
   }
   return $dbh;
 }
-
+//配列として一行だけ取得する
 function fetch_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
@@ -26,24 +26,50 @@ function fetch_query($db, $sql, $params = array()){
   }
   return false;
 }
-
+//配列としてすべてのデータを取得
 function fetch_all_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
     $statement->execute($params);
-    return $statement->fetchAll();
+    $data = $statement->fetchAll();
+    
+    //配列の一つ一つにh関数の処理をする
+    //$dataとはどんな構造の配列か
+      //配列の中に配列がある
+    //一次元配列と二次元配列の違いは何か
+      //一次元配列は一つのボックスに中にいくつか値が入っている
+      //二次元配列は複数のボックスがありそれぞれにいくつかのあたいが入っている
+    //配列の一個一個を取り出すにはどういう構文を使うか
+      //foreachで一つ一つ取り出す
+    //$dataの一個一個の要素をh関数で処理するにはどうしたらよいか
+      //$dataをforeachで取り出して取り出したボックスからforeachで取り出す
+    //returnとは何か　この関数では何をreturnするか
+    // functionで定義された関数が使われたときに最終的に返される値
+    
+
+    foreach($data as &$hvalues){
+      foreach($hvalues as &$hvalue){
+        if(is_numeric($hvalue) === false){
+          $hvalue = h($hvalue);
+        }
+      }
+      unset($hvalue);
+    }
+    unset($hvalues);
+    return $data;
   }catch(PDOException $e){
     set_error('データ取得に失敗しました。');
   }
   return false;
 }
 
+//クエリの実行
 function execute_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
     return $statement->execute($params);
   }catch(PDOException $e){
-    set_error('更新に失敗しました。');
+    set_error('更新に失敗しました。' . $sql);
   }
   return false;
 }

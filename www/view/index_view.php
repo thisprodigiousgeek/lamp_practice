@@ -29,6 +29,9 @@
                 <?php if($item['stock'] > 0){ ?>
                   <form action="index_add_cart.php" method="post">
                     <input type="submit" value="カートに追加" class="btn btn-primary btn-block">
+
+                    <input type="hidden" name="token" value="<?php print($token); ?>">
+
                     <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
                   </form>
                 <?php } else { ?>
@@ -42,6 +45,20 @@
       </div>
     </div>
   </div>
-  
+  <div class="text-center">
+    <?php if($now != 1){ ?>
+      <a class="btn btn-info" href="/index.php?page=<?php print($now - 1) ?>">前へ</a>
+    <?php } ?>
+    <?php for($i = 1;$i <= $total_page; $i++){
+      if($page == $i){ ?>
+        <p class="btn btn-primary"><?php print('' . $i . '');?> </p>
+      <?php }else{
+        print("<a class='btn btn-info'  href=/index.php?page=$i> $i  </a>");
+      }
+    } ?>
+    <?php if($now != $total_page){ ?>
+      <a class="btn btn-info" href="/index.php?page=<?php print($now + 1) ?>">次へ</a>
+    <?php } ?>
+    </div>
 </body>
 </html>
