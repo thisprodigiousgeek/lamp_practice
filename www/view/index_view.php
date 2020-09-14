@@ -20,7 +20,7 @@
         <div class="col-6 item">
           <div class="card h-100 text-center">
             <div class="card-header">
-              <?php print($item['name']); ?>
+              <?php print h($item['name']); ?>
             </div>
             <figure class="card-body">
               <img class="card-img" src="<?php print(IMAGE_PATH . $item['image']); ?>">
