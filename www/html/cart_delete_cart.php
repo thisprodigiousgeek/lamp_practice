@@ -15,8 +15,11 @@ $db = get_db_connect();
 $user = get_login_user($db);
 
 $cart_id = get_post('cart_id');
+$token = get_post('token');
 
-if(delete_cart($db, $cart_id)){
+if(is_valid_csrf_token($token) === false){
+  set_error('不正な操作が行われました。');
+} elseif(delete_cart($db, $cart_id)){
   set_message('カートを削除しました。');
 } else {
   set_error('カートの削除に失敗しました。');
