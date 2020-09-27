@@ -1,8 +1,8 @@
 <?php
 require_once '../conf/const.php';
 require_once MODEL_PATH . 'functions.php';
+require_once MODEL_PATH . 'order.php';
 require_once MODEL_PATH . 'user.php';
-require_once MODEL_PATH . 'item.php';
 
 session_start();
 
@@ -13,12 +13,9 @@ if(is_logined() === false){
 $db = get_db_connect();
 
 $user = get_login_user($db);
+$order_id = get_get('order_id');
 
-if(is_admin($user) === false){
-  redirect_to(LOGIN_URL);
-}
+$orders = get_user_order_totals($db, $order_id);
+$order_details = get_user_order_details($db, $order_id);
 
-$items = get_all_items($db);
-
-$token = get_csrf_token();
-include_once VIEW_PATH . '/admin_view.php';
+include_once VIEW_PATH . '/order_detail_view.php';
