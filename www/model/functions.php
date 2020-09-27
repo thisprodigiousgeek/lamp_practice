@@ -135,3 +135,7 @@ function is_valid_upload_image($image){
   return true;
 }
 
+//第3章　開発課題の実戦演習　issue#1にて追記
+function esc($str){
+  return htmlspecialchars($str,ENT_QUOTES,"UTF-8");
+}
