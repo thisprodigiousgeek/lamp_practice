@@ -32,6 +32,7 @@ function get_file($name){
 }
 
 function get_session($name){
+  //セッション変数に、キーと値があるときに、そのままその値を返す
   if(isset($_SESSION[$name]) === true){
     return $_SESSION[$name];
   };
@@ -55,6 +56,7 @@ function get_errors(){
   return $errors;
 }
 
+//エラーメッセージが存在する場合にtrueを返す。存在しなければfalseを返す。
 function has_error(){
   return isset($_SESSION['__errors']) && count($_SESSION['__errors']) !== 0;
 }
@@ -135,3 +137,30 @@ function is_valid_upload_image($image){
   return true;
 }
 
+//XSS対策のh関数を定義
+function h ($str){ 
+  return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
+}
+
+//トークンを生成する関数の定義。
+function get_csrf_token(){
+
+  //ランダム30文字
+  $token = get_random_string(30);  
+
+  //$tokenをsessionに保存
+  set_session('csrf_token', $token);
+
+  //$tokenを取得  
+  return $token;
+}
+
+// トークンのチェックを行う関数
+function is_valid_csrf_token($token){
+  //$tokenの中身が空ならfalseを返す
+  if($token === '') { 
+    return false; 
+  }
+
+  return $token === get_session('csrf_token');
+}

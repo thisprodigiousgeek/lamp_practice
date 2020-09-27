@@ -2,8 +2,7 @@
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
-// DB利用
-
+//指定した商品情報を取得する関数
 function get_item($db, $item_id){
   $sql = "
     SELECT
@@ -16,12 +15,93 @@ function get_item($db, $item_id){
     FROM
       items
     WHERE
-      item_id = {$item_id}
+      item_id = ?
   ";
 
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql, [$item_id]);
 }
 
+//並べ替えた商品情報を取得する関数(created DESC)
+function get_created_desc_items($db){
+  $sql = "
+    SELECT           
+      item_id, 
+      name,
+      stock,
+      price,
+      image,
+      status
+    FROM 
+      items
+    WHERE 
+      status = 1
+    ORDER BY
+      created DESC
+    ";
+  return fetch_all_query($db, $sql);
+}
+
+//並べ替えた商品情報を取得する関数(price ASC)
+function get_price_asc_items($db){
+  $sql = "
+    SELECT           
+      item_id, 
+      name,
+      stock,
+      price,
+      image,
+      status
+    FROM 
+      items
+    WHERE 
+      status = 1
+    ORDER BY
+      price ASC
+    ";
+  return fetch_all_query($db, $sql);
+}
+
+//並べ替えた商品情報を取得する関数(price DESC)
+function get_price_desc_items($db){
+  $sql = "
+    SELECT           
+      item_id, 
+      name,
+      stock,
+      price,
+      image,
+      status
+    FROM 
+      items
+    WHERE 
+      status = 1
+    ORDER BY
+      price DESC
+    ";
+  return fetch_all_query($db, $sql);
+}
+
+//全ユーザーの購入数、上位3つを取得する関数 
+function get_ranking($db){
+  $sql="
+  SELECT 
+    name, 
+    image, 
+    SUM(amount) AS total
+  FROM 
+    statements
+  JOIN 
+    items on statements.item_id = items.item_id
+  GROUP BY 
+    statements.item_id
+  ORDER BY 
+    total DESC
+  LIMIT 3
+  ";
+  return fetch_all_query($db, $sql);
+}
+
+//全ての商品情報を取得する関数
 function get_items($db, $is_open = false){
   $sql = '
     SELECT
@@ -53,6 +133,7 @@ function get_open_items($db){
 
 function regist_item($db, $name, $price, $stock, $status, $image){
   $filename = get_upload_filename($image);
+
   if(validate_item($name, $price, $stock, $filename, $status) === false){
     return false;
   }
@@ -68,7 +149,6 @@ function regist_item_transaction($db, $name, $price, $stock, $status, $image, $f
   }
   $db->rollback();
   return false;
-  
 }
 
 function insert_item($db, $name, $price, $stock, $filename, $status){
@@ -82,10 +162,10 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
         image,
         status
       )
-    VALUES('{$name}', {$price}, {$stock}, '{$filename}', {$status_value});
+    VALUES(?, ?, ?, ?, ?);
   ";
 
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, [$name, $price, $stock, $filename, $status_value]);
 }
 
 function update_item_status($db, $item_id, $status){
@@ -93,13 +173,13 @@ function update_item_status($db, $item_id, $status){
     UPDATE
       items
     SET
-      status = {$status}
+      status = ?
     WHERE
-      item_id = {$item_id}
+      item_id = ?
     LIMIT 1
   ";
   
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, [$status, $item_id]);
 }
 
 function update_item_stock($db, $item_id, $stock){
@@ -107,26 +187,31 @@ function update_item_stock($db, $item_id, $stock){
     UPDATE
       items
     SET
-      stock = {$stock}
+      stock = ?
     WHERE
-      item_id = {$item_id}
+      item_id = ?
     LIMIT 1
   ";
   
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, [$stock, $item_id]);
 }
 
 function destroy_item($db, $item_id){
+  //商品IDに応じた、商品の情報を取得する関数を変数に保存
   $item = get_item($db, $item_id);
+  //取得に失敗した場合はfalseを返す
   if($item === false){
     return false;
   }
+
   $db->beginTransaction();
   if(delete_item($db, $item['item_id'])
     && delete_image($item['image'])){
+    //コミット時、trueを返す
     $db->commit();
     return true;
   }
+  //ロールバック時、falseを返す
   $db->rollback();
   return false;
 }
@@ -136,11 +221,63 @@ function delete_item($db, $item_id){
     DELETE FROM
       items
     WHERE
-      item_id = {$item_id}
+      item_id = ?
     LIMIT 1
   ";
   
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, [$item_id]);
+}
+
+function order_products_statements($db, $carts){
+
+  // 'ユーザーIDに応じ、購入した商品の情報を購入履歴テーブルに登録する関数' を$resultに代入
+  $result=insert_order_products($db, $carts[0]['user_id']); 
+  if($result === true){
+
+    //最後に取得したorder_idを取得し、$order_idに代入 
+    $order_id = $db->lastInsertId();
+
+    foreach($carts as $cart){
+      // 購入明細テーブルに、購入した商品の情報を登録
+      $result = insert_statements($db, $order_id, $cart['item_id'], $cart['name'], $cart['price'], $cart['amount']);  
+      //もし$resultからfalseが返ってきていた場合、foreachから抜け出す。(明細への登録を行わない) 
+      if($result === false){
+        break;
+      }
+    }
+  }
+
+  return $result;
+}
+
+//購入履歴テーブル(order_products)に購入した商品の情報を登録
+function insert_order_products($db, $user){
+  $sql = "
+  INSERT INTO
+    order_products(
+      user_id
+    )
+  VALUES(?);
+  "; 
+
+  return execute_query($db, $sql, [$user]);
+}
+
+//購入明細テーブルに購入した商品の情報を登録
+function insert_statements($db, $order_id, $item_id, $item_name, $price, $amount){
+  $sql = "
+  INSERT INTO
+    statements(
+      order_id,
+      item_id,
+      item_name,
+      price,
+      amount
+    )
+  VALUES(?, ?, ?, ?, ?);
+  "; 
+
+  return execute_query($db, $sql, [$order_id, $item_id, $item_name, $price, $amount]);
 }
 
 
