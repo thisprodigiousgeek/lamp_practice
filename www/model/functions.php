@@ -5,6 +5,11 @@ function dd($var){
   exit();
 }
 
+function h($str){
+  return htmlspecialchars($str,ENT_QUOTES,'UTF-8');
+}
+
+
 function redirect_to($url){
   header('Location: ' . $url);
   exit;
