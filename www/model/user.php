@@ -38,7 +38,7 @@ function get_user_by_name($db, $name){
 
 function login_as($db, $name, $password){
   $user = get_user_by_name($db, $name);
-  if($user === false || $user['password'] !== $password){
+  if($user === false || password_verify($password, $user['password']) === false){
     return false;
   }
   set_session('user_id', $user['user_id']);
