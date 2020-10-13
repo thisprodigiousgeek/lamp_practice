@@ -4,7 +4,7 @@ function dd($var){
   var_dump($var);
   exit();
 }
-
+//変数$urlのページへリダイレクト
 function redirect_to($url){
   header('Location: ' . $url);
   exit;
