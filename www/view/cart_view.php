@@ -45,6 +45,7 @@
               <form method="post" action="cart_delete_cart.php">
                 <input type="submit" value="削除" class="btn btn-danger delete">
                 <input type="hidden" name="cart_id" value="<?php print($cart['cart_id']); ?>">
+                <input type="hidden" name="token" value="<?php print $token; ?>">
               </form>
 
             </td>
