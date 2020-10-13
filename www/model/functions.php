@@ -24,6 +24,7 @@ function get_post($name){
   return '';
 }
 
+//
 function get_file($name){
   if(isset($_FILES[$name]) === true){
     return $_FILES[$name];
@@ -31,10 +32,12 @@ function get_file($name){
   return array();
 }
 
+//ログインしているセッションの値を返す
 function get_session($name){
   if(isset($_SESSION[$name]) === true){
     return $_SESSION[$name];
   };
+  //なければ空を返す
   return '';
 }
 
@@ -72,6 +75,7 @@ function get_messages(){
   return $messages;
 }
 
+//get_sessionから返されたセッションの値が空ではないことを返す
 function is_logined(){
   return get_session('user_id') !== '';
 }
