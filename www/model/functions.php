@@ -1,5 +1,5 @@
 <?php
-
+//変数$varの内容を出力
 function dd($var){
   var_dump($var);
   exit();
