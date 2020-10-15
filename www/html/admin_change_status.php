@@ -6,6 +6,14 @@ require_once MODEL_PATH . 'item.php';
 
 session_start();
 
+//トークンの照合
+if(is_valid_csrf_token($_POST['token'])) {
+  //トークンの削除
+  $token = '';
+} else {
+  redirect_to(LOGOUT_URL);
+}
+
 if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }
