@@ -1,5 +1,8 @@
 <?php 
+//それぞれphpファイルの読み込み
+//汎用関数ファイルの読み込み
 require_once MODEL_PATH . 'functions.php';
+//データベースの関数ファイルの読み込み
 require_once MODEL_PATH . 'db.php';
 
 function get_user_carts($db, $user_id){
