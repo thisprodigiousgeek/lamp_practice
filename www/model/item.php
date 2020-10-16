@@ -16,10 +16,10 @@ function get_item($db, $item_id){
     FROM
       items
     WHERE
-      item_id = {$item_id}
+      item_id = :item_id
   ";
-
-  return fetch_query($db, $sql);
+  $array=array(':item_id'=>$item_id);
+  return fetch_query($db, $sql,$array);
 }
 
 function get_items($db, $is_open = false){
@@ -82,10 +82,11 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
         image,
         status
       )
-    VALUES('{$name}', {$price}, {$stock}, '{$filename}', {$status_value});
+    VALUES(:name, :price, :stock, :filename, :status_value);
   ";
-
-  return execute_query($db, $sql);
+  
+  $array=array(':name'=>$name, ':price'=>$stock, ':stock'=>$stock, ':filename'=>$filename, ':status_value'=>$status_value);
+  return execute_query($db, $sql, $array);
 }
 
 function update_item_status($db, $item_id, $status){
