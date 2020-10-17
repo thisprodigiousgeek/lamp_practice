@@ -3,7 +3,7 @@ require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
 // DB利用
-
+//商品別情報取得SQL文
 function get_item($db, $item_id){
   $sql = "
     SELECT
