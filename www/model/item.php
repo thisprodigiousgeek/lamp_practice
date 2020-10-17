@@ -89,32 +89,36 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
   return execute_query($db, $sql, $array);
 }
 
+//管理画面商品公開変更
 function update_item_status($db, $item_id, $status){
   $sql = "
     UPDATE
       items
     SET
-      status = {$status}
+      status = :status
     WHERE
-      item_id = {$item_id}
+      item_id = :item_id
     LIMIT 1
   ";
   
-  return execute_query($db, $sql);
+  $array=array(':status'=>$status, ':item_id'=>$item_id);
+  return execute_query($db, $sql, $array);
 }
 
+//管理画面商品個数変更
 function update_item_stock($db, $item_id, $stock){
   $sql = "
     UPDATE
       items
     SET
-      stock = {$stock}
+      stock = :stock
     WHERE
-      item_id = {$item_id}
+      item_id = :item_id
     LIMIT 1
   ";
   
-  return execute_query($db, $sql);
+  $array=array(':stock'=>$stock, ':item_id'=>$item_id);
+  return execute_query($db, $sql, $array);
 }
 
 function destroy_item($db, $item_id){
@@ -137,11 +141,12 @@ function delete_item($db, $item_id){
     DELETE FROM
       items
     WHERE
-      item_id = {$item_id}
+      item_id = :item_id
     LIMIT 1
   ";
-  
-  return execute_query($db, $sql);
+
+  $array=array(':item_id'=>$item_id);
+  return execute_query($db, $sql, $array);
 }
 
 
