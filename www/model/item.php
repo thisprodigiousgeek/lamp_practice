@@ -16,8 +16,9 @@ function get_item($db, $item_id){
     FROM
       items
     WHERE
-      item_id = {$item_id}
+      item_id = :item_id
   ";
+  $statement->bindParam(':item_id', $item_id, PDO::PARAM_INT);
 
   return fetch_query($db, $sql);
 }
@@ -82,8 +83,13 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
         image,
         status
       )
-    VALUES('{$name}', {$price}, {$stock}, '{$filename}', {$status_value});
+    VALUES(?, ?, ?, ?, ?);
   ";
+  $statement->bindParam(1, $name, PDO::PARAM_STR);
+  $statement->bindParam(2, $price, PDO::PARAM_INT);
+  $statement->bindParam(3, $stock, PDO::PARAM_INT);
+  $statement->bindParam(4, $filename, PDO::PARAM_STR);
+  $statement->bindParam(5, $status, PDO::PARAM_INT);
 
   return execute_query($db, $sql);
 }
@@ -93,12 +99,14 @@ function update_item_status($db, $item_id, $status){
     UPDATE
       items
     SET
-      status = {$status}
+      status = :status
     WHERE
-      item_id = {$item_id}
+      item_id = :item_id
     LIMIT 1
   ";
-  
+  $statement->bindParam(':status', $status, PDO::PARAM_INT);
+  $statement->bindParam(':item_id', $item_id, PDO::PARAM_INT);
+
   return execute_query($db, $sql);
 }
 
@@ -107,11 +115,13 @@ function update_item_stock($db, $item_id, $stock){
     UPDATE
       items
     SET
-      stock = {$stock}
+      stock = :stock
     WHERE
-      item_id = {$item_id}
+      item_id = :item_id
     LIMIT 1
   ";
+  $statement->bindParam(':stock', $stock, PDO::PARAM_INT);
+  $statement->bindParam(':item_id', $item_id, PDO::PARAM_INT);
   
   return execute_query($db, $sql);
 }
@@ -136,9 +146,10 @@ function delete_item($db, $item_id){
     DELETE FROM
       items
     WHERE
-      item_id = {$item_id}
+      item_id = :item_id
     LIMIT 1
   ";
+  $statement->bindParam(':item_id', $item_id, PDO::PARAM_INT);
   
   return execute_query($db, $sql);
 }
