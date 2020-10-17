@@ -26,7 +26,7 @@ function get_user_carts($db, $user_id){
     WHERE
       carts.user_id = :user_id
   ";
-  $array=array(':item_id'=>$user_id);
+  $array=array(':user_id'=>$user_id);
   return fetch_all_query($db, $sql, $array);
 }
 
