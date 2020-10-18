@@ -143,6 +143,7 @@ function delete_cart($db, $cart_id){
 }
 
 function purchase_carts($db, $carts){
+  $db->beginTransaction();
   if(validate_cart_purchase($carts) === false){
     return false;
   }
@@ -154,9 +155,19 @@ function purchase_carts($db, $carts){
       ) === false){
       set_error($cart['name'] . 'の購入に失敗しました。');
     }
+    if(bulk_regist(
+        $db,
+        $cart['cart_id'],
+        $cart['user_id'],
+        $cart['item_id'],
+        $cart['price'],
+        $cart['amount']
+        ) === false){
+          set_error($cart['name'] . 'の書き込みに失敗しました。');
+        } 
   }
-  
   delete_user_carts($db, $carts[0]['user_id']);
+  $db->commit();
 }
 
 function delete_user_carts($db, $user_id){

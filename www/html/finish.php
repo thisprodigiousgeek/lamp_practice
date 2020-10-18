@@ -16,8 +16,6 @@ $user = get_login_user($db);
 
 $carts = get_user_carts($db, $user['user_id']);
 
-$regist = bulk_regist($db, $carts[0]['cart_id'], $carts[0]['user_id'], $carts[0]['item_id'], $carts[0]['price'],$carts[0]['amount']);
-
 if(purchase_carts($db, $carts) === false){
   set_error('商品が購入できませんでした。');
   redirect_to(CART_URL);
