@@ -23,9 +23,9 @@ function get_user_carts($db, $user_id){
     WHERE
       carts.user_id = :user_id
   ";
-  $statement->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+  $params = array(':user_id' => $user_id);
 
-  return fetch_all_query($db, $sql);
+  return fetch_all_query($db, $sql, $params);
 }
 
 function get_user_cart($db, $user_id, $item_id){
@@ -51,10 +51,9 @@ function get_user_cart($db, $user_id, $item_id){
     AND
       items.item_id = :item_id
   ";
-  $statement->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-  $statement->bindParam(':item_id', $item_id, PDO::PARAM_INT);
+  $params = array(':user_id' => $user_id, ':item_id' => $item_id);
 
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql, $params);
 
 }
 
@@ -66,7 +65,7 @@ function add_cart($db, $user_id, $item_id ) {
   return update_cart_amount($db, $cart['cart_id'], $cart['amount'] + 1);
 }
 
-function insert_cart($db, $user_id, $item_id, $amount = 1){
+function insert_cart($db, $user_id, $item_id, $amount = 1, $params){
   $sql = "
     INSERT INTO
       carts(
@@ -74,13 +73,11 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
         user_id,
         amount
       )
-    VALUES(?, ?, ?)
+    VALUES(:item_id, :user_id, :amount)
   ";
-  $statement->bindParam(1, $item_id, PDO::PARAM_INT);
-  $statement->bindParam(2, $user_id, PDO::PARAM_INT);
-  $statement->bindParam(3, $amount, PDO::PARAM_INT);
+  $params = array(':item_id' => $item_id, 'user_id' => $user_id, 'amount' => $amount);
 
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, $params);
 }
 
 function update_cart_amount($db, $cart_id, $amount){
@@ -93,10 +90,9 @@ function update_cart_amount($db, $cart_id, $amount){
       cart_id = :cart_id
     LIMIT 1
   ";
-  $statement->bindParam(':amount', $amount, PDO::PARAM_INT);
-  $statement->bindParam(':cart_id', $cart_id, PDO::PARAM_INT);
+  $params = array(':amount' => $amount, ':cart_id' => $cart_id);
 
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, $params);
 }
 
 function delete_cart($db, $cart_id){
@@ -107,9 +103,9 @@ function delete_cart($db, $cart_id){
       cart_id = :cart_id
     LIMIT 1
   ";
-  $statement->bindParam(':cart_id', $cart_id, PDO::PARAM_INT);
+  $params = array(':cart_id' => $cart_id);
 
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, $params);
 }
 
 function purchase_carts($db, $carts){
@@ -136,9 +132,9 @@ function delete_user_carts($db, $user_id){
     WHERE
       user_id = :user_id
   ";
-  $statement->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+  $params = array(':user_id' => $user_id);
 
-  execute_query($db, $sql);
+  execute_query($db, $sql, $params);
 }
 
 

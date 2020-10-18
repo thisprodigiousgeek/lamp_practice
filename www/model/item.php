@@ -18,9 +18,9 @@ function get_item($db, $item_id){
     WHERE
       item_id = :item_id
   ";
-  $statement->bindParam(':item_id', $item_id, PDO::PARAM_INT);
+  $params = array(':item_id' => $item_id);
 
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql, $params);
 }
 
 function get_items($db, $is_open = false){
@@ -83,15 +83,11 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
         image,
         status
       )
-    VALUES(?, ?, ?, ?, ?);
+    VALUES(:name, :price, :stock, :image, :status);
   ";
-  $statement->bindParam(1, $name, PDO::PARAM_STR);
-  $statement->bindParam(2, $price, PDO::PARAM_INT);
-  $statement->bindParam(3, $stock, PDO::PARAM_INT);
-  $statement->bindParam(4, $filename, PDO::PARAM_STR);
-  $statement->bindParam(5, $status, PDO::PARAM_INT);
+  $params = array(':name' => $name, ':price' => $price, ':stock' => $stock, ':image' => $image, ':status' => $status);
 
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, $params);
 }
 
 function update_item_status($db, $item_id, $status){
@@ -104,10 +100,9 @@ function update_item_status($db, $item_id, $status){
       item_id = :item_id
     LIMIT 1
   ";
-  $statement->bindParam(':status', $status, PDO::PARAM_INT);
-  $statement->bindParam(':item_id', $item_id, PDO::PARAM_INT);
+  $params = array(':status' => $status, ':item_id' => $item_id);
 
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, $params);
 }
 
 function update_item_stock($db, $item_id, $stock){
@@ -120,10 +115,9 @@ function update_item_stock($db, $item_id, $stock){
       item_id = :item_id
     LIMIT 1
   ";
-  $statement->bindParam(':stock', $stock, PDO::PARAM_INT);
-  $statement->bindParam(':item_id', $item_id, PDO::PARAM_INT);
+  $params = array(':status' => $status, ':item_id' => $item_id);
   
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, $params);
 }
 
 function destroy_item($db, $item_id){
@@ -149,9 +143,9 @@ function delete_item($db, $item_id){
       item_id = :item_id
     LIMIT 1
   ";
-  $statement->bindParam(':item_id', $item_id, PDO::PARAM_INT);
+  $params = array(':item_id' => $item_id);
   
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, $params);
 }
 
 

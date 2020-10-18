@@ -15,9 +15,9 @@ function get_user($db, $user_id){
       user_id = :user_id
     LIMIT 1
   ";
-  $statement->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+  $params = array(':user_id' => $user_id);
 
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql, $params);
 }
 
 function get_user_by_name($db, $name){
@@ -33,9 +33,9 @@ function get_user_by_name($db, $name){
       name = :name
     LIMIT 1
   ";
-  $statement->bindParam(':name', $name, PDO::PARAM_STR);
+  $params = array(':name' => $name);
 
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql, $params);
 }
 
 function login_as($db, $name, $password){
@@ -106,10 +106,9 @@ function insert_user($db, $name, $password){
   $sql = "
     INSERT INTO
       users(name, password)
-    VALUES (?, ?);
+    VALUES (:name, :password);
   ";
-  $statement->bindParam(1, $name, PDO::PARAM_STR);
-  $statement->bindParam(2, $password, PDO::PARAM_INT);
+  $params = array(':name' => $name, ':password' => $password);
 
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, $params);
 }
