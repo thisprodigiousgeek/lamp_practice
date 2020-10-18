@@ -80,19 +80,42 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
   return execute_query($db, $sql,[$item_id,$user_id,$amount]);
 }
 
-function insert_history($db, $user_id){
+function insert_history($db, $cart_id,$user_id){
   $sql = "
     INSERT INTO
       history(
+        purchased_history_id,
         user_id,
         created
       )
-    VALUES(?, now())
+    VALUES(?,?, now())
   ";
 
-  return execute_query($db, $sql,[$user_id]);
+  return execute_query($db, $sql,[$cart_id,$user_id]);
 }
 
+function insert_details($db, $cart_id, $item_id, $price, $amount){
+  $price_sum = $price * $amount;
+  $sql = "
+    INSERT INTO
+      details(
+        purchased_history_id,
+        item_id,
+        amount,
+        price_sum
+      )
+    VALUES(?, ?, ?, ?)
+  ";
+
+  return execute_query($db, $sql,[$cart_id,$item_id,$amount,$price_sum] );
+}
+
+function bulk_regist($db, $cart_id, $user_id, $item_id, $price, $amount){
+  $history = insert_history($db, $cart_id, $user_id);
+  $details = insert_details($db, $cart_id, $item_id, $price, $amount);
+
+  return $history && $details;
+}
 
 function update_cart_amount($db, $cart_id, $amount){
   $sql = "
