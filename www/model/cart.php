@@ -55,10 +55,14 @@ function get_user_cart($db, $user_id, $item_id){
 }
 
 function add_cart($db, $user_id, $item_id ) {
+  //カートの情報を取得する
   $cart = get_user_cart($db, $user_id, $item_id);
+  //もし取得に失敗したら
   if($cart === false){
+    //cartに書き込み処理を行う
     return insert_cart($db, $user_id, $item_id);
   }
+  //カートへの書き込み処理を行わなけえればカートの数量を更新する
   return update_cart_amount($db, $cart['cart_id'], $cart['amount'] + 1);
 }
 
@@ -75,6 +79,20 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
 
   return execute_query($db, $sql,[$item_id,$user_id,$amount]);
 }
+
+function insert_history($db, $user_id){
+  $sql = "
+    INSERT INTO
+      history(
+        user_id,
+        created
+      )
+    VALUES(?, now())
+  ";
+
+  return execute_query($db, $sql,[$user_id]);
+}
+
 
 function update_cart_amount($db, $cart_id, $amount){
   $sql = "
