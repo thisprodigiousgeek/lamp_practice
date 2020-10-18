@@ -6,6 +6,12 @@
   <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'cart.css'); ?>">
 </head>
 <body>
+  <?php $a = insert_details($db,$carts[0]['item_id'],$carts[0]['price'],$carts[0]['amount']);
+  var_dump($a);
+  var_dump($carts[0]['item_id']);
+  var_dump($carts[0]['price']);
+  var_dump($carts[0]['amount']);
+  ?>
   <?php include VIEW_PATH . 'templates/header_logined.php'; ?>
   <h1>カート</h1>
   <div class="container">

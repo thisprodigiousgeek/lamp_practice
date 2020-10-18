@@ -43,7 +43,6 @@ function execute_query($db, $sql, $params = array()){
     $statement = $db->prepare($sql);
     return $statement->execute($params);
   }catch(PDOException $e){
-    $db->rollback();
     set_error('更新に失敗しました。');
   }
   return false;

@@ -80,21 +80,31 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
   return execute_query($db, $sql,[$item_id,$user_id,$amount]);
 }
 
-function insert_history($db, $cart_id,$user_id){
+function insert_history($db, $user_id){
   $sql = "
     INSERT INTO
       history(
-        purchased_history_id,
         user_id,
         created
       )
-    VALUES(?,?, now())
+    VALUES(?, now())
   ";
 
-  return execute_query($db, $sql,[$cart_id,$user_id]);
+  return execute_query($db, $sql,[$user_id]);
 }
 
-function insert_details($db, $cart_id, $item_id, $price, $amount){
+function max_purchased_history_id($db){
+  $sql = "
+    SELECT
+      MAX(purchased_history_id)
+    FROM
+      history
+  ";
+  return fetch_query($db, $sql);
+}
+
+function insert_details($db, $item_id, $price, $amount){
+  $purchased_history_id = max_purchased_history_id($db);
   $price_sum = $price * $amount;
   $sql = "
     INSERT INTO
@@ -107,12 +117,12 @@ function insert_details($db, $cart_id, $item_id, $price, $amount){
     VALUES(?, ?, ?, ?)
   ";
 
-  return execute_query($db, $sql,[$cart_id,$item_id,$amount,$price_sum] );
+  return execute_query($db, $sql,[$purchased_history_id,$item_id,$amount,$price_sum]);
 }
 
-function bulk_regist($db, $cart_id, $user_id, $item_id, $price, $amount){
-  $history = insert_history($db, $cart_id, $user_id);
-  $details = insert_details($db, $cart_id, $item_id, $price, $amount);
+function bulk_regist($db, $user_id, $item_id, $price, $amount){
+  $history = insert_history($db, $user_id);
+  $details = insert_details($db, $item_id, $price, $amount);
 
   return $history && $details;
 }
@@ -143,7 +153,6 @@ function delete_cart($db, $cart_id){
 }
 
 function purchase_carts($db, $carts){
-  $db->beginTransaction();
   if(validate_cart_purchase($carts) === false){
     return false;
   }
@@ -157,7 +166,6 @@ function purchase_carts($db, $carts){
     }
     if(bulk_regist(
         $db,
-        $cart['cart_id'],
         $cart['user_id'],
         $cart['item_id'],
         $cart['price'],
@@ -167,7 +175,6 @@ function purchase_carts($db, $carts){
         } 
   }
   delete_user_carts($db, $carts[0]['user_id']);
-  $db->commit();
 }
 
 function delete_user_carts($db, $user_id){
