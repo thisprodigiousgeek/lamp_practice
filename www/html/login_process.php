@@ -5,7 +5,7 @@ require_once MODEL_PATH . 'user.php';
 
 session_start();
 
-if(is_logined() === true){
+if(is_logined() === true && $_POST['token'] === $_SESSION['csrf_token']){
   redirect_to(HOME_URL);
 }
 
@@ -20,6 +20,7 @@ if( $user === false){
   set_error('ログインに失敗しました。');
   redirect_to(LOGIN_URL);
 }
+
 
 set_message('ログインしました。');
 if ($user['type'] === USER_TYPE_ADMIN){

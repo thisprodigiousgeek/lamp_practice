@@ -7,7 +7,7 @@ require_once MODEL_PATH . 'cart.php';
 
 session_start();
 
-if(is_logined() === false){
+if(is_logined() === false && $_POST['token'] !== $_SESSION['csrf_token']){
   redirect_to(LOGIN_URL);
 }
 
