@@ -28,5 +28,4 @@ try{
 
 set_message('ユーザー登録が完了しました。');
 login_as($db, $name, $password);
-
 redirect_to(HOME_URL);
