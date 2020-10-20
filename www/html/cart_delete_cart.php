@@ -16,6 +16,15 @@ $user = get_login_user($db);
 
 $cart_id = get_post('cart_id');
 
+//postで送られたtokenを取得
+$token = get_post('token');
+//生成したトークンが合っていなければログイン画面へリダイレクト
+if(is_valid_csrf_token($token) === false){
+  redirect_to(LOGIN_URL);
+}
+//トークンセッションの削除
+unset($_SESSION["csrf_token"]);
+
 if(delete_cart($db, $cart_id)){
   set_message('カートを削除しました。');
 } else {
