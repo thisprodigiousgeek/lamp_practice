@@ -20,6 +20,14 @@ if(is_admin($user) === false){
 
 $item_id = get_post('item_id');
 
+//postで送られたtokenを取得
+$token = get_post('token');
+//生成したトークンが合っていなければログイン画面へリダイレクト
+if(is_valid_csrf_token($token) === false){
+  redirect_to(LOGIN_URL);
+}
+//トークンセッションの削除
+unset($_SESSION["csrf_token"]);
 
 if(destroy_item($db, $item_id) === true){
   set_message('商品を削除しました。');

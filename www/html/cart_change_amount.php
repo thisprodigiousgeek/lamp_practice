@@ -17,6 +17,15 @@ $user = get_login_user($db);
 $cart_id = get_post('cart_id');
 $amount = get_post('amount');
 
+//postで送られたtokenを取得
+$token = get_post('token');
+//生成したトークンが合っていなければログイン画面へリダイレクト
+if(is_valid_csrf_token($token) === false){
+  redirect_to(LOGIN_URL);
+}
+//トークンセッションの削除
+unset($_SESSION["csrf_token"]);
+
 if(update_cart_amount($db, $cart_id, $amount)){
   set_message('購入数を更新しました。');
 } else {

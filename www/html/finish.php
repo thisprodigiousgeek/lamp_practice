@@ -11,6 +11,15 @@ if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }
 
+//postで送られたtokenを取得
+$token = get_post('token');
+//生成したトークンが合っていなければログイン画面へリダイレクト
+if(is_valid_csrf_token($token) === false){
+  redirect_to(LOGIN_URL);
+}
+//トークンセッションの削除
+unset($_SESSION["csrf_token"]);
+
 $db = get_db_connect();
 $user = get_login_user($db);
 

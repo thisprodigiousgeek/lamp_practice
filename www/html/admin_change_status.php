@@ -21,6 +21,15 @@ if(is_admin($user) === false){
 $item_id = get_post('item_id');
 $changes_to = get_post('changes_to');
 
+//postで送られたtokenを取得
+$token = get_post('token');
+//生成したトークンが合っていなければログイン画面へリダイレクト
+if(is_valid_csrf_token($token) === false){
+  redirect_to(LOGIN_URL);
+}
+//トークンセッションの削除
+unset($_SESSION["csrf_token"]);
+
 if($changes_to === 'open'){
   update_item_status($db, $item_id, ITEM_STATUS_OPEN);
   set_message('ステータスを変更しました。');
