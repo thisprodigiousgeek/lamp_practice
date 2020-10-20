@@ -103,7 +103,9 @@ function max_purchased_history_id($db){
   return fetch_query($db, $sql);
 }
 
-function insert_details($db, $history_id, $item_id, $price, $amount){
+function insert_details($db, $item_id, $price, $amount){
+  $history_id = max_purchased_history_id($db);
+  $history_id = $history_id["MAX(purchased_history_id)"];
   $price_sum = $price * $amount;
   $sql = "
     INSERT INTO
@@ -119,9 +121,9 @@ function insert_details($db, $history_id, $item_id, $price, $amount){
   return execute_query($db, $sql,[$history_id,$item_id,$amount,$price_sum] );
 }
 
-function bulk_regist($db, $history_id, $user_id, $item_id, $price, $amount){
+function bulk_regist($db,$user_id, $item_id, $price, $amount){
   $history = insert_history($db, $user_id);
-  $details = insert_details($db, $history_id, $item_id, $price, $amount);
+  $details = insert_details($db, $item_id, $price, $amount);
 
   return $history && $details;
 }
@@ -151,7 +153,8 @@ function delete_cart($db, $cart_id){
   return execute_query($db, $sql, [$cart_id]);
 }
 
-function purchase_carts($db, $history_id, $carts){
+function purchase_carts($db, $carts){
+  $db->beginTransaction();
   if(validate_cart_purchase($carts) === false){
     return false;
   }
@@ -165,7 +168,6 @@ function purchase_carts($db, $history_id, $carts){
     }
     if(bulk_regist(
         $db,
-        $history_id,
         $cart['user_id'],
         $cart['item_id'],
         $cart['price'],
@@ -175,6 +177,7 @@ function purchase_carts($db, $history_id, $carts){
         } 
   }
   delete_user_carts($db, $carts[0]['user_id']);
+  $db->commit();
 }
 
 function delete_user_carts($db, $user_id){

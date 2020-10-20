@@ -15,8 +15,8 @@ $db = get_db_connect();
 $user = get_login_user($db);
 
 $carts = get_user_carts($db, $user['user_id']);
-$history_id = max_purchased_history_id($db);
-if(purchase_carts($db, $history_id, $carts) === false){
+
+if(purchase_carts($db, $carts) === false){
   set_error('商品が購入できませんでした。');
   redirect_to(CART_URL);
 } 
