@@ -6,7 +6,7 @@ require_once MODEL_PATH . 'user.php';
 session_start();
 
 is_valid_csrf_token($token);
-if(is_logined() === true && $_POST['token'] === $token){
+if(is_logined() === true && $_POST['token'] === $_SESSION['csrf_token']){
   redirect_to(HOME_URL);
 }
 
