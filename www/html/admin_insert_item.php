@@ -7,7 +7,7 @@ require_once MODEL_PATH . 'item.php';
 session_start();
 
 is_valid_csrf_token($token);
-if(is_logined() === false && $_POST['token'] !== $_SESSION['csrf_token']){
+if(is_logined() === false || is_valid_csrf_token($_POST['token']) === false){
   redirect_to(LOGIN_URL);
 }
 
