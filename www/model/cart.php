@@ -65,7 +65,7 @@ function add_cart($db, $user_id, $item_id ) {
   return update_cart_amount($db, $cart['cart_id'], $cart['amount'] + 1);
 }
 
-function insert_cart($db, $user_id, $item_id, $amount = 1, $params){
+function insert_cart($db, $user_id, $item_id, $amount = 1){
   $sql = "
     INSERT INTO
       carts(
