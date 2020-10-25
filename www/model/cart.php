@@ -93,40 +93,35 @@ function insert_history($db, $user_id){
   return execute_query($db, $sql,[$user_id]);
 }
 
-function max_purchased_history_id($db){
-  $sql = "
-    SELECT
-      MAX(purchased_history_id)
-    FROM
-      history
-  ";
-  return fetch_query($db, $sql);
-}
-
-function insert_details($db, $item_id, $price, $amount){
-  $history_id = max_purchased_history_id($db);
-  $history_id = $history_id["MAX(purchased_history_id)"];
-  $price_sum = $price * $amount;
+function insert_details($db, $history_id, $item_id, $amount,$price){
   $sql = "
     INSERT INTO
       details(
         purchased_history_id,
         item_id,
         amount,
-        price_sum
+        price
       )
     VALUES(?, ?, ?, ?)
   ";
 
-  return execute_query($db, $sql,[$history_id,$item_id,$amount,$price_sum] );
+  return execute_query($db, $sql,[$history_id,$item_id,$amount,$price] );
 }
 
-function bulk_regist($db,$user_id, $item_id, $price, $amount){
-  $history = insert_history($db, $user_id);
-  $details = insert_details($db, $item_id, $price, $amount);
-
-  return $history && $details;
-}
+function bulk_regist($db,$carts){
+  $history = insert_history($db, $carts[0]['user_id']);
+  if($history === false){
+    return false;
+  }
+  $history_id = $db->lastInsertId();
+  foreach($carts as $cart){
+    $details = insert_details($db, $history_id, $cart['item_id'], $cart['amount'] , $cart['price']);
+    if($details === false){
+        set_error($cart['name'] . 'の書き込みに失敗しました。');
+        return false;
+      }
+    }
+  }
 
 function update_cart_amount($db, $cart_id, $amount){
   $sql = "
@@ -154,10 +149,10 @@ function delete_cart($db, $cart_id){
 }
 
 function purchase_carts($db, $carts){
-  $db->beginTransaction();
   if(validate_cart_purchase($carts) === false){
     return false;
   }
+  $db->beginTransaction();
   foreach($carts as $cart){
     if(update_item_stock(
         $db, 
@@ -166,18 +161,15 @@ function purchase_carts($db, $carts){
       ) === false){
       set_error($cart['name'] . 'の購入に失敗しました。');
     }
-    if(bulk_regist(
-        $db,
-        $cart['user_id'],
-        $cart['item_id'],
-        $cart['price'],
-        $cart['amount']
-        ) === false){
-          set_error($cart['name'] . 'の書き込みに失敗しました。');
-        } 
   }
+  bulk_regist($db,$carts);
   delete_user_carts($db, $carts[0]['user_id']);
-  $db->commit();
+  //if文を書く has_errorを入れて条件分岐
+  if(has_error() === true){
+    $db->rollback();
+  } else {
+    $db->commit();
+  }
 }
 
 function delete_user_carts($db, $user_id){
