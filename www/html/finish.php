@@ -19,8 +19,10 @@ $carts = get_user_carts($db, $user['user_id']);
 try{
   $db->beginTransaction();
   insert_history($db, $user['user_id']);
-  $order_id = $db -> lastInsertId();
-  insert_details($db, $order_id, $carts['item_id'], $carts['price'], $carts['amount']);
+  $order_id = $db->lastInsertId();
+  foreach ($carts as $cart) {
+  insert_details($db, $order_id, $cart['item_id'], $cart['price'], $cart['amount']);
+  }
   $db->commit();
 }catch(PDOException $e){
   $db->rollBack();

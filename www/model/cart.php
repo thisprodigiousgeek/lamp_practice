@@ -169,7 +169,7 @@ function insert_history($db, $user_id) {
   $sql = "
     INSERT INTO
       history(
-        user_id = :user_id
+        user_id
       )
     VALUES(:user_id)
   ";
@@ -178,14 +178,14 @@ function insert_history($db, $user_id) {
   return execute_query($db, $sql, $params);
 }
 
-function insert_details($db,　$order_id, $item_id, $price, $amount) {
+function insert_details($db, $order_id, $item_id, $price, $amount) {
   $sql = "
     INSERT INTO
       details(
-        order_id = :order_id,
-        item_id = :item_id,
-        price = :price,
-        amount = :amount
+        order_id,
+        item_id,
+        price,
+        amount
       )
     VALUES(:order_id, :item_id, :price, :amount)
   ";
