@@ -59,9 +59,12 @@ function get_user_cart($db, $user_id, $item_id){
 
 }
 
+//カート内に同じ商品があれば+1、なければ追加
 function add_cart($db, $user_id, $item_id ) {
+  //関数でuser_idとitem_idから同じユーザーで同じ商品があるか確認
   $cart = get_user_cart($db, $user_id, $item_id);
   if($cart === false){
+    //なければinsert_cartで新しく追加する
     return insert_cart($db, $user_id, $item_id);
   }
   return update_cart_amount($db, $cart['cart_id'], $cart['amount'] + 1);
@@ -109,6 +112,8 @@ function delete_cart($db, $cart_id){
   $array=array(':cart_id'=>$cart_id);
   return execute_query($db, $sql, $array);
 }
+
+
 
 function purchase_carts($db, $carts){
   if(validate_cart_purchase($carts) === false){

@@ -4,9 +4,11 @@ require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'user.php';
 require_once MODEL_PATH . 'item.php';
 require_once MODEL_PATH . 'cart.php';
+require_once MODEL_PATH . 'order.php';
 
+//セッションのスタート
 session_start();
-
+//ログインされていなければログインページへリダイレクト
 if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }
@@ -31,5 +33,14 @@ if(purchase_carts($db, $carts) === false){
 } 
 
 $total_price = sum_carts($carts);
+
+//購入履歴テーブルへの挿入
+if(regist_order_transaction($db, $user['user_id'], $total_price, $carts) === false){
+  set_error('テーブルへの書き込みに失敗しました。');
+  redirect_to(CART_URL);
+}
+//foreach($carts as $read){
+//  dd($read['stock']);
+//}
 
 include_once '../view/finish_view.php';
