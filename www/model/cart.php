@@ -203,6 +203,7 @@ function bulk_regist($db,$carts){
         return false;
       }
     }
+    return true;
   }
 
 function update_cart_amount($db, $cart_id, $amount){
