@@ -19,24 +19,24 @@
           </tr>
         </thead>
         <tbody>
-            <?php foreach ($orders as $order) { ?>
+            <?php foreach ($all_history as $history) { ?>
         <tr>
-            <td><?php print h($order['order_id']); ?></td>
-            <td><?php print h($order['purchase_date']); ?></td>
+            <td><?php print h($history['order_id']); ?></td>
+            <td><?php print h($history['purchase_date']); ?></td>
             <td>
                 <?php 
-                $total = 0; 
-                foreach ($order_details as $order_detail) {
-                    if ($order['order_id'] === $order_detail['order_id']){
-                        $total += $order_detail['price'] * $order_detail['amount'];
+                    $total = 0; 
+                    foreach ($all_history_details as $history_details) {
+                        if ($history['order_id'] === $history_details['order_id']){
+                            $total += $history_details['price'] * $history_details['amount'];
+                        }
                     }
-                }
-                print h($total); ?>
+                    print h($total); ?>
             </td>
             <td>
                 <form method="post" action="purchase_details.php">
                     <input type="hidden" name="token" value="<?php print $token; ?>">
-                    <input type="hidden" name="order_id" value="<?php print $order['order_id']; ?>">
+                    <input type="hidden" name="order_id" value="<?php print $history['order_id']; ?>">
                     <input class="btn btn-block btn-primary" type="submit" value="購入明細表示">
                 </form>
             </td>
