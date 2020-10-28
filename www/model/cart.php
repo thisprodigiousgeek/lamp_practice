@@ -70,8 +70,30 @@ function get_purchased_history($db, $user_id){
     history.user_id = ?
   GROUP BY
     history.purchased_history_id
+  ORDER BY 
+    history.purchased_history_id DESC
   ";
   return fetch_all_query($db, $sql, [$user_id]);
+}
+
+function get_purchased_allhistory($db){
+  $sql = "
+  SELECT
+    history.purchased_history_id,
+    history.created,
+    SUM(details.price * details.amount) as totalprice
+  FROM
+    history
+  JOIN
+    details
+  ON
+    history.purchased_history_id = details.purchased_history_id
+  GROUP BY
+    history.purchased_history_id
+  ORDER BY 
+    history.purchased_history_id DESC
+  ";
+  return fetch_all_query($db, $sql);
 }
 
 

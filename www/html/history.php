@@ -16,5 +16,6 @@ $user = get_login_user($db);
 
 $purchased_history = get_purchased_history($db, $user['user_id']);
 
+$all_history = get_purchased_allhistory($db);
 
 include_once VIEW_PATH . 'history_view.php';
