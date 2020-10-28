@@ -96,6 +96,45 @@ function get_purchased_allhistory($db){
   return fetch_all_query($db, $sql);
 }
 
+function get_details_list($db, $details_id){
+  $sql = "
+  SELECT
+    details.purchased_history_id,
+    details.amount,
+    details.price,
+    items.name
+  FROM
+    details
+  JOIN
+    items
+  ON
+    details.item_id = items.item_id
+  WHERE
+    details.purchased_history_id = ?
+  ";
+  return fetch_all_query($db, $sql, [$details_id]);
+}
+
+function get_history_list($db, $details_id){
+  $sql = "
+  SELECT
+    history.purchased_history_id,
+    history.created,
+    SUM(details.price * details.amount) as totalprice
+  FROM
+    history
+  JOIN
+    details
+  ON
+    history.purchased_history_id = details.purchased_history_id
+  WHERE
+    history.purchased_history_id = ?
+  GROUP BY
+    history.purchased_history_id
+  ";
+  return fetch_all_query($db, $sql, [$details_id]);
+}
+
 
 function add_cart($db, $user_id, $item_id ) {
   //カートの情報を取得する

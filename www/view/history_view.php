@@ -27,19 +27,29 @@
           if(is_admin($user)){
             foreach($all_history as $value){ ?>
               <tr>
-                <td>番号:<?php print $value['purchased_history_id']; ?></td>
+                <td>No.<?php print $value['purchased_history_id']; ?></td>
                 <td><?php print $value['created']; ?></td>
-                <td>計:<?php print $value['totalprice']; ?></td>
-                <td>詳細はこちら</td>
+                <td>計:<?php print number_format($value['totalprice']); ?>円</td>
+                <td>
+                  <form action="details.php" method="get">
+                    <input type="submit" value="詳細表示">
+                    <input type="hidden" name="details_id" value="<?php print $value['purchased_history_id']; ?>">
+                  </form> 
+                </td>
               </tr>
             <?php }
           } else {
             foreach($purchased_history as $value){ ?>
           <tr>
-            <td>番号:<?php print $value['purchased_history_id']; ?></td>
+            <td>No.<?php print $value['purchased_history_id']; ?></td>
             <td><?php print $value['created']; ?></td>
-            <td>計:<?php print $value['totalprice']; ?></td>
-            <td>詳細はこちら</td>
+            <td>計:<?php print number_format($value['totalprice']); ?>円</td>
+            <td>
+              <form action="details.php" method="get">
+                <input type="submit" value="詳細表示">
+                <input type="hidden" name="details_id" value="<?php print $value['purchased_history_id']; ?>">
+              </form> 
+            </td>
           </tr>
           <?php }
           } ?>
