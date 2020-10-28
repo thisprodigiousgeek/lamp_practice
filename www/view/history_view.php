@@ -12,7 +12,7 @@
 
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
 
-    <?php if(count($history) > 0){ ?>
+    <?php if(count($purchased_history) > 0){ ?>
       <table class="table table-bordered">
         <thead class="thead-light">
           <tr>
@@ -23,11 +23,11 @@
           </tr>
         </thead>
         <tbody>
-          <?php foreach($history as $his){ ?>
+          <?php foreach($purchased_history as $value){ ?>
           <tr>
-            <td>番号:<?php print $his['purchased_history_id']; ?></td>
-            <td><?php print $his['created']; ?></td>
-            <td>計:<?php print $his['sum_price']; ?></td>
+            <td>番号:<?php print $value['purchased_history_id']; ?></td>
+            <td><?php print $value['created']; ?></td>
+            <td>計:<?php print $value['totalprice']; ?></td>
             <td>詳細はこちら</td>
           </tr>
           <?php } ?>

@@ -54,6 +54,27 @@ function get_user_cart($db, $user_id, $item_id){
 
 }
 
+function get_purchased_history($db, $user_id){
+  $sql = "
+  SELECT
+    history.purchased_history_id,
+    history.created,
+    SUM(details.price * details.amount) as totalprice
+  FROM
+    history
+  JOIN
+    details
+  ON
+    history.purchased_history_id = details.purchased_history_id
+  WHERE
+    history.user_id = ?
+  GROUP BY
+    history.purchased_history_id
+  ";
+  return fetch_all_query($db, $sql, [$user_id]);
+}
+
+
 function add_cart($db, $user_id, $item_id ) {
   //カートの情報を取得する
   $cart = get_user_cart($db, $user_id, $item_id);
