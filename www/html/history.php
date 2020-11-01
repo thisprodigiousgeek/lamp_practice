@@ -14,8 +14,10 @@ $token = get_csrf_token();
 $db = get_db_connect();
 $user = get_login_user($db);
 
-$purchased_history = get_purchased_history($db, $user['user_id']);
-
-$all_history = get_purchased_allhistory($db);
+if(is_admin($user) === TRUE) {
+  $purchased_history = get_purchased_history($db);
+} else {
+  $purchased_history = get_purchased_history($db, $user['user_id']);
+}
 
 include_once VIEW_PATH . 'history_view.php';

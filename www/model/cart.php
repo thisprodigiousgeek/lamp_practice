@@ -54,7 +54,8 @@ function get_user_cart($db, $user_id, $item_id){
 
 }
 
-function get_purchased_history($db, $user_id){
+function get_purchased_history($db, $user_id = null){
+  $params = [];
   $sql = "
   SELECT
     history.purchased_history_id,
@@ -65,15 +66,19 @@ function get_purchased_history($db, $user_id){
   JOIN
     details
   ON
-    history.purchased_history_id = details.purchased_history_id
-  WHERE
-    history.user_id = ?
+    history.purchased_history_id = details.purchased_history_id";
+    if($user_id !== null){
+      $sql.=" WHERE
+      history.user_id = ?";
+      $params[] = $user_id;
+    } 
+  $sql.="
   GROUP BY
     history.purchased_history_id
   ORDER BY 
     history.purchased_history_id DESC
   ";
-  return fetch_all_query($db, $sql, [$user_id]);
+  return fetch_all_query($db, $sql, $params);
 }
 
 function get_purchased_allhistory($db){
@@ -96,7 +101,8 @@ function get_purchased_allhistory($db){
   return fetch_all_query($db, $sql);
 }
 
-function get_details_list($db, $details_id){
+function get_details_list($db, $details_id, $user_id = null){
+  $params = [$details_id];
   $sql = "
   SELECT
     details.purchased_history_id,
@@ -110,12 +116,19 @@ function get_details_list($db, $details_id){
   ON
     details.item_id = items.item_id
   WHERE
-    details.purchased_history_id = ?
-  ";
-  return fetch_all_query($db, $sql, [$details_id]);
+    details.purchased_history_id = ?";
+  if($user_id !== null) {
+    $sql.=" AND 
+    EXISTS(SELECT * FROM history WHERE purchased_history_id = ? AND user_id = ?)
+    ";
+    $params[] = $details_id;
+    $params[] = $user_id;
+  }
+  return fetch_all_query($db, $sql, $params);
 }
 
-function get_history_list($db, $details_id){
+function get_history_list($db, $details_id, $user_id = null){
+  $params = [$details_id];
   $sql = "
   SELECT
     history.purchased_history_id,
@@ -128,11 +141,16 @@ function get_history_list($db, $details_id){
   ON
     history.purchased_history_id = details.purchased_history_id
   WHERE
-    history.purchased_history_id = ?
+    history.purchased_history_id = ?";
+  if($user_id !== null) {
+    $sql.= " AND history.user_id = ?";
+    $params[] = $user_id;
+  }
+  $sql.= " 
   GROUP BY
     history.purchased_history_id
   ";
-  return fetch_all_query($db, $sql, [$details_id]);
+  return fetch_all_query($db, $sql, $params);
 }
 
 

@@ -16,8 +16,17 @@ $details_id = get_get('details_id');
 $db = get_db_connect();
 $user = get_login_user($db);
 
-$details = get_details_list($db, $details_id);
+if(is_admin($user)){
+  $details = get_details_list($db, $details_id);
+} else {
+  $details = get_details_list($db, $details_id, $user_id['user_id']);
+}
 
-$purchased_history = get_history_list($db, $details_id);
+if(is_admin($user)){
+  $purchased_history = get_history_list($db, $details_id);
+} else {
+  $purchased_history = get_history_list($db, $details_id, $user_id['user_id']);
+}
+
 
 include_once VIEW_PATH . 'details_view.php';
