@@ -19,13 +19,13 @@ $user = get_login_user($db);
 if(is_admin($user)){
   $details = get_details_list($db, $details_id);
 } else {
-  $details = get_details_list($db, $details_id, $user_id['user_id']);
+  $details = get_details_list($db, $details_id, $user['user_id']);
 }
 
 if(is_admin($user)){
   $purchased_history = get_history_list($db, $details_id);
 } else {
-  $purchased_history = get_history_list($db, $details_id, $user_id['user_id']);
+  $purchased_history = get_history_list($db, $details_id, $user['user_id']);
 }
 
 
