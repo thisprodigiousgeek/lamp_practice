@@ -211,3 +211,41 @@ function is_valid_item_status($status){
   }
   return $is_valid;
 }
+
+function item_cheap($db){
+  $sql = '
+    SELECT
+      item_id, 
+      name,
+      stock,
+      price,
+      image,
+      status
+    FROM
+      items
+    WHERE
+      status = 1
+    ORDER BY
+      price ASC
+    ';
+  return fetch_all_query($db, $sql);
+}
+
+function item_expensive($db){
+  $sql = '
+    SELECT
+      item_id, 
+      name,
+      stock,
+      price,
+      image,
+      status
+    FROM
+      items
+    WHERE
+      status = 1
+    ORDER BY
+      price DESC
+    ';
+  return fetch_all_query($db, $sql);
+}
