@@ -15,12 +15,14 @@ if(is_logined() === false){
 $db = get_db_connect();
 $user = get_login_user($db);
 
-$sort = get_get($sort);
+$sort = get_get('sort');
 
 if ($sort === 'cheap') {
   $items = item_cheap($db);
 } else if ($sort === 'expensive') {
   $items = item_expensive($db);
+} else if ($sort === 'new') {
+  $items = item_new($db);
 } else {
   $items = get_open_items($db);
 }

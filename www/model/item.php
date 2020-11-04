@@ -249,3 +249,22 @@ function item_expensive($db){
     ';
   return fetch_all_query($db, $sql);
 }
+
+function item_new($db){
+  $sql = '
+    SELECT
+      item_id, 
+      name,
+      stock,
+      price,
+      image,
+      status
+    FROM
+      items
+    WHERE
+      status = 1
+    ORDER BY
+      item_id DESC
+    ';
+  return fetch_all_query($db, $sql);
+}
