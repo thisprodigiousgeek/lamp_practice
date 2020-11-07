@@ -20,6 +20,7 @@
       action="admin_insert_item.php" 
       enctype="multipart/form-data"
       class="add_item_form col-md-6">
+      <input type="hidden" name="token" value="<?php print $token; ?>">
       <div class="form-group">
         <label for="name">名前: </label>
         <input class="form-control" type="text" name="name" id="name">
@@ -62,14 +63,15 @@
         <tbody>
           <?php foreach($items as $item){ ?>
           <tr class="<?php print(is_open($item) ? '' : 'close_item'); ?>">
-            <td><img src="<?php print(IMAGE_PATH . $item['image']);?>" class="item_image"></td>
-            <td><?php print($item['name']); ?></td>
-            <td><?php print(number_format($item['price'])); ?>円</td>
+            <td><img src="<?php print h(IMAGE_PATH . $item['image']);?>" class="item_image"></td>
+            <td><?php print h($item['name']); ?></td>
+            <td><?php print h(number_format($item['price'])); ?>円</td>
             <td>
               <form method="post" action="admin_change_stock.php">
+                <input type="hidden" name="token" value="<?php print $token; ?>">
                 <div class="form-group">
                   <!-- sqlインジェクション確認のためあえてtext -->
-                  <input  type="text" name="stock" value="<?php print($item['stock']); ?>">
+                  <input  type="text" name="stock" value="<?php print h($item['stock']); ?>">
                   個
                 </div>
                 <input type="submit" value="変更" class="btn btn-secondary">
@@ -79,6 +81,7 @@
             <td>
 
               <form method="post" action="admin_change_status.php" class="operation">
+                <input type="hidden" name="token" value="<?php print $token; ?>">
                 <?php if(is_open($item) === true){ ?>
                   <input type="submit" value="公開 → 非公開" class="btn btn-secondary">
                   <input type="hidden" name="changes_to" value="close">
@@ -90,6 +93,7 @@
               </form>
 
               <form method="post" action="admin_delete_item.php">
+                <input type="hidden" name="token" value="<?php print $token; ?>">
                 <input type="submit" value="削除" class="btn btn-danger delete">
                 <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
               </form>
