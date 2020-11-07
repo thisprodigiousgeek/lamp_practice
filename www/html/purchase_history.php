@@ -18,8 +18,9 @@ $user = get_login_user($db);
 
 $orders = get_history($db, $user['user_id']);
 $order_details = get_history_details($db, $user['user_id']);
-$all_history = get_all_history($db);
-$all_history_details = get_all_history_details($db);
+
+$admin_history = admin_history($db);
+$admin_history_sum = admin_history_sum($db);
 
 if ($user['type'] === USER_TYPE_ADMIN) {
   include_once VIEW_PATH . 'admin_history_view.php';

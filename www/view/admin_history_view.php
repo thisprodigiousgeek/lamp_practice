@@ -19,19 +19,18 @@
           </tr>
         </thead>
         <tbody>
-            <?php foreach ($all_history as $history) { ?>
+            <?php foreach ($admin_history as $history) { ?>
         <tr>
             <td><?php print h($history['order_id']); ?></td>
             <td><?php print h($history['purchase_date']); ?></td>
             <td>
-                <?php 
-                    $total = 0; 
-                    foreach ($all_history_details as $history_details) {
-                        if ($history['order_id'] === $history_details['order_id']){
-                            $total += $history_details['price'] * $history_details['amount'];
-                        }
+                <?php
+                  foreach($admin_history_sum as $sum) {
+                    if($sum['order_id'] === $history['order_id']) {
+                      print $sum['SUM(price * amount)'];
                     }
-                    print h($total); ?>
+                  }
+                ?>
             </td>
             <td>
                 <form method="post" action="purchase_details.php">

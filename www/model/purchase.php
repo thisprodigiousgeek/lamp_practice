@@ -119,3 +119,29 @@ function sum_purchase($details){
   }
   return $total_price;
 }
+
+function admin_history($db) {
+  $sql = "
+    SELECT
+      order_id,
+      purchase_date
+    FROM
+      history
+    ORDER BY
+      order_id DESC
+  ";
+  return fetch_all_query($db, $sql, $params);
+}
+
+function admin_history_sum($db) {
+  $sql = "
+    SELECT
+      SUM(price * amount),
+      order_id
+    FROM
+      details
+    GROUP BY
+      order_id
+  ";
+  return fetch_all_query($db, $sql, $params);
+}
