@@ -27,10 +27,10 @@
           <?php foreach($carts as $cart){ ?>
           <tr>
             <td><img src="<?php print(IMAGE_PATH . h($cart['image']));?>" class="item_image"></td>
-            <td><?php print h(($cart['name'])); ?></td>
-            <td><?php print(number_format h(($cart['price']))); ?>円</td>
+            <td><?php print(h($cart['name'])); ?></td>
+            <td><?php print(number_format(h($cart['price']))); ?>円</td>
             <td>
-                <?php print h(($cart['amount'])); ?>個
+                <?php print (h($cart['amount'])); ?>個
             </td>
             <td><?php print(number_format($cart['price'] * $cart['amount'])); ?>円</td>
           </tr>
