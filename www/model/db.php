@@ -9,9 +9,8 @@ function get_db_connect(){
     $dbh = new PDO($dsn, DB_USER, DB_PASS, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4'));
     $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $dbh->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-    $dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC)
-
-    ;
+    $dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    
   } catch (PDOException $e) {
     exit('接続できませんでした。理由：'.$e->getMessage() );
   }
@@ -20,13 +19,7 @@ function get_db_connect(){
 
 function fetch_query($db, $sql, $params = array()){
   try{
-    $db = '';
-    $sql = '';
-    $params ='';
     $statement = $db->prepare($sql);
-    $prepare->bindParam(1, $db, PDO::PARAM_STR);
-    $prepare->bindParam(2, $sql, PDO::PARAM_STR);
-    $prepare->bindParam(3, $params, PDO::PARAM_STR);
     $statement->execute($params);
     return $statement->fetch();
   }catch(PDOException $e){
