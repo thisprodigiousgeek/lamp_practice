@@ -12,7 +12,7 @@
 
   <div class="container">
     <h1>商品管理</h1>
-    
+
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
 
     <form 
