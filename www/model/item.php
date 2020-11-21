@@ -16,10 +16,10 @@ function get_item($db, $item_id){
     FROM
       items
     WHERE
-      item_id = {$item_id}
+      item_id = ?
   ";
 
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql,[$item_id]);
 }
 
 function get_items($db, $is_open = false){
@@ -95,11 +95,11 @@ function update_item_status($db, $item_id, $status){
     SET
       status = {$status}
     WHERE
-      item_id = {$item_id}
+      item_id = ?
     LIMIT 1
   ";
   
-  return execute_query($db, $sql);
+  return execute_query($db, $sql,[$item_id]);
 }
 
 function update_item_stock($db, $item_id, $stock){
@@ -109,11 +109,11 @@ function update_item_stock($db, $item_id, $stock){
     SET
       stock = {$stock}
     WHERE
-      item_id = {$item_id}
+      item_id = ?
     LIMIT 1
   ";
   
-  return execute_query($db, $sql);
+  return execute_query($db, $sql,[$item_id]);
 }
 
 function destroy_item($db, $item_id){
@@ -136,11 +136,11 @@ function delete_item($db, $item_id){
     DELETE FROM
       items
     WHERE
-      item_id = {$item_id}
+      item_id = ?
     LIMIT 1
   ";
   
-  return execute_query($db, $sql);
+  return execute_query($db, $sql,[$item_id]);
 }
 
 
