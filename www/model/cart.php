@@ -101,10 +101,61 @@ function delete_cart($db, $cart_id){
   return execute_query($db, $sql, [$cart_id]);
 }
 
+function insert_histories($db, $user_id){
+  $sql = "
+    INSERT INTO 
+      histories(
+        user_id,
+        purchased
+      ) 
+    VALUES (?,now())
+  ";
+
+  return execute_query($db, $sql, [$user_id]);
+}
+
+function insert_details($db, $order_id, $item_id, $price, $amount){
+  $sql = "
+    INSERT INTO
+      details(
+        order_id,
+        item_id,
+        price,
+        amount
+      ) 
+    VALUES (?,?,?,?)
+  ";
+
+  return execute_query($db, $sql, [$order_id, $item_id, $price, $amount]);
+}
+
+function add_purchased_histories($db, $carts){
+  //購入履歴保存(=order_id発行)
+  if(insert_histories($db, $carts[0]['user_id']) === false){
+    set_error('履歴の保存に失敗しました');
+    return false;
+  };
+
+  //発行したorder_id取得
+  $order_id = $db -> lastInsertId();
+
+  //明細保存***priceカートにないからだめだ。明細に必要な情報を内部結合してselectする関数が必要？*****
+  foreach($carts as $cart){
+    if(insert_details($db, $order_id, $cart['item_id'], $cart['price'], $cart['amount']) === false){
+      set_error($cart['name']. 'の明細の保存に失敗しました');
+      return false;
+    };
+  }
+
+  return true;
+}
+
 function purchase_carts($db, $carts){
   if(validate_cart_purchase($carts) === false){
     return false;
   }
+
+  $db -> beginTransaction();
   foreach($carts as $cart){
     if(update_item_stock(
         $db, 
@@ -114,8 +165,16 @@ function purchase_carts($db, $carts){
       set_error($cart['name'] . 'の購入に失敗しました。');
     }
   }
+
+  add_purchased_histories($db, $carts);
   
   delete_user_carts($db, $carts[0]['user_id']);
+
+  if(has_error() === true){
+    $db -> rollback();
+  } else {
+    $db -> commit();
+  }
 }
 
 function delete_user_carts($db, $user_id){
