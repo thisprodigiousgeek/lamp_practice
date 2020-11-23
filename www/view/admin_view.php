@@ -43,7 +43,7 @@
           <option value="close">非公開</option>
         </select>
       </div>
-      
+      <input type="hidden" name="token" value="<?php print $token; ?>">
       <input type="submit" value="商品追加" class="btn btn-primary">
     </form>
 
