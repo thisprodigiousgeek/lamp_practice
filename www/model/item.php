@@ -61,7 +61,7 @@ function regist_item($db, $name, $price, $stock, $status, $image){
 
 function regist_item_transaction($db, $name, $price, $stock, $status, $image, $filename){
   $db->beginTransaction();
-  if(insert_item($db, $name, $price, $stock, $filename, $status) 
+  if(insert_item($db, $name['?'], $price['?'], $stock['?'], $filename, $status) 
     && save_image($image, $filename)){
     $db->commit();
     return true;
@@ -93,7 +93,7 @@ function update_item_status($db, $item_id, $status){
     UPDATE
       items
     SET
-      status = {$status}
+      status = {$status['?']}
     WHERE
       item_id = ?
     LIMIT 1
@@ -107,7 +107,7 @@ function update_item_stock($db, $item_id, $stock){
     UPDATE
       items
     SET
-      stock = {$stock}
+      stock = {['?']}
     WHERE
       item_id = ?
     LIMIT 1

@@ -56,7 +56,7 @@ function regist_user($db, $name, $password, $password_confirmation) {
     return false;
   }
   
-  return insert_user($db, $name, $password);
+  return insert_user($db, $name['?'], $password['?']);
 }
 
 function is_admin($user){
