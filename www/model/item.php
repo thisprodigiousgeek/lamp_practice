@@ -107,7 +107,7 @@ function update_item_stock($db, $item_id, $stock){
     UPDATE
       items
     SET
-      stock = {['?']}
+      stock = {$stock}
     WHERE
       item_id = ?
     LIMIT 1
