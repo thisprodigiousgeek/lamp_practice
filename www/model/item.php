@@ -143,6 +143,77 @@ function delete_item($db, $item_id){
   return execute_query($db, $sql, [$item_id]);
 }
 
+//購入履歴を取得する関数
+function get_histories($db, $user){
+  $params = array();
+
+  $sql = '
+    SELECT
+      histories.order_id,
+      histories.user_id,
+      histories.purchased,
+      SUM(details.price * details.amount) AS total_price
+    FROM
+      histories
+    JOIN
+      details
+    ON
+      details.order_id = histories.order_id
+  ';
+
+    if($user['type'] === USER_TYPE_NORMAL){
+      $sql .= '
+        WHERE
+          histories.user_id = ?
+      '; 
+
+      $params[] = $user['user_id'];
+    }
+
+    $sql .= '
+      GROUP BY
+        order_id
+    ';
+  
+    return fetch_all_query($db, $sql, $params);
+}
+
+//明細を取得する関数
+function get_details($db, $order_id, $user_id = null){
+  $params = array($order_id);
+  $sql = "
+    SELECT
+      details.order_id,
+      items.name,
+      details.price,
+      details.amount,
+      details.price * details.amount AS small_price
+
+    FROM
+      details
+
+    JOIN
+      items
+    ON
+      details.item_id = items.item_id
+
+    WHERE
+      details.order_id = ?
+  ";
+  
+  if($user_id !== null){
+    $sql .= '
+      AND
+        exists( SELECT * FROM histories WHERE order_id=? AND user_id = ?)
+    ';
+
+    $params[] = $order_id;
+    $params[] = $user_id;
+
+  }
+  
+  return fetch_all_query($db, $sql, $params);
+}
 
 // 非DB
 
