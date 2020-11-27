@@ -57,7 +57,7 @@ function get_user_cart($db, $user_id, $item_id){
 function add_cart($db, $user_id, $item_id ) {
   $cart = get_user_cart($db, $user_id, $item_id);
   if($cart === false){
-    return insert_cart($db, $user_id['?'], $item_id['?']);
+    return insert_cart($db, $user_id, $item_id);
   }
   return update_cart_amount($db, $cart['cart_id'], $cart['amount'] + 1);
 }
@@ -72,10 +72,10 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
 
         
       )
-    VALUES({?}, {?}, {?})
+    VALUES(?, ?, ?)
   ";
 
-  return execute_query($db, $sql);
+  return execute_query($db, $sql,[$user_id,$item_id,$amount]);
 }
 
 function update_cart_amount($db, $cart_id, $amount){
@@ -83,12 +83,12 @@ function update_cart_amount($db, $cart_id, $amount){
     UPDATE
       carts
     SET
-      amount = {$amount}
+      amount = ?
     WHERE
       cart_id = ?
     LIMIT 1
   ";
-  return execute_query($db, $sql,[$cart_id]);
+  return execute_query($db, $sql,[$amount,$cart_id]);
 }
 
 function delete_cart($db, $cart_id){
