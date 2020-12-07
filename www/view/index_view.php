@@ -23,7 +23,7 @@
               <?php print(h($item['name'])); ?>
             </div>
             <figure class="card-body">
-              <img class="card-img" src="<?php print(IMAGE_PATH . $item['image']); ?>">
+              <img class="card-img" src="<?php print(IMAGE_PATH . h($item['image'])); ?>">
               <figcaption>
                 <?php print(number_format(h($item['price']))); ?>円
                 <?php if($item['stock'] > 0){ ?>
