@@ -10,6 +10,7 @@ function get_db_connect(){
     $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $dbh->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
     $dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    
   } catch (PDOException $e) {
     exit('接続できませんでした。理由：'.$e->getMessage() );
   }
