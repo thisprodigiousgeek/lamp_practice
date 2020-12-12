@@ -144,7 +144,7 @@ function delete_item($db, $item_id){
 }
 
 
-// 非db
+// 非DB
 
 function is_open($item){
   return $item['status'] === 1;
