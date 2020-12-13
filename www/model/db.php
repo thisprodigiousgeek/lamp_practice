@@ -46,4 +46,5 @@ function execute_query($db, $sql, $params = array()){
     set_error('更新に失敗しました。');
   }
   return false;
+  
 }
