@@ -36,6 +36,7 @@
                 個
                 <input type="submit" value="変更" class="btn btn-secondary">
                 <input type="hidden" name="cart_id" value="<?php print(h($cart['cart_id'])); ?>">
+                <input  type="hidden" name="token" value="<?php print($token); ?>">
               </form>
             </td>
             <td><?php print(number_format(h($cart['price'] * $cart['amount']))); ?>円</td>
@@ -44,6 +45,7 @@
               <form method="post" action="cart_delete_cart.php">
                 <input type="submit" value="削除" class="btn btn-danger delete">
                 <input type="hidden" name="cart_id" value="<?php print(h($cart['cart_id'])); ?>">
+                <input  type="hidden" name="token" value="<?php print($token); ?>">
               </form>
 
             </td>
@@ -53,6 +55,7 @@
       </table>
       <p class="text-right">合計金額: <?php print number_format(h($total_price)); ?>円</p>
       <form method="post" action="finish.php">
+        <input  type="hidden" name="token" value="<?php print($token); ?>">
         <input class="btn btn-block btn-primary" type="submit" value="購入する">
       </form>
     <?php } else { ?>
