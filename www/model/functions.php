@@ -23,7 +23,7 @@ function get_post($name){
   };
   return '';
 }
-
+//商品画像名があるかどうか
 function get_file($name){
   if(isset($_FILES[$name]) === true){
     return $_FILES[$name];
@@ -41,7 +41,7 @@ function get_session($name){
 function set_session($name, $value){
   $_SESSION[$name] = $value;
 }
-
+//セッションにメッセージを設定
 function set_error($error){
   $_SESSION['__errors'][] = $error;
 }
@@ -58,7 +58,7 @@ function get_errors(){
 function has_error(){
   return isset($_SESSION['__errors']) && count($_SESSION['__errors']) !== 0;
 }
-
+//セッションにメッセージを設定
 function set_message($message){
   $_SESSION['__messages'][] = $message;
 }
@@ -73,9 +73,10 @@ function get_messages(){
 }
 
 function is_logined(){
+  //返り値（真偽値）、sessionのuser_idが空でない場合TRUE
   return get_session('user_id') !== '';
 }
-
+//商品画像をアップロードするステップ
 function get_upload_filename($file){
   if(is_valid_upload_image($file) === false){
     return '';
@@ -92,7 +93,7 @@ function get_random_string($length = 20){
 function save_image($image, $filename){
   return move_uploaded_file($image['tmp_name'], IMAGE_DIR . $filename);
 }
-
+//該当商品の画像をディレクトリから削除しての真偽値を返す
 function delete_image($filename){
   if(file_exists(IMAGE_DIR . $filename) === true){
     unlink(IMAGE_DIR . $filename);
@@ -103,7 +104,7 @@ function delete_image($filename){
 }
 
 
-
+//商品名の文字数を確認
 function is_valid_length($string, $minimum_length, $maximum_length = PHP_INT_MAX){
   $length = mb_strlen($string);
   return ($minimum_length <= $length) && ($length <= $maximum_length);
@@ -121,7 +122,7 @@ function is_valid_format($string, $format){
   return preg_match($format, $string) === 1;
 }
 
-
+//指定ファイル形式かを判断
 function is_valid_upload_image($image){
   if(is_uploaded_file($image['tmp_name']) === false){
     set_error('ファイル形式が不正です。');

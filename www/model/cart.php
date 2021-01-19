@@ -2,6 +2,7 @@
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
+//指定ユーザーのカート情報を取得
 function get_user_carts($db, $user_id){
   $sql = "
     SELECT
@@ -129,7 +130,7 @@ function delete_user_carts($db, $user_id){
   execute_query($db, $sql);
 }
 
-
+//カート内の商品合計の結果を返す
 function sum_carts($carts){
   $total_price = 0;
   foreach($carts as $cart){

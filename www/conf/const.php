@@ -1,4 +1,5 @@
 <?php
+//定義関数
 
 define('MODEL_PATH', $_SERVER['DOCUMENT_ROOT'] . '/../model/');
 define('VIEW_PATH', $_SERVER['DOCUMENT_ROOT'] . '/../view/');
@@ -22,8 +23,8 @@ define('CART_URL', '/cart.php');
 define('FINISH_URL', '/finish.php');
 define('ADMIN_URL', '/admin.php');
 
-define('REGEXP_ALPHANUMERIC', '/\A[0-9a-zA-Z]+\z/');
-define('REGEXP_POSITIVE_INTEGER', '/\A([1-9][0-9]*|0)\z/');
+define('REGEXP_ALPHANUMERIC', '/\A[0-9a-zA-Z]+\z/'); //正規表現英数字
+define('REGEXP_POSITIVE_INTEGER', '/\A([1-9][0-9]*|0)\z/'); //正規表現、正の整数
 
 
 define('USER_NAME_LENGTH_MIN', 6);

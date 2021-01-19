@@ -2,10 +2,11 @@
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
+//ログインユーザーの情報を1行取得するsql文
 function get_user($db, $user_id){
   $sql = "
     SELECT
-      user_id, 
+      user_id,
       name,
       password,
       type
@@ -15,7 +16,7 @@ function get_user($db, $user_id){
       user_id = {$user_id}
     LIMIT 1
   ";
-
+  //処理を実行して情報を配列で返す
   return fetch_query($db, $sql);
 }
 
@@ -44,10 +45,11 @@ function login_as($db, $name, $password){
   set_session('user_id', $user['user_id']);
   return $user;
 }
-
+//ログインユーザー情報を取得する
 function get_login_user($db){
+  //sessionで取得したuser_idを変数へ代入
   $login_user_id = get_session('user_id');
-
+  //ログインユーザーの情報を1行取得して配列で返す
   return get_user($db, $login_user_id);
 }
 
@@ -55,11 +57,13 @@ function regist_user($db, $name, $password, $password_confirmation) {
   if( is_valid_user($name, $password, $password_confirmation) === false){
     return false;
   }
-  
+
   return insert_user($db, $name, $password);
 }
 
+//管理者可否の判断
 function is_admin($user){
+  //ユーザータイプを数値で真偽値判断（1:管理者、2：一般ユーザー）
   return $user['type'] === USER_TYPE_ADMIN;
 }
 
