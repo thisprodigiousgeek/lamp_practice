@@ -100,7 +100,6 @@ function delete_image($filename){
     return true;
   }
   return false;
-  
 }
 
 
