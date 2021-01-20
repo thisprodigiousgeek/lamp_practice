@@ -1,7 +1,7 @@
 <?php 
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
-
+//itemsとcartsテーブルをユーザーごとに表示
 function get_user_carts($db, $user_id){
   $sql = "
     SELECT
@@ -25,7 +25,7 @@ function get_user_carts($db, $user_id){
   ";
   return fetch_all_query($db, $sql);
 }
-
+//itemsとcartsテーブルをユーザーとアイテムごとに表示
 function get_user_cart($db, $user_id, $item_id){
   $sql = "
     SELECT
@@ -61,7 +61,7 @@ function add_cart($db, $user_id, $item_id ) {
   }
   return update_cart_amount($db, $cart['cart_id'], $cart['amount'] + 1);
 }
-
+//DBのカートごとにテーブルを作成
 function insert_cart($db, $user_id, $item_id, $amount = 1){
   $sql = "
     INSERT INTO
@@ -75,7 +75,7 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
 
   return execute_query($db, $sql);
 }
-
+//DBのカート内のアイテム数量を変更
 function update_cart_amount($db, $cart_id, $amount){
   $sql = "
     UPDATE
@@ -88,7 +88,7 @@ function update_cart_amount($db, $cart_id, $amount){
   ";
   return execute_query($db, $sql);
 }
-
+//DBカートテーブルをカートごとに削除
 function delete_cart($db, $cart_id){
   $sql = "
     DELETE FROM
@@ -117,7 +117,7 @@ function purchase_carts($db, $carts){
   
   delete_user_carts($db, $carts[0]['user_id']);
 }
-
+//DBカートテーブルをユーザーごとに削除
 function delete_user_carts($db, $user_id){
   $sql = "
     DELETE FROM
