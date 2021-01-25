@@ -1,5 +1,5 @@
 <?php
-
+//DBに接続
 function get_db_connect(){
   // MySQL用のDSN文字列
   $dsn = 'mysql:dbname='. DB_NAME .';host='. DB_HOST .';charset='.DB_CHARSET;
@@ -16,31 +16,44 @@ function get_db_connect(){
   return $dbh;
 }
 
+//DBのSQLを実行し１行のみレコード取得
 function fetch_query($db, $sql, $params = array()){
   try{
+    //SQL文を実行する準備
     $statement = $db->prepare($sql);
+    //SQLを実行
     $statement->execute($params);
+    //１行のみレコード取得
     return $statement->fetch();
   }catch(PDOException $e){
+    //セッション変数にエラー表示
     set_error('データ取得に失敗しました。');
   }
   return false;
 }
 
+//DBのSQLを実行し全ての結果行レコード取得
 function fetch_all_query($db, $sql, $params = array()){
   try{
+    //SQL文を実行する準備
     $statement = $db->prepare($sql);
+    //SQLを実行
     $statement->execute($params);
+    //全ての結果行のレコードの取得
     return $statement->fetchAll();
   }catch(PDOException $e){
+    //セッション変数にエラー表示
     set_error('データ取得に失敗しました。');
   }
   return false;
 }
 
+//DBのSQLを実行するのみ
 function execute_query($db, $sql, $params = array()){
   try{
+    //SQL文を実行する準備
     $statement = $db->prepare($sql);
+    //SQLを実行
     return $statement->execute($params);
   }catch(PDOException $e){
     set_error('更新に失敗しました。');
