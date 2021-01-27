@@ -9,18 +9,20 @@ function redirect_to($url){
   header('Location: ' . $url);
   exit;
 }
-
+// getの値が存在したら返す
 function get_get($name){
   if(isset($_GET[$name]) === true){
     return $_GET[$name];
   };
+  // 値がなければ空っぽで返す
   return '';
 }
-
+// postの値が存在したら返す
 function get_post($name){
   if(isset($_POST[$name]) === true){
     return $_POST[$name];
   };
+  // 値がなければ空っぽで返す
   return '';
 }
 
@@ -28,20 +30,22 @@ function get_file($name){
   if(isset($_FILES[$name]) === true){
     return $_FILES[$name];
   };
+  // 値がなければ空っぽで返す
   return array();
 }
-
+// セッションから値を取得
 function get_session($name){
   if(isset($_SESSION[$name]) === true){
     return $_SESSION[$name];
   };
+  // 値がなければ空っぽで返す
   return '';
 }
 
 function set_session($name, $value){
   $_SESSION[$name] = $value;
 }
-
+// エラーメッセージの格納
 function set_error($error){
   $_SESSION['__errors'][] = $error;
 }
@@ -54,11 +58,12 @@ function get_errors(){
   set_session('__errors',  array());
   return $errors;
 }
-
+// エラーの確認
 function has_error(){
+  // セッションにエラーが1つ以上あればtrue
   return isset($_SESSION['__errors']) && count($_SESSION['__errors']) !== 0;
 }
-
+// 成功メッセージ
 function set_message($message){
   $_SESSION['__messages'][] = $message;
 }
@@ -71,20 +76,22 @@ function get_messages(){
   set_session('__messages',  array());
   return $messages;
 }
-
+// ログイン済みかどうかの確認
 function is_logined(){
   return get_session('user_id') !== '';
 }
-
+// ファイルのアップロード
 function get_upload_filename($file){
   if(is_valid_upload_image($file) === false){
+    // 失敗したら空っぽで返す
     return '';
   }
+  // 拡張子
   $mimetype = exif_imagetype($file['tmp_name']);
   $ext = PERMITTED_IMAGE_TYPES[$mimetype];
   return get_random_string() . '.' . $ext;
 }
-
+// 20文字の乱数
 function get_random_string($length = 20){
   return substr(base_convert(hash('sha256', uniqid()), 16, 36), 0, $length);
 }
@@ -135,3 +142,8 @@ function is_valid_upload_image($image){
   return true;
 }
 
+// エスケープ処理
+function h($text)
+{
+    return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+}
