@@ -28,11 +28,11 @@
           <?php foreach($carts as $cart){ ?>
           <tr>
             <td><img src="<?php print(IMAGE_PATH . $cart['image']);?>" class="item_image"></td>
-            <td><?php print h(($cart['name'])); ?></td>
-            <td><?php print h((number_format($cart['price']))); ?>円</td>
+            <td><?php print h($cart['name']); ?></td>
+            <td><?php print h(number_format($cart['price'])); ?>円</td>
             <td>
               <form method="post" action="cart_change_amount.php">
-                <input type="number" name="amount" value="<?php print h(($cart['amount'])); ?>">個
+                <input type="number" name="amount" value="<?php print h($cart['amount']); ?>">個
                 <input type="submit" value="変更" class="btn btn-secondary">
                 <input type="hidden" name="cart_id" value="<?php print($cart['cart_id']); ?>">
               </form>
