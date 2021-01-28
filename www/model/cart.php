@@ -24,10 +24,10 @@ function get_user_carts($db, $user_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = {$user_id}
+      carts.user_id = ?
   ";
   //DBのSQLを実行し全ての結果行レコード取得
-  return fetch_all_query($db, $sql);
+  return fetch_all_query($db, $sql, $params);
 }
 
 //itemsとcartsテーブルをユーザーとアイテムごとに表示
@@ -50,12 +50,12 @@ function get_user_cart($db, $user_id, $item_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = {$user_id}
+      carts.user_id = ?
     AND
-      items.item_id = {$item_id}
+      items.item_id = ?
   ";
   //DBのSQLを実行し１行のみレコード取得
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql, $params);
 
 }
 
@@ -81,10 +81,10 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
         user_id,
         amount
       )
-    VALUES({$item_id}, {$user_id}, {$amount})
+    VALUES(?, ?, ?)
   ";
   //SQLを実行
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, $params);
 }
 
 //DBのカート内のアイテム数量を変更
@@ -93,13 +93,13 @@ function update_cart_amount($db, $cart_id, $amount){
     UPDATE
       carts
     SET
-      amount = {$amount}
+      amount = ?
     WHERE
-      cart_id = {$cart_id}
+      cart_id = ?
     LIMIT 1
   ";
   //SQLを実行
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, $params);
 }
 
 //DBカートテーブルをカートごとに削除
@@ -108,11 +108,11 @@ function delete_cart($db, $cart_id){
     DELETE FROM
       carts
     WHERE
-      cart_id = {$cart_id}
+      cart_id = ?
     LIMIT 1
   ";
   //SQLを実行
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, $params);
 }
 
 //カート購入成功したらカートテーブル削除
@@ -142,10 +142,10 @@ function delete_user_carts($db, $user_id){
     DELETE FROM
       carts
     WHERE
-      user_id = {$user_id}
+      user_id = ?
   ";
   //SQLを実行
-  execute_query($db, $sql);
+  execute_query($db, $sql, $params);
 }
 
 //カートの合計金額計算

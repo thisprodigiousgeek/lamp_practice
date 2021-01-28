@@ -15,11 +15,11 @@ function get_user($db, $user_id){
     FROM
       users
     WHERE
-      user_id = {$user_id}
+      user_id = ?
     LIMIT 1
   ";
   //DBのSQLを実行し１行のみレコード取得
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql, $params);
 }
 
 //DBのusersテーブルからnameのデータを取得
@@ -33,11 +33,11 @@ function get_user_by_name($db, $name){
     FROM
       users
     WHERE
-      name = '{$name}'
+      name = ?
     LIMIT 1
   ";
   //DBのSQLを実行し１行のみレコード取得
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql, $params);
 }
 
 //ユーザー登録されてるか確認
@@ -130,9 +130,9 @@ function insert_user($db, $name, $password){
   $sql = "
     INSERT INTO
       users(name, password)
-    VALUES ('{$name}', '{$password}');
+    VALUES (?, ?);
   ";
   //SQLを実行
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, $params);
 }
 
