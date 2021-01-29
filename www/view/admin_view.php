@@ -45,6 +45,7 @@
       </div>
       
       <input type="submit" value="商品追加" class="btn btn-primary">
+      <input type="hidden" name="token" value="<?php print $token; ?>">
     </form>
 
 

@@ -5,6 +5,11 @@ function dd($var){
   exit();
 }
 
+function h($str){
+  return htmlspecialchars($str,ENT_QUOTES,'UTF-8');
+}
+
+
 function redirect_to($url){
   header('Location: ' . $url);
   exit;
@@ -135,3 +140,20 @@ function is_valid_upload_image($image){
   return true;
 }
 
+// トークンの生成
+function get_csrf_token(){
+  // get_random_string()はユーザー定義関数。
+  $token = get_random_string(30);
+  // set_session()はユーザー定義関数。
+  set_session('csrf_token', $token);
+  return $token;
+}
+
+// トークンのチェック
+function is_valid_csrf_token($token){
+  if($token === '') {
+    return false;
+  }
+  // get_session()はユーザー定義関数
+  return $token === get_session('csrf_token');
+}
