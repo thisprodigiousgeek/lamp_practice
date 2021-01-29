@@ -21,7 +21,7 @@ function get_item($db, $item_id){
       item_id = ?
   ";
   //DBのSQLを実行し１行のみレコード取得
-  return fetch_query($db, $sql, $params);
+  return fetch_query($db, $sql, $params = array());
 }
 //DBからアイテムデータを取得
 function get_items($db, $is_open = false){
@@ -101,7 +101,7 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
     VALUES( ?, ?, ?, ?, ?);
   ";
   //SQLを実行
-  return execute_query($db, $sql, $params);
+  return execute_query($db, $sql, $params = array());
 }
 
 //itemsテーブルのstatusをアップデート
@@ -116,7 +116,7 @@ function update_item_status($db, $item_id, $status){
     LIMIT 1
   ";
   //SQLを実行
-  return execute_query($db, $sql, $params);
+  return execute_query($db, $sql, $params = array());
 }
 
 //itemsテーブルのstockをアップデート
@@ -131,7 +131,7 @@ function update_item_stock($db, $item_id, $stock){
     LIMIT 1
   ";
   //SQLを実行
-  return execute_query($db, $sql, $params);
+  return execute_query($db, $sql, $params = array());
 }
 
 //アイテムと画像削除
@@ -167,7 +167,7 @@ function delete_item($db, $item_id){
     LIMIT 1
   ";
   //SQLを実行
-  return execute_query($db, $sql, $params);
+  return execute_query($db, $sql, $params = array());
 }
 
 // 非DB
