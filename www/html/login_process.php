@@ -20,14 +20,17 @@ $name = get_post('name');
 $password = get_post('password');
 $token = get_post('token');
 
+//トークンチェック
+if(is_valid_csrf_token($token) === false){
+  //ログインページにリダイレクト
+  redirect_to(LOGIN_URL);
+}
+
 //データベース接続
 $db = get_db_connect();
 
 //ユーザー登録されてるか確認
 $user = login_as($db, $name, $password);
-
-//トークンチェック
-is_valid_csrf_token($token);
 
 //$userが無かった場合
 if($user === false){
