@@ -15,10 +15,17 @@ if(is_logined() === true){
   redirect_to(HOME_URL);
 }
 
-//postデーt取得
+//postデータ取得
 $name = get_post('name');
 $password = get_post('password');
 $password_confirmation = get_post('password_confirmation');
+$token = get_post('token');
+
+//トークンチェック
+if(is_valid_csrf_token($token) === false){
+  //ログインページにリダイレクト
+  redirect_to(LOGIN_URL);
+}
 
 //DB接続
 $db = get_db_connect();

@@ -30,6 +30,13 @@ if(is_admin($user) === false){
 
 //postで送られてきたデータ
 $item_id = get_post('item_id');
+$token = get_post('token');
+
+//トークンチェック
+if(is_valid_csrf_token($token) === false){
+  //ログインページにリダイレクト
+  redirect_to(LOGIN_URL);
+}
 
 //アイテムと画像の削除
 if(destroy_item($db, $item_id) === true){

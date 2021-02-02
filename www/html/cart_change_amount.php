@@ -27,6 +27,13 @@ $user = get_login_user($db);
 //postデータの取得
 $cart_id = get_post('cart_id');
 $amount = get_post('amount');
+$token = get_post('token');
+
+//トークンチェック
+if(is_valid_csrf_token($token) === false){
+  //ログインページにリダイレクト
+  redirect_to(LOGIN_URL);
+}
 
 //カートの購入数変更成功した場合
 if(update_cart_amount($db, $cart_id, $amount)){

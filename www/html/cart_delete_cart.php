@@ -26,6 +26,13 @@ $user = get_login_user($db);
 
 //postデータの取得
 $cart_id = get_post('cart_id');
+$token = get_post('token');
+
+//トークンチェック
+if(is_valid_csrf_token($token) === false){
+  //ログインページにリダイレクト
+  redirect_to(LOGIN_URL);
+}
 
 //DBカートテーブルをcart_idごとに削除成功した場合
 if(delete_cart($db, $cart_id)){

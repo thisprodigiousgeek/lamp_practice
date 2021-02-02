@@ -31,6 +31,13 @@ if(is_admin($user) === false){
 //postで送られてきたデータ
 $item_id = get_post('item_id');
 $stock = get_post('stock');
+$token = get_post('token');
+
+//トークンチェック
+if(is_valid_csrf_token($token) === false){
+  //ログインページにリダイレクト
+  redirect_to(LOGIN_URL);
+}
 
 //在庫数変更
 if(update_item_stock($db, $item_id, $stock)){
