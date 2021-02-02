@@ -27,6 +27,15 @@ $user = get_login_user($db);
 //カートに入っているアイテム表示
 $carts = get_user_carts($db, $user['user_id']);
 
+//postで送られてきたデータ
+$token = get_post('token');
+
+//トークンチェック
+if(is_valid_csrf_token($token) === false){
+  //ログインページにリダイレクト
+  redirect_to(LOGIN_URL);
+}
+
 //カート購入失敗した場合
 if(purchase_carts($db, $carts) === false){
   //セッション変数にエラー表示

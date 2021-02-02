@@ -33,8 +33,15 @@ $name = get_post('name');
 $price = get_post('price');
 $status = get_post('status');
 $stock = get_post('stock');
+$token = get_post('token');
 //ファイル名の取得
 $image = get_file('image');
+
+//トークンチェック
+if(is_valid_csrf_token($token) === false){
+  //ログインページにリダイレクト
+  redirect_to(LOGIN_URL);
+}
 
 //アイテム登録
 if(regist_item($db, $name, $price, $stock, $status, $image)){

@@ -18,6 +18,13 @@ if(is_logined() === true){
 //postデータの取得
 $name = get_post('name');
 $password = get_post('password');
+$token = get_post('token');
+
+//トークンチェック
+if(is_valid_csrf_token($token) === false){
+  //ログインページにリダイレクト
+  redirect_to(LOGIN_URL);
+}
 
 //データベース接続
 $db = get_db_connect();
@@ -26,7 +33,7 @@ $db = get_db_connect();
 $user = login_as($db, $name, $password);
 
 //$userが無かった場合
-if( $user === false){
+if($user === false){
   //セッション変数にエラー表示
   set_error('ログインに失敗しました。');
   //ログインページにリダイレクト

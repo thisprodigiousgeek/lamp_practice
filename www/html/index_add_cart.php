@@ -26,6 +26,13 @@ $user = get_login_user($db);
 
 //postデータの取得
 $item_id = get_post('item_id');
+$token = get_post('token');
+
+//トークンチェック
+if(is_valid_csrf_token($token) === false){
+  //ログインページにリダイレクト
+  redirect_to(LOGIN_URL);
+}
 
 //カートにアイテムを入れて数量を変更する
 if(add_cart($db,$user['user_id'], $item_id)){

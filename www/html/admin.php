@@ -17,8 +17,12 @@ if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }
 
+//トークン生成
+$token = get_csrf_token();
+
 //DB接続
 $db = get_db_connect();
+
 //ログインユーザーのデータを取得
 $user = get_login_user($db);
 
@@ -27,6 +31,7 @@ if(is_admin($user) === false){
   //一致しなかった場合ログイン場面に飛ばす
   redirect_to(LOGIN_URL);
 }
+
 //商品データを取得
 $items = get_all_items($db);
 
