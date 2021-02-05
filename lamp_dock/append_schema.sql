@@ -6,9 +6,10 @@ CREATE TABLE orders (
 );
 
 CREATE TABLE order_details (
-  detail_id INT,
+  detail_id INT AUTO_INCREMENT,
   order_id INT,
   item_name INT,
   price INT,
-  quantity INT
+  quantity INT,
+  primary key(detail_id)
 );
