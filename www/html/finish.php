@@ -37,7 +37,7 @@ if(is_valid_csrf_token($token) === false){
 }
 
 //カート購入失敗した場合
-if(purchase_carts($db, $carts) === false){
+if(purchase_carts($db, $carts, $user['user_id']) === false){
   //セッション変数にエラー表示
   set_error('商品が購入できませんでした。');
   //カートページにリダイレクト

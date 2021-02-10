@@ -116,11 +116,31 @@ function delete_cart($db, $cart_id){
 }
 
 //カート購入成功したらカートテーブル削除
-function purchase_carts($db, $carts){
+function purchase_carts($db, $carts, $user_id){
   //購入する際のカートの中身チェック
   if(validate_cart_purchase($carts) === false){
     return false;
   }
+  //トランザクション開始
+  $db->beginTransaction();
+  //ordersテーブルを作成
+  $order_date = date('Y-m-d H:i:s');
+  $sql = "
+    INSERT INTO
+      orders(
+        user_id,
+        order_date
+      )
+    VALUES(?, ?)
+    ";
+  //SQLを実行
+  if(execute_query($db, $sql, $params = array($user_id, $order_date)) === false){
+    //セッション変数にエラー表示
+    set_error('注文テーブルの挿入に失敗しました。');
+  }
+  //作成したidを取得
+  $order_id = $db->lastInsertId();
+  
   foreach($carts as $cart){
     //itemsテーブルのstockをアップデート失敗した場合
     if(update_item_stock(
@@ -131,6 +151,33 @@ function purchase_carts($db, $carts){
       //セッション変数にエラー表示
       set_error($cart['name'] . 'の購入に失敗しました。');
     }
+    $amount = $cart['amount'];
+    $price = $cart['price'];
+    $item_name = $cart['name'];
+    
+    //order_detailsテーブルを作成
+    $sql = "
+      INSERT INTO
+        order_details(
+          order_id,
+          item_name,
+          price,
+          amount
+        )
+      VALUES(?, ?, ?, ?)
+      ";
+    //SQLを実行
+    if(execute_query($db, $sql, $params = array($order_id, $item_name, $price, $amount)) === false){
+      //セッション変数にエラー表示
+      set_error('注文詳細テーブルの挿入に失敗しました。');  
+    }
+  }
+  if(has_error() === true){
+    // ロールバック処理
+    $db->rollback();
+  }else{
+    // コミット処理
+    $db->commit();
   }
   //DBカートテーブルをユーザーごとに削除
   delete_user_carts($db, $carts[0]['user_id']);
@@ -184,4 +231,3 @@ function validate_cart_purchase($carts){
   }
   return true;
 }
-

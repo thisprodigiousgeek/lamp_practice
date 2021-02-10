@@ -10,6 +10,6 @@ CREATE TABLE order_details (
   order_id INT,
   item_name INT,
   price INT,
-  quantity INT,
+  amount INT,
   primary key(detail_id)
 );
