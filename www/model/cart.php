@@ -56,7 +56,6 @@ function get_user_cart($db, $user_id, $item_id){
   ";
   //DBのSQLを実行し１行のみレコード取得
   return fetch_query($db, $sql, $params = array($user_id, $item_id));
-
 }
 
 //カートにアイテムを入れて数量を変更する
@@ -230,4 +229,121 @@ function validate_cart_purchase($carts){
     return false;
   }
   return true;
+}
+
+//購入履歴をordersとorder_detailsテーブルからユーザーごとに表示
+function get_user_orders($db, $user_id){
+  $sql = "
+    SELECT
+      orders.order_id,
+      orders.user_id,
+      orders.order_date,
+      SUM(order_details.price*order_details.amount) AS total_price
+    FROM
+      orders
+    JOIN
+      order_details
+    ON
+      orders.order_id = order_details.order_id
+    WHERE
+      orders.user_id = ?
+    GROUP BY
+      orders.order_id
+    ORDER BY
+      orders.order_id DESC
+  ";
+  //DBのSQLを実行し全ての結果行レコード取得
+  return fetch_all_query($db, $sql, $params = array($user_id));
+}
+
+//購入履歴をordersとorder_detailsテーブルからユーザーとorder_idごとに表示
+function get_user_order($db, $order_id){
+  $sql = "
+    SELECT
+      orders.order_id,
+      orders.user_id,
+      orders.order_date,
+      SUM(order_details.price*order_details.amount) AS total_price
+    FROM
+      orders
+    JOIN
+      order_details
+    ON
+      orders.order_id = order_details.order_id
+    WHERE
+      orders.order_id = ?
+  ";
+  //DBのSQLを実行し全ての結果行レコード取得
+  return fetch_query($db, $sql, $params = array($order_id));
+}
+
+//購入明細をordersとorder_detailsテーブルからユーザーと購入アイテムごとに表示
+function get_user_order_detail($db, $order_id){
+  $sql = "
+    SELECT
+      orders.order_id,
+      orders.user_id,
+      orders.order_date,
+      order_details.item_name,
+      order_details.price,
+      order_details.amount,
+      SUM(order_details.price*order_details.amount) AS total_price
+    FROM
+      orders
+    JOIN
+      order_details
+    ON
+      orders.order_id = order_details.order_id
+    WHERE
+      orders.order_id = ?
+    GROUP BY
+      order_details.detail_id
+  ";
+  //DBのSQLを実行し全ての結果行レコード取得
+  return fetch_all_query($db, $sql, $params = array($order_id));
+}
+
+//購入履歴をordersとorder_detailsテーブルから全表示
+function get_all_order($db){
+  $sql = "
+    SELECT
+      orders.order_id,
+      orders.user_id,
+      orders.order_date,
+      SUM(order_details.price*order_details.amount) AS total_price
+    FROM
+      orders
+    JOIN
+      order_details
+    ON
+      orders.order_id = order_details.order_id
+    GROUP BY
+      orders.order_id DESC
+  ";
+  //DBのSQLを実行し全ての結果行レコード取得
+  return fetch_all_query($db, $sql);
+}
+
+//購入明細をordersとorder_detailsテーブルから表示
+function get_all_order_detail($db, $order_id){
+  $sql = "
+    SELECT
+      orders.order_id,
+      orders.user_id,
+      orders.order_date,
+      order_details.item_name,
+      order_details.price,
+      order_details.amount,
+      SUM(order_details.price*order_details.amount) AS total_price
+    FROM
+      orders
+    JOIN
+      order_details
+    ON
+      orders.order_id = order_details.order_id
+    GROUP BY
+      order_details.detail_id
+  ";
+  //DBのSQLを実行し全ての結果行レコード取得
+  return fetch_all_query($db, $sql, $params = array($user_id, $order_id));
 }
