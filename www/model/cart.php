@@ -1,7 +1,10 @@
 <?php 
+//関数ファイルの読み込み
 require_once MODEL_PATH . 'functions.php';
+//DB接続ファイルの読み込み
 require_once MODEL_PATH . 'db.php';
 
+//ユーザーのカート情報取得
 function get_user_carts($db, $user_id){
   $sql = "
     SELECT
@@ -26,6 +29,7 @@ function get_user_carts($db, $user_id){
   return fetch_all_query($db, $sql);
 }
 
+//ユーザーのカート情報取得
 function get_user_cart($db, $user_id, $item_id){
   $sql = "
     SELECT
@@ -54,14 +58,19 @@ function get_user_cart($db, $user_id, $item_id){
 
 }
 
+//カートの追加処理
 function add_cart($db, $user_id, $item_id ) {
   $cart = get_user_cart($db, $user_id, $item_id);
+  //カートになかった場合
   if($cart === false){
+    //追加処理へ
     return insert_cart($db, $user_id, $item_id);
   }
+  //カートの商品情報追加
   return update_cart_amount($db, $cart['cart_id'], $cart['amount'] + 1);
 }
 
+//商品追加処理
 function insert_cart($db, $user_id, $item_id, $amount = 1){
   $sql = "
     INSERT INTO
@@ -76,6 +85,7 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
   return execute_query($db, $sql);
 }
 
+//商品購入数更新処理
 function update_cart_amount($db, $cart_id, $amount){
   $sql = "
     UPDATE
@@ -89,6 +99,7 @@ function update_cart_amount($db, $cart_id, $amount){
   return execute_query($db, $sql);
 }
 
+//商品削除処理
 function delete_cart($db, $cart_id){
   $sql = "
     DELETE FROM
@@ -101,10 +112,13 @@ function delete_cart($db, $cart_id){
   return execute_query($db, $sql);
 }
 
+//購入カート
 function purchase_carts($db, $carts){
+  //有効な購入カートでなかった場合
   if(validate_cart_purchase($carts) === false){
     return false;
   }
+  //購入後の在庫更新処理
   foreach($carts as $cart){
     if(update_item_stock(
         $db, 
@@ -114,10 +128,11 @@ function purchase_carts($db, $carts){
       set_error($cart['name'] . 'の購入に失敗しました。');
     }
   }
-  
+  //ユーザーのカート削除処理
   delete_user_carts($db, $carts[0]['user_id']);
 }
 
+//ユーザーのカート削除処理
 function delete_user_carts($db, $user_id){
   $sql = "
     DELETE FROM
@@ -129,7 +144,7 @@ function delete_user_carts($db, $user_id){
   execute_query($db, $sql);
 }
 
-
+//購入合計価格の計算
 function sum_carts($carts){
   $total_price = 0;
   foreach($carts as $cart){
@@ -138,6 +153,7 @@ function sum_carts($carts){
   return $total_price;
 }
 
+//購入カートの数量確認
 function validate_cart_purchase($carts){
   if(count($carts) === 0){
     set_error('カートに商品が入っていません。');
