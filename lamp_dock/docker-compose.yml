@@ -14,7 +14,8 @@ services:
 
   # 2. mysqlをインストールするコンテナ
   mysql:
-    image: mysql:5.7 # mysql5.7のイメージをそのまま利用。
+    #image: mysql:5.7 # mysql5.7のイメージをそのまま利用。
+    image: mariadb
     # mysqlの起動時に文字コードを指定
     command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci --innodb-use-native-aio=0
     volumes:
