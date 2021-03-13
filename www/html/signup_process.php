@@ -29,6 +29,7 @@ if(is_valid_csrf_token($token)){
   }
 } else {
   set_error('不正な操作が行われました');
+  redirect_to(SIGNUP_URL);
 }
 
 set_message('ユーザー登録が完了しました。');
