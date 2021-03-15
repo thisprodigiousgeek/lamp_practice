@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: mysql
--- 生成日時: 2021 年 3 月 13 日 09:08
+-- 生成日時: 2021 年 3 月 15 日 12:09
 -- サーバのバージョン： 10.5.9-MariaDB-1:10.5.9+maria~focal
 -- PHP のバージョン: 7.4.15
 
@@ -30,7 +30,6 @@ SET time_zone = "+00:00";
 CREATE TABLE `details` (
   `details_id` int(11) NOT NULL,
   `history_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
   `item_id` int(11) NOT NULL,
   `price` int(11) NOT NULL,
   `amount` int(11) NOT NULL
@@ -45,7 +44,7 @@ CREATE TABLE `details` (
 CREATE TABLE `history` (
   `history_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `price` int(11) NOT NULL,
+  `total` int(11) NOT NULL,
   `created` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
