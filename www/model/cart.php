@@ -76,6 +76,31 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
   return execute_query($db, $sql, [$item_id, $user_id, $amount]);
 }
 
+function insert_history($db, $user_id, $total_price) {
+  $sql = "
+    INSERT INTO
+      history(
+        user_id,
+        total
+      )
+      VALUES(?, ?)
+  ";
+
+  return execute_query($db, $sql, [$user_id, $total_price]);
+}
+
+function insert_details() {
+  $sql = "
+    INSERT INTO
+      details(
+        history_id,
+        item_id,
+        price
+      )
+      VALUES(?, ?, ?)
+  ";
+}
+
 function update_cart_amount($db, $cart_id, $amount){
   $sql = "
     UPDATE
@@ -105,6 +130,11 @@ function purchase_carts($db, $carts){
   if(validate_cart_purchase($carts) === false){
     return false;
   }
+  $db->beginTransaction();
+  try {
+    $total_price = sum_carts($carts);
+    insert_history($db, $carts['user_id'], $total_price);
+
   foreach($carts as $cart){
     if(update_item_stock(
         $db, 
@@ -116,6 +146,15 @@ function purchase_carts($db, $carts){
   }
   
   delete_user_carts($db, $carts[0]['user_id']);
+
+  $db->commit();
+  return true;
+
+  } catch (PDOException $e) {
+    $db->rollback();
+    throw $e;
+    return false;
+  }
 }
 
 function delete_user_carts($db, $user_id){
