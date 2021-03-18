@@ -16,10 +16,10 @@ function get_item($db, $item_id){
     FROM
       items
     WHERE
-      item_id = {$item_id}
+      item_id = ?
   ";
 
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql, array($item_id));
 }
 
 function get_items($db, $is_open = false){
@@ -136,7 +136,7 @@ function delete_item($db, $item_id){
     DELETE FROM
       items
     WHERE
-      // item_id = ?
+      item_id = ?
     LIMIT 1
   ";
   
