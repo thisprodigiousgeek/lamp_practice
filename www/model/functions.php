@@ -139,13 +139,15 @@ function h($value) {
     return htmlspecialchars($value);
 }
 
-function get_csrf_token() {
+// トークンの生成
+function get_csrf_token(){
   $token = get_random_string(30);
   set_session('csrf_token', $token);
   return $token;
 }
 
-function is_valid_csrf_token($token) {
+// トークンのチェック
+function is_valid_csrf_token($token){
   if($token === '') {
     return false;
   }

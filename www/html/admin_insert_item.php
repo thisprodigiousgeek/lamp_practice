@@ -4,6 +4,7 @@ require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'user.php';
 require_once MODEL_PATH . 'item.php';
 
+header('X-FRAME-OPTIONS: DENY');
 session_start();
 
 if(is_logined() === false){
@@ -25,11 +26,12 @@ $stock = get_post('stock');
 
 $image = get_file('image');
 
-if(regist_item($db, $name, $price, $stock, $status, $image)){
-  set_message('商品を登録しました。');
-}else {
-  set_error('商品の登録に失敗しました。');
+if(is_valid_csrf_token($_POST['token'])) {
+  if(regist_item($db, $name, $price, $stock, $status, $image)){
+    set_message('商品を登録しました。');
+  }else {
+    set_error('商品の登録に失敗しました。');
+  }
+  redirect_to(ADMIN_URL);
 }
-
-
-redirect_to(ADMIN_URL);
+get_csrf_token();

@@ -29,5 +29,56 @@
     }, 3000);
       
   </script>
+   <form method="post" action="admin_change_stock.php">
+    <div class="form-group">
+      <!-- sqlインジェクション確認のためあえてtext -->
+      <input  type="text" name="stock" value="<?php print($item['stock']); ?>">
+      個
+    </div>
+    <input type="submit" value="変更" class="btn btn-secondary">
+    <input type="hidden" name="token" value="<?php print get_csrf_token(); ?>">
+    <input type="hidden" name="item_id" value="54">
+  </form>
+                <form method="post" action="admin_change_status.php" class="operation">
+                  <?php if(is_open($item) === true){ ?>
+                    <input type="submit" value="公開 → 非公開" class="btn btn-secondary">
+                    <input type="hidden" name="changes_to" value="close">
+                  <?php } else { ?>
+                    <input type="submit" value="非公開 → 公開" class="btn btn-secondary">
+                    <input type="hidden" name="changes_to" value="open">
+                  <?php } ?>
+                  <input type="hidden" name="token" value="<?php print get_csrf_token(); ?>">
+                  <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
+                </form>
+  
+                <form method="post" action="admin_delete_item.php">
+                  <input type="submit" value="削除" class="btn btn-danger delete">
+                  <input type="hidden" name="token" value="<?php print get_csrf_token(); ?>">
+                  <input type="hidden" name="item_id" value="54">
+                </form>
+                <form method="post" action="cart_change_amount.php">
+                  <input type="number" name="amount" value="33">
+                  個
+                  <input type="submit" value="変更" class="btn btn-secondary">
+                  <input type="hidden" name="token" value="<?php print $token; ?>">
+                  <input type="hidden" name="cart_id" value="10">
+                </form>
+
+    <form method="post" action="signup_process.php" class="signup_form mx-auto">
+      <div class="form-group">
+        <label for="name">名前: </label>
+        <input type="text" name="name" id="name" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="password">パスワード: </label>
+        <input type="password" name="password" id="password" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="password_confirmation">パスワード（確認用）: </label>
+        <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
+      </div>
+      <input type="hidden" name="token" value="<?php print $token; ?>">
+      <input type="submit" value="登録" class="btn btn-primary">
+    </form>
 </body>
 </html>
