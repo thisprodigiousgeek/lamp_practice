@@ -1,5 +1,5 @@
 <?php
-//DB操作ファイル
+//DB操作
 
 function get_db_connect(){
   // MySQL用のDSN文字列
