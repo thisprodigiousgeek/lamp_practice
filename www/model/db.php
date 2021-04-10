@@ -1,4 +1,5 @@
 <?php
+//DB操作ファイル
 
 function get_db_connect(){
   // MySQL用のDSN文字列
@@ -16,6 +17,7 @@ function get_db_connect(){
   return $dbh;
 }
 
+//（SQL文~準備~実行~）レコードを取得し、値を返す
 function fetch_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
@@ -27,6 +29,7 @@ function fetch_query($db, $sql, $params = array()){
   return false;
 }
 
+//（SQL文の~準備~実行~）すべての、レコードを取得し、値を返す
 function fetch_all_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
@@ -38,6 +41,7 @@ function fetch_all_query($db, $sql, $params = array()){
   return false;
 }
 
+//実行結果を、返す
 function execute_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
