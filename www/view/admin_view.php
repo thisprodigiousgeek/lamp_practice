@@ -63,7 +63,7 @@
           <?php foreach($items as $item){ ?>
           <tr class="<?php print(is_open($item) ? '' : 'close_item'); ?>">
             <td><img src="<?php print(IMAGE_PATH . $item['image']);?>" class="item_image"></td>
-            <!-- XSS処理は下記 -->
+            <!-- XSS処理 h関数 -->
             <td><?php print h($item['name']); ?></td>
             <td><?php print(number_format($item['price'])); ?>円</td>
             <td>
