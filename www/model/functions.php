@@ -136,5 +136,5 @@ function is_valid_upload_image($image){
 }
 
 function h($str){
-  return htmlspecialchars($str,ENT_QUOTES,'UTF_8');
+  return htmlspecialchars($str,ENT_QUOTES,'UTF-8');
 }
