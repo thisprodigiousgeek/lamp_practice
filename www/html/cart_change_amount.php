@@ -5,18 +5,23 @@ require_once MODEL_PATH . 'user.php';
 require_once MODEL_PATH . 'item.php';
 require_once MODEL_PATH . 'cart.php';
 
+//セッションスタート
 session_start();
 
+//ログインされていない状態ならばログイン画面にリダイレクト
 if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }
-
+//DB接続
 $db = get_db_connect();
+//ユーザー情報を取得
 $user = get_login_user($db);
 
+//post送信を取得
 $cart_id = get_post('cart_id');
 $amount = get_post('amount');
 
+//カートの商品の個数更新
 if(update_cart_amount($db, $cart_id, $amount)){
   set_message('購入数を更新しました。');
 } else {
