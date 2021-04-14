@@ -1,9 +1,14 @@
 <?php
+//商品管理
+
+//定数ファイルを読み込み
 require_once MODEL_PATH . 'functions.php';
+//DBファイルを読み込み
 require_once MODEL_PATH . 'db.php';
 
 // DB利用
 
+//指定の、商品情報を取得し、値を返す
 function get_item($db, $item_id){
   $sql = "
     SELECT
@@ -22,6 +27,7 @@ function get_item($db, $item_id){
   return fetch_query($db, $sql);
 }
 
+//公開中の、商品情報を、すべて取得し、値を返す
 function get_items($db, $is_open = false){
   $sql = '
     SELECT
@@ -71,6 +77,7 @@ function regist_item_transaction($db, $name, $price, $stock, $status, $image, $f
   
 }
 
+//
 function insert_item($db, $name, $price, $stock, $filename, $status){
   $status_value = PERMITTED_ITEM_STATUSES[$status];
   $sql = "
@@ -88,6 +95,7 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
   return execute_query($db, $sql);
 }
 
+//商品ステータスを変更し、値を返す
 function update_item_status($db, $item_id, $status){
   $sql = "
     UPDATE
@@ -102,6 +110,7 @@ function update_item_status($db, $item_id, $status){
   return execute_query($db, $sql);
 }
 
+//商品在庫数を変更し、値を返す
 function update_item_stock($db, $item_id, $stock){
   $sql = "
     UPDATE
@@ -116,6 +125,7 @@ function update_item_stock($db, $item_id, $stock){
   return execute_query($db, $sql);
 }
 
+//登録済み商品の削除。整合性が保たれていれば実行、保たれていなければ処理を戻す
 function destroy_item($db, $item_id){
   $item = get_item($db, $item_id);
   if($item === false){
@@ -131,6 +141,7 @@ function destroy_item($db, $item_id){
   return false;
 }
 
+//DBへ登録された商品を削除し、値を返す
 function delete_item($db, $item_id){
   $sql = "
     DELETE FROM
@@ -146,10 +157,12 @@ function delete_item($db, $item_id){
 
 // 非DB
 
+//ステータスが公開であれば、値を返す
 function is_open($item){
   return $item['status'] === 1;
 }
 
+//商品名、商品金額、商品在庫数、商品画像のファイル名、商品ステータス、を、返す
 function validate_item($name, $price, $stock, $filename, $status){
   $is_valid_item_name = is_valid_item_name($name);
   $is_valid_item_price = is_valid_item_price($price);
@@ -164,6 +177,7 @@ function validate_item($name, $price, $stock, $filename, $status){
     && $is_valid_item_status;
 }
 
+//商品名が、1文字以上100文字以下であれば、商品名を返す
 function is_valid_item_name($name){
   $is_valid = true;
   if(is_valid_length($name, ITEM_NAME_LENGTH_MIN, ITEM_NAME_LENGTH_MAX) === false){
@@ -173,6 +187,7 @@ function is_valid_item_name($name){
   return $is_valid;
 }
 
+//商品金額が、0以上の整数であれば、商品金額を返す
 function is_valid_item_price($price){
   $is_valid = true;
   if(is_positive_integer($price) === false){
@@ -182,6 +197,7 @@ function is_valid_item_price($price){
   return $is_valid;
 }
 
+//商品在庫数が、0以上の整数であれば、商品在庫数を返す
 function is_valid_item_stock($stock){
   $is_valid = true;
   if(is_positive_integer($stock) === false){
@@ -191,6 +207,7 @@ function is_valid_item_stock($stock){
   return $is_valid;
 }
 
+//商品画像のファイル名が、あれば、商品画像のファイル名を返す
 function is_valid_item_filename($filename){
   $is_valid = true;
   if($filename === ''){
@@ -199,6 +216,7 @@ function is_valid_item_filename($filename){
   return $is_valid;
 }
 
+//商品ステータスが、入力されれば、商品ステータスを返す
 function is_valid_item_status($status){
   $is_valid = true;
   if(isset(PERMITTED_ITEM_STATUSES[$status]) === false){
