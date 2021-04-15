@@ -22,6 +22,7 @@
             <div class="card-header">
               <?php print($item['name']); ?>
             </div>
+            <!-- <figure>は図表を表す -->
             <figure class="card-body">
               <img class="card-img" src="<?php print(IMAGE_PATH . $item['image']); ?>">
               <figcaption>

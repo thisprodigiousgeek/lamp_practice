@@ -23,6 +23,7 @@ function get_item($db, $item_id){
 }
 
 function get_items($db, $is_open = false){
+  //trueの場合、結合代入演算子'.='で条件を追加
   $sql = '
     SELECT
       item_id, 

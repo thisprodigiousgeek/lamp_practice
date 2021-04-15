@@ -3,6 +3,7 @@ require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
 function get_user($db, $user_id){
+  // user_idで検索、LIMITで取得データの上限を設定
   $sql = "
     SELECT
       user_id, 

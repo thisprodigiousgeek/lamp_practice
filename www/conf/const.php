@@ -1,6 +1,7 @@
 <?php
-
+// /var/www/html/../model/
 define('MODEL_PATH', $_SERVER['DOCUMENT_ROOT'] . '/../model/');
+// /var/www/html/../view/
 define('VIEW_PATH', $_SERVER['DOCUMENT_ROOT'] . '/../view/');
 
 
