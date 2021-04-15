@@ -21,6 +21,7 @@ function get_user($db, $user_id){
 }
 
 function get_user_by_name($db, $name){
+  // {}はPHPの変数展開に関する構文
   $sql = "
     SELECT
       user_id, 
@@ -36,7 +37,13 @@ function get_user_by_name($db, $name){
 
   return fetch_query($db, $sql);
 }
-
+/**
+ * user登録を確認し、session['user_id']にセット
+ * @param obj $db dbハンドル
+ * @param str $name postで送信されたユーザ名
+ * @param str $password postで送信されたpw
+ * @return array $user ユーザ情報
+ * */
 function login_as($db, $name, $password){
   $user = get_user_by_name($db, $name);
   if($user === false || $user['password'] !== $password){
@@ -45,7 +52,11 @@ function login_as($db, $name, $password){
   set_session('user_id', $user['user_id']);
   return $user;
 }
-
+/**
+ * sessionのuser_idから、クエリを実行し、user情報の取得
+ * @param obj $db dbハンドル
+ * @return array|bool 結果配列|false
+ */
 function get_login_user($db){
   $login_user_id = get_session('user_id');
 

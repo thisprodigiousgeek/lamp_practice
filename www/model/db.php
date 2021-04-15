@@ -15,7 +15,12 @@ function get_db_connect(){
   }
   return $dbh;
 }
-
+/**
+ * クエリを実行し、dbから１行取得
+ * @param obj $db dbハンドル
+ * @param str $sql sql文
+ * @return array|bool 結果配列|false 
+ * */
 function fetch_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
@@ -26,7 +31,12 @@ function fetch_query($db, $sql, $params = array()){
   }
   return false;
 }
-
+/**
+ * クエリを実行し、dbから全行取得
+ * @param obj $db dbハンドル
+ * @param str $sql sql文
+ * @return array|bool 結果配列|false 
+ * */
 function fetch_all_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);

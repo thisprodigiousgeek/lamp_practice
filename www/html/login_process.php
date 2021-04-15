@@ -14,7 +14,7 @@ $password = get_post('password');
 
 $db = get_db_connect();
 
-
+// userが存在すれば、user情報取得とsessionセットを実施
 $user = login_as($db, $name, $password);
 if( $user === false){
   set_error('ログインに失敗しました。');

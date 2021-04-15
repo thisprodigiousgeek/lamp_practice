@@ -9,14 +9,22 @@ function redirect_to($url){
   header('Location: ' . $url);
   exit;
 }
-
+/**
+ * HTTPメソッドがgetであるか判定
+ * @param str $name name属性の値
+ * @return array|null $_GET[$name]|null value属性の値
+ */
 function get_get($name){
   if(isset($_GET[$name]) === true){
     return $_GET[$name];
   };
   return '';
 }
-
+/**
+ * HTTPメソッドがpostであるか判定
+ * @param str $name のname属性の値
+ * @return array|null $_POST[$name]|null value属性の値
+ */
 function get_post($name){
   if(isset($_POST[$name]) === true){
     return $_POST[$name];
@@ -71,7 +79,11 @@ function get_messages(){
   set_session('__messages',  array());
   return $messages;
 }
-
+/**
+ * sesstion['user_id']がセットされているか、チェック
+ * @param void
+ * @return bool
+ */
 function is_logined(){
   return get_session('user_id') !== '';
 }
