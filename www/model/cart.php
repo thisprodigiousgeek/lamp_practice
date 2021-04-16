@@ -3,6 +3,7 @@ require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
 function get_user_carts($db, $user_id){
+  // .(ドット)は、itemsテーブルのitem_idカラムという意味
   $sql = "
     SELECT
       items.item_id,
@@ -53,7 +54,13 @@ function get_user_cart($db, $user_id, $item_id){
   return fetch_query($db, $sql);
 
 }
-
+/**
+ * カートに商品を追加する|カートの商品数を1個増やす
+ * @param obj $db dbハンドル
+ * @param str $user_id
+ * @param str $item_id
+ * return bool
+ */
 function add_cart($db, $user_id, $item_id ) {
   $cart = get_user_cart($db, $user_id, $item_id);
   if($cart === false){
@@ -61,7 +68,13 @@ function add_cart($db, $user_id, $item_id ) {
   }
   return update_cart_amount($db, $cart['cart_id'], $cart['amount'] + 1);
 }
-
+/**
+ * クエリを実行し、cartsテーブルに商品を追加
+ * @param obj $db dbハンドル
+ * @param str $user_id
+ * @param str $item_id
+ * return bool
+ */
 function insert_cart($db, $user_id, $item_id, $amount = 1){
   $sql = "
     INSERT INTO
@@ -129,7 +142,11 @@ function delete_user_carts($db, $user_id){
   execute_query($db, $sql);
 }
 
-
+/**
+ * カート情報から、合計金額を計算
+ * @param array $carts 2次元配列
+ * @return int $total_price 合計金額
+ */
 function sum_carts($carts){
   $total_price = 0;
   foreach($carts as $cart){

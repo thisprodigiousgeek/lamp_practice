@@ -47,7 +47,12 @@ function fetch_all_query($db, $sql, $params = array()){
   }
   return false;
 }
-
+/**
+ * クエリを実行する
+ * @param obj $db dbハンドル
+ * @param str $sql sql文
+ * @return bool
+ */
 function execute_query($db, $sql, $params = array()){
   try{
     $statement = $db->prepare($sql);
