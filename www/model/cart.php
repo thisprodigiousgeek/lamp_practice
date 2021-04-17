@@ -2,6 +2,7 @@
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
+//指定のユーザーの全てのカート情報を取得
 function get_user_carts($db, $user_id){
   $sql = "
     SELECT
@@ -26,6 +27,7 @@ function get_user_carts($db, $user_id){
   return fetch_all_query($db, $sql);
 }
 
+//指定のuser_idとitem_idのカート情報を取得
 function get_user_cart($db, $user_id, $item_id){
   $sql = "
     SELECT
@@ -54,6 +56,7 @@ function get_user_cart($db, $user_id, $item_id){
 
 }
 
+//カート追加処理(同じ商品がすでにあった場合はupdateする)
 function add_cart($db, $user_id, $item_id ) {
   $cart = get_user_cart($db, $user_id, $item_id);
   if($cart === false){
@@ -62,6 +65,7 @@ function add_cart($db, $user_id, $item_id ) {
   return update_cart_amount($db, $cart['cart_id'], $cart['amount'] + 1);
 }
 
+//データベースのcartに新規追加
 function insert_cart($db, $user_id, $item_id, $amount = 1){
   $sql = "
     INSERT INTO
@@ -76,6 +80,7 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
   return execute_query($db, $sql);
 }
 
+//cartの個数をアップデート
 function update_cart_amount($db, $cart_id, $amount){
   $sql = "
     UPDATE
@@ -89,6 +94,7 @@ function update_cart_amount($db, $cart_id, $amount){
   return execute_query($db, $sql);
 }
 
+//指定のcart_idの商品の削除処理
 function delete_cart($db, $cart_id){
   $sql = "
     DELETE FROM
@@ -101,6 +107,7 @@ function delete_cart($db, $cart_id){
   return execute_query($db, $sql);
 }
 
+//購入処理
 function purchase_carts($db, $carts){
   if(validate_cart_purchase($carts) === false){
     return false;
@@ -118,6 +125,7 @@ function purchase_carts($db, $carts){
   delete_user_carts($db, $carts[0]['user_id']);
 }
 
+//指定のuser_idの商品削除処理
 function delete_user_carts($db, $user_id){
   $sql = "
     DELETE FROM
@@ -129,7 +137,7 @@ function delete_user_carts($db, $user_id){
   execute_query($db, $sql);
 }
 
-
+//カートの合計金額
 function sum_carts($carts){
   $total_price = 0;
   foreach($carts as $cart){
@@ -138,6 +146,7 @@ function sum_carts($carts){
   return $total_price;
 }
 
+//購入時のエラーチェック
 function validate_cart_purchase($carts){
   if(count($carts) === 0){
     set_error('カートに商品が入っていません。');

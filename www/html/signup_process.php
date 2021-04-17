@@ -31,6 +31,7 @@ try{
 }
 
 set_message('ユーザー登録が完了しました。');
+
 //nameとpasswordがあっていればセッションに登録
 login_as($db, $name, $password);
 redirect_to(HOME_URL);
