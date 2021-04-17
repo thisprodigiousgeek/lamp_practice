@@ -53,7 +53,11 @@ function set_session($name, $value){
 function set_error($error){
   $_SESSION['__errors'][] = $error;
 }
-
+/**
+ * sessionからメッセージを取得後、初期化
+ * @param void
+ * @return array array()|$messages 空配列|メッセージ配列
+ */
 function get_errors(){
   $errors = get_session('__errors');
   if($errors === ''){
@@ -62,7 +66,11 @@ function get_errors(){
   set_session('__errors',  array());
   return $errors;
 }
-
+/**
+ * エラーメッセージが存在するか、チェック
+ * @param void
+ * @return bool 存在すればtrueを返す
+ */
 function has_error(){
   return isset($_SESSION['__errors']) && count($_SESSION['__errors']) !== 0;
 }
@@ -70,7 +78,11 @@ function has_error(){
 function set_message($message){
   $_SESSION['__messages'][] = $message;
 }
-
+/**
+ * sessionからメッセージを取得後、初期化
+ * @param void
+ * @return array array()|$messages 空配列|メッセージ配列
+ */
 function get_messages(){
   $messages = get_session('__messages');
   if($messages === ''){
@@ -115,12 +127,22 @@ function delete_image($filename){
 }
 
 
-
+/**
+ * 文字数のバリデーション
+ * @param str $string 調べたい文字列
+ * @param str $minimum_length 指定の最小文字数
+ * @param str $maximum_length 指定の最大文字数
+ * @return bool
+ */
 function is_valid_length($string, $minimum_length, $maximum_length = PHP_INT_MAX){
   $length = mb_strlen($string);
   return ($minimum_length <= $length) && ($length <= $maximum_length);
 }
-
+/**
+ * 半角英数字(アルファニューメリック)かどうか判定
+ * @param str $string 調べたい文字列
+ * @return bool
+ */
 function is_alphanumeric($string){
   return is_valid_format($string, REGEXP_ALPHANUMERIC);
 }
@@ -128,7 +150,12 @@ function is_alphanumeric($string){
 function is_positive_integer($string){
   return is_valid_format($string, REGEXP_POSITIVE_INTEGER);
 }
-
+/**
+ * 正規表現による比較を行う
+ * @param str $string 調べたい文字列
+ * @param str $format 正規表現の構文
+ * @return bool
+ */
 function is_valid_format($string, $format){
   return preg_match($format, $string) === 1;
 }

@@ -151,7 +151,11 @@ function delete_item($db, $item_id){
 
 
 // 非DB
-
+/**
+ * ステータス情報の確認
+ * @param array $item 商品情報(2次元配列)
+ * @return bool
+ */
 function is_open($item){
   return $item['status'] === 1;
 }

@@ -40,9 +40,9 @@ function get_user_by_name($db, $name){
 /**
  * user登録を確認し、session['user_id']にセット
  * @param obj $db dbハンドル
- * @param str $name postで送信されたユーザ名
- * @param str $password postで送信されたpw
- * @return array $user ユーザ情報
+ * @param str $name ユーザ名
+ * @param str $password パスワード
+ * @return array|bool $user|false ユーザ情報またはfalse
  * */
 function login_as($db, $name, $password){
   $user = get_user_by_name($db, $name);
@@ -81,7 +81,11 @@ function is_valid_user($name, $password, $password_confirmation){
   $is_valid_password = is_valid_password($password, $password_confirmation);
   return $is_valid_user_name && $is_valid_password ;
 }
-
+/**
+ * ユーザー名のバリデーション(文字数、半角英数字)
+ * @param str $name ユーザ名
+ * @return bool
+ */
 function is_valid_user_name($name) {
   $is_valid = true;
   if(is_valid_length($name, USER_NAME_LENGTH_MIN, USER_NAME_LENGTH_MAX) === false){

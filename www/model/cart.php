@@ -144,7 +144,7 @@ function delete_user_carts($db, $user_id){
 
 /**
  * カート情報から、合計金額を計算
- * @param array $carts 2次元配列
+ * @param array $carts カート情報(2次元配列)
  * @return int $total_price 合計金額
  */
 function sum_carts($carts){
@@ -154,7 +154,11 @@ function sum_carts($carts){
   }
   return $total_price;
 }
-
+/**
+ * カート商品購入のバリデーション(カート商品数、ステータス、在庫数)
+ * @param array $carts カート情報(2次元配列)
+ * @return bool
+ */
 function validate_cart_purchase($carts){
   if(count($carts) === 0){
     set_error('カートに商品が入っていません。');
