@@ -6,6 +6,14 @@ require_once MODEL_PATH . 'user.php';
 //セッションスタート
 session_start();
 
+//セッションにトークンが保存されていなければログイン画面にリダイレクト
+if(is_valid_csrf_token($_POST['token']) === false){
+  redirect_to(LOGIN_URL);
+}else{
+  //トークンの破棄
+  unset($_SESSION['token']);
+}
+
 //ログインされている状態ならばホーム画面にリダイレクト
 if(is_logined() === true){
   redirect_to(HOME_URL);

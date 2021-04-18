@@ -8,6 +8,9 @@ require_once MODEL_PATH . 'cart.php';
 //セッションスタート
 session_start();
 
+//セッションにtokenを保存し、ランダムな文字列を$tokenに代入
+$token = get_csrf_token();
+
 //ログインされていない状態ならばログイン画面にリダイレクト
 if(is_logined() === false){
   redirect_to(LOGIN_URL);
