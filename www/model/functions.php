@@ -99,13 +99,21 @@ function get_messages(){
 function is_logined(){
   return get_session('user_id') !== '';
 }
-
+/**
+ * 画像ファイルのバリデーション
+ * @param str $file ファイルデータ
+ * @return str ランダムな文字列名のファイルデータ
+ */
 function get_upload_filename($file){
+  //関数の呼び出し　（HTTP POSTでアップロードされたか、画像のファイル形式が正しいか判定）
   if(is_valid_upload_image($file) === false){
     return '';
   }
+  // 画像のファイル形式を読み込み、IMAGEYYPE＿〇〇で返す
   $mimetype = exif_imagetype($file['tmp_name']);
+  // IMAGEYYPE＿〇〇で一致した拡張子部分を抜き出し
   $ext = PERMITTED_IMAGE_TYPES[$mimetype];
+  // ランダムな文字数と組み合わせる
   return get_random_string() . '.' . $ext;
 }
 
@@ -146,7 +154,11 @@ function is_valid_length($string, $minimum_length, $maximum_length = PHP_INT_MAX
 function is_alphanumeric($string){
   return is_valid_format($string, REGEXP_ALPHANUMERIC);
 }
-
+/**
+ * 半角数字かどうか判定
+ * @param str $string 調べたい文字列
+ * @return bool
+ */
 function is_positive_integer($string){
   return is_valid_format($string, REGEXP_POSITIVE_INTEGER);
 }
@@ -162,12 +174,18 @@ function is_valid_format($string, $format){
 
 
 function is_valid_upload_image($image){
+  // HTTP POSTでファイルがアップロードされたかチェック
   if(is_uploaded_file($image['tmp_name']) === false){
+    // セッションにエラーメッセージを追加する関数の呼び出し
     set_error('ファイル形式が不正です。');
+    // 処理終了
     return false;
   }
+  // 画像のファイル形式を読み込み、IMAGEYYPE＿〇〇で返す
   $mimetype = exif_imagetype($image['tmp_name']);
+  // 指定の画像形式であるか判定
   if( isset(PERMITTED_IMAGE_TYPES[$mimetype]) === false ){
+    // 異なる場合は、セッションにエラーメッセージをセットする
     set_error('ファイル形式は' . implode('、', PERMITTED_IMAGE_TYPES) . 'のみ利用可能です。');
     return false;
   }

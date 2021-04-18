@@ -22,7 +22,7 @@ function get_item($db, $item_id){
   return fetch_query($db, $sql);
 }
 /**
- * クエリを実行し、item情報の取得
+ * クエリを実行し、item情報を全取得
  * @param obj $db dbハンドル
  * @param bool $is_open status情報
  * @return array|bool 結果配列|false
@@ -52,13 +52,19 @@ function get_items($db, $is_open = false){
 function get_all_items($db){
   return get_items($db);
 }
-
+/**
+ * ステータス情報に関係なく、全ての商品情報を取得
+ * @param obj $db dbハンドル
+ * @return array|bool 結果配列|false
+ */
 function get_open_items($db){
   return get_items($db, true);
 }
 
 function regist_item($db, $name, $price, $stock, $status, $image){
+  // ファイルアップロードに関するバリデーション関数の呼び出し
   $filename = get_upload_filename($image);
+  // ファイル以外のバリデーション関数の呼び出し
   if(validate_item($name, $price, $stock, $filename, $status) === false){
     return false;
   }
@@ -152,7 +158,7 @@ function delete_item($db, $item_id){
 
 // 非DB
 /**
- * ステータス情報の確認
+ * ステータス情報が公開であるか判定
  * @param array $item 商品情報(2次元配列)
  * @return bool
  */
