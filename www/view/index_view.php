@@ -20,7 +20,7 @@
         <div class="col-6 item">
           <div class="card h-100 text-center">
             <div class="card-header">
-              <?php print($item['name']); ?>
+              <?php print(h($item['name'])); ?>
             </div>
             <!-- <figure>は図表を表す -->
             <figure class="card-body">
