@@ -1,7 +1,12 @@
 <?php
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
-
+/**
+ * クエリを実行し、指定のユーザ情報の取得
+ * @param obj $db dbハンドル
+ * @param $user_id ユーザーid
+ * @return array|bool ユーザ情報|false
+ */
 function get_user($db, $user_id){
   // user_idで検索、LIMITで取得データの上限を設定
   $sql = "
@@ -13,13 +18,18 @@ function get_user($db, $user_id){
     FROM
       users
     WHERE
-      user_id = {$user_id}
+      user_id = ?
     LIMIT 1
   ";
 
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql, array($user_id));
 }
-
+/**
+ * クエリを実行し、ユーザー名で検索し、ユーザ情報の取得
+ * @param obj $db dbハンドル
+ * @param str $name ユーザ名
+ * @param array|bool ユーザ情報|false
+**/
 function get_user_by_name($db, $name){
   // {}はPHPの変数展開に関する構文
   $sql = "
@@ -31,11 +41,11 @@ function get_user_by_name($db, $name){
     FROM
       users
     WHERE
-      name = '{$name}'
+      name = ?
     LIMIT 1
   ";
 
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql, array($name));
 }
 /**
  * user登録を確認し、session['user_id']にセット
@@ -45,7 +55,9 @@ function get_user_by_name($db, $name){
  * @return array|bool $user|false ユーザ情報またはfalse
  * */
 function login_as($db, $name, $password){
+  // ユーザ名でdb検索
   $user = get_user_by_name($db, $name);
+  // user名が使われているか、passwordが一緒でないかを判定
   if($user === false || $user['password'] !== $password){
     return false;
   }
