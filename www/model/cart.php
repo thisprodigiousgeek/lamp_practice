@@ -1,7 +1,12 @@
 <?php 
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
-
+/**
+ * クエリを実行し、ユーザーのカート情報を取得
+ * @param obj $db dbハンドル
+ * @param str $user_id ユーザid
+ * @return array|bool カート情報|false
+ */
 function get_user_carts($db, $user_id){
   // .(ドット)は、itemsテーブルのitem_idカラムという意味
   $sql = "
@@ -22,11 +27,17 @@ function get_user_carts($db, $user_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = {$user_id}
+      carts.user_id = ?
   ";
-  return fetch_all_query($db, $sql);
+  return fetch_all_query($db, $sql, array($user_id));
 }
-
+/**
+ * クエリを実行し、指定のカート情報を取得
+ * @param obj $db dbハンドル
+ * @param str $user_id ユーザid
+ * @param str $item_id 商品id
+ * @return array|bool カート情報|false
+ */
 function get_user_cart($db, $user_id, $item_id){
   $sql = "
     SELECT
@@ -46,12 +57,12 @@ function get_user_cart($db, $user_id, $item_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = {$user_id}
+      carts.user_id = ?
     AND
-      items.item_id = {$item_id}
+      items.item_id = ?
   ";
 
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql, array($user_id,$item_id));
 
 }
 /**
@@ -83,35 +94,46 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
         user_id,
         amount
       )
-    VALUES({$item_id}, {$user_id}, {$amount})
+    VALUES(?, ?, ?)
   ";
 
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, array($item_id,$user_id,$amount));
 }
-
+/**
+ * クエリを実行し、カートの在庫数を更新
+ * @param obj $db dbハンドル
+ * @param str $cart_id カートid
+ * @param int $amount 在庫数
+ * return bool
+ */
 function update_cart_amount($db, $cart_id, $amount){
   $sql = "
     UPDATE
       carts
     SET
-      amount = {$amount}
+      amount = ?
     WHERE
-      cart_id = {$cart_id}
+      cart_id = ?
     LIMIT 1
   ";
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, array($amount,$cart_id));
 }
-
+/**
+ * クエリを実行し、カートから商品を削除
+ * @param obj $db dbハンドル
+ * @param str $cart_id カートid
+ * return bool
+ */
 function delete_cart($db, $cart_id){
   $sql = "
     DELETE FROM
       carts
     WHERE
-      cart_id = {$cart_id}
+      cart_id = ?
     LIMIT 1
   ";
 
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, array($cart_id));
 }
 
 function purchase_carts($db, $carts){
@@ -130,16 +152,21 @@ function purchase_carts($db, $carts){
   
   delete_user_carts($db, $carts[0]['user_id']);
 }
-
+/**
+ * クエリを実行し、userのカートから商品を削除
+ * @param obj $db dbハンドル
+ * @param str $user_id ユーザid
+ * return bool
+ */
 function delete_user_carts($db, $user_id){
   $sql = "
     DELETE FROM
       carts
     WHERE
-      user_id = {$user_id}
+      user_id = ?
   ";
 
-  execute_query($db, $sql);
+  execute_query($db, $sql, array($user_id));
 }
 
 /**
