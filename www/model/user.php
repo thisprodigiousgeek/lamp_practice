@@ -41,7 +41,7 @@ function get_user_by_name($db, $name){
 //nameとpasswordが一致すればセッションにuser_idを保存
 function login_as($db, $name, $password){
   $user = get_user_by_name($db, $name);
-  if($user === false || $user['password'] !== $password){
+  if($user === false || password_verify($password, $user['password']) === false){
     return false;
   }
   set_session('user_id', $user['user_id']);
@@ -56,12 +56,12 @@ function get_login_user($db){
 }
 
 //新規ユーザー登録
-function regist_user($db, $name, $password, $password_confirmation) {
+function regist_user($db, $name, $password, $password_confirmation,$hash) {
   if( is_valid_user($name, $password, $password_confirmation) === false){
     return false;
   }
   
-  return insert_user($db, $name, $password);
+  return insert_user($db, $name, $hash);
 }
 
 //typeがadminユーザー(1)ならtrueを返す
