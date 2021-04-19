@@ -16,6 +16,8 @@
 
     <div class="card-deck">
       <div class="row">
+      <!-- csrf_tokenの生成 -->
+      <?php $token = get_csrf_token();?>
       <?php foreach($items as $item){ ?>
         <div class="col-6 item">
           <div class="card h-100 text-center">
@@ -31,6 +33,7 @@
                   <form action="index_add_cart.php" method="post">
                     <input type="submit" value="カートに追加" class="btn btn-primary btn-block">
                     <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
+                    <input type="hidden" name="csrf_token" value="<?php print($token);?>">
                   </form>
                 <?php } else { ?>
                   <p class="text-danger">現在売り切れです。</p>

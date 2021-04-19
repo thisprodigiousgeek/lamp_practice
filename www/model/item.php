@@ -3,7 +3,12 @@ require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
 // DB利用
-
+/**
+ * クエリを実行し、商品情報を取得
+ * @param obj $db dbハンドル
+ * @param int $item_id 商品id
+ * @return bool
+ */
 function get_item($db, $item_id){
   $sql = "
     SELECT
@@ -16,10 +21,10 @@ function get_item($db, $item_id){
     FROM
       items
     WHERE
-      item_id = {$item_id}
+      item_id = ?
   ";
 
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql, array($item_id));
 }
 /**
  * クエリを実行し、item情報を全取得
@@ -82,8 +87,18 @@ function regist_item_transaction($db, $name, $price, $stock, $status, $image, $f
   return false;
   
 }
-
+/**
+ * クエリを実行し、新規商品の追加
+ * @param obj $db dbハンドル
+ * @param str $name 商品名
+ * @param int $price 価格
+ * @param int $stock 在庫数
+ * @param str $filename 画像ファイル名
+ * @param str $status ステータス情報
+ * @return bool
+ */
 function insert_item($db, $name, $price, $stock, $filename, $status){
+  // 定数ファイルより、ステータス情報の取得
   $status_value = PERMITTED_ITEM_STATUSES[$status];
   $sql = "
     INSERT INTO
@@ -94,38 +109,49 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
         image,
         status
       )
-    VALUES('{$name}', {$price}, {$stock}, '{$filename}', {$status_value});
+    VALUES(?, ?, ?, ?, ?);
   ";
 
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, array($name, $price, $stock, $filename, $status_value));
 }
-
+/**
+ * クエリを実行し、商品のステータス情報を更新
+ * @param obj $db dbハンドル
+ * @param int $item_id 商品id
+ * @param int $status ステータス情報
+ * @return bool
+ */
 function update_item_status($db, $item_id, $status){
   $sql = "
     UPDATE
       items
     SET
-      status = {$status}
+      status = ?
     WHERE
-      item_id = {$item_id}
+      item_id = ?
     LIMIT 1
   ";
   
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, array($status, $item_id));
 }
-
+/**
+ * クエリを実行し、在庫数の更新
+ * @param obj $db dbハンドル
+ * @param int $item_id 商品id
+ * @param int $stock 在庫数
+ * @return bool
+ */
 function update_item_stock($db, $item_id, $stock){
   $sql = "
     UPDATE
       items
     SET
-      stock = {$stock}
+      stock = ?
     WHERE
-      item_id = {$item_id}
+      item_id = ?
     LIMIT 1
   ";
-  
-  return execute_query($db, $sql);
+  return execute_query($db, $sql,array($stock,$item_id));
 }
 
 function destroy_item($db, $item_id){
@@ -142,17 +168,22 @@ function destroy_item($db, $item_id){
   $db->rollback();
   return false;
 }
-
+/**
+ * クエリを実行し、商品を削除
+ * @param obj $db dbハンドル
+ * @param int $item_id 商品id
+ * @return bool
+ */
 function delete_item($db, $item_id){
   $sql = "
     DELETE FROM
       items
     WHERE
-      item_id = {$item_id}
+      item_id = ?
     LIMIT 1
   ";
   
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, array($item_id));
 }
 
 

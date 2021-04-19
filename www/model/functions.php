@@ -191,7 +191,36 @@ function is_valid_upload_image($image){
   }
   return true;
 }
+/**
+ * エスケープ処理
+ * @param str $string 文字列
+ * @param str $format エスケープ処理後の文字列
+ * @return bool
+ */
 function h($str){
   return htmlspecialchars($str,ENT_QUOTES,'UTF-8');
 }
-
+/**
+ * ワンタイムトークンの生成
+ * @param void
+ * @return str $token ワンタイムトークン
+ */
+function get_csrf_token(){
+  // get_random_strin()はユーザ定義関数
+  $token = get_random_string(30);
+  // set_session()はユーザー定義関数
+  set_session('csrf_token', $token);
+  return $token;
+}
+/**
+* トークンの照合
+* @param str $token ワンタイムトークン
+* @return bool
+*/
+function is_valid_csrf_token($token){
+  if($token === ''){
+      return false;
+  }
+  // get_session()はユーザ定義関数
+  return $token === get_session('csrf_token');
+}
