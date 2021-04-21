@@ -16,6 +16,24 @@ if(is_logined() === false){
   // ログインしていない場合、ログイン画面にリダイレクト
   redirect_to(LOGIN_URL);
 }
+
+// トークンをpostから受け取る
+$token = get_post('csrf_token');
+// sessionに格納しているトークンと照合
+if (is_valid_csrf_token($token) === false) {
+  // トークンの削除
+  set_session('csrf_token','');
+  // 処理の中断
+  exit('不正なアクセスです');
+
+} else {
+  // トークンの削除
+  set_session('csrf_token','');
+  // トークンの生成
+  $token = get_csrf_token();
+
+}
+
 // PDOの取得
 $db = get_db_connect();
 // ログインuser情報取得用の関数を呼び出し

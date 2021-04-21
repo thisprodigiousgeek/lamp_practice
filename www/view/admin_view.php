@@ -14,7 +14,8 @@
     <h1>商品管理</h1>
 
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
-
+    <!-- csrf_tokenの生成 -->
+    <?php $token = get_csrf_token();?>
     <form 
       method="post" 
       action="admin_insert_item.php" 
@@ -43,7 +44,7 @@
           <option value="close">非公開</option>
         </select>
       </div>
-      
+      <input type="hidden" name="csrf_token" value="<?php print($token);?>">
       <input type="submit" value="商品追加" class="btn btn-primary">
     </form>
 
@@ -74,6 +75,7 @@
                 </div>
                 <input type="submit" value="変更" class="btn btn-secondary">
                 <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
+                <input type="hidden" name="csrf_token" value="<?php print($token);?>">
               </form>
             </td>
             <td>
@@ -87,11 +89,13 @@
                   <input type="hidden" name="changes_to" value="open">
                 <?php } ?>
                 <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
+                <input type="hidden" name="csrf_token" value="<?php print($token);?>">
               </form>
 
               <form method="post" action="admin_delete_item.php">
                 <input type="submit" value="削除" class="btn btn-danger delete">
                 <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
+                <input type="hidden" name="csrf_token" value="<?php print($token);?>">
               </form>
 
             </td>
