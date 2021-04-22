@@ -1,4 +1,7 @@
 <?php
+//HTTPヘッダにX-FRAME-OPTIONSを設定
+header('X-Frame-Options: DENY');
+
 // /var/www/html/../model/
 define('MODEL_PATH', $_SERVER['DOCUMENT_ROOT'] . '/../model/');
 // /var/www/html/../view/
