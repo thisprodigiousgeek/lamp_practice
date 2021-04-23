@@ -29,7 +29,7 @@
             <tr>
               <td><?php print($order['order_id'])?></td>
               <td><?php print($order['order_date'])?></td>
-              <td><?php print get_total_price($db,$order['order_id']) ?></td>
+              <td><?php print($order['total']) ?></td>
               <td>
                 <form method="post" action="order_details.php">
                   <input type="submit" value="詳細">
