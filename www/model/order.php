@@ -43,9 +43,11 @@ function order_transaction($db,$user_id,$carts){
     }
 }
 
-//指定のユーザーの購入履歴を取得（ordersテーブル）
+//指定のユーザーの購入履歴を取得
 function get_orders_user_id($db,$user_id){
-    $sql ="SELECT order_id,order_date FROM orders WHERE user_id = ?";
+    $sql ="SELECT orders.order_id,orders.order_date,order_details.product_price,order_details.quantity
+    FROM orders JOIN order_details ON orders.order_id = order_details.order_id 
+    WHERE orders.user_id = ?";
 
     $orders = fetch_all_query($db,$sql,[$user_id]);
     return array_reverse($orders);
@@ -53,14 +55,15 @@ function get_orders_user_id($db,$user_id){
 
 //全ての購入履歴を取得（adminユーザー）
 function get_orders($db){
-    $sql ="SELECT order_id,order_date FROM orders";
+    $sql ="SELECT orders.order_id,orders.order_date,order_details.product_price,order_details.quantity
+    FROM orders JOIN order_details ON orders.order_id = order_details.order_id";
 
-    $orders = fetch_all_query($db,$sql,[$user_id]);
+    $orders = fetch_all_query($db,$sql);
     return array_reverse($orders);
 }
 
 //adminユーザーなら全ての履歴を見れる
-function orders_check_user(){
+function orders_check_user($db,$user_id){
     if($user_id === 4){
         return get_orders($db);
     }else{
@@ -68,6 +71,16 @@ function orders_check_user(){
     }
 }
 
+function get_total_price($db,$order_id){
+    $sql ="SELECT product_price,quantity FROM order_details WHERE order_id = ?";
+
+    $details = fetch_all_query($db,$sql,[$order_id]);
+    // $total_price = 0;
+    foreach($details as $detail){
+        $total_price += $detail['product_price'] * $detail['quantity'];
+    }
+    return $total_price;
+}
 
 
 
@@ -85,7 +98,8 @@ function orders_check_user(){
 
 
 
-//カートの合計金額
+
+// カートの合計金額
 // function sum_carts($carts){
 //     $total_price = 0;
 //     foreach($carts as $cart){
