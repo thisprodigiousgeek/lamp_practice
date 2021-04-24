@@ -20,7 +20,11 @@ $db = get_db_connect();
 $user = get_login_user($db);
 //ログイン中のuser_idを取得
 $user_id = get_session('user_id');
-//購入履歴を取得
-$orders = orders_check_user($db,$user_id);
+//postで送られてきたものを取得
+$order_id = get_post('order_id');
+$order_date = get_post('order_date');
+$total = get_post('total');
+//詳細情報を取得
+$order_details = get_order_detail($db,$order_id);
 
-include_once '../view/order_view.php';
+include_once '../view/order_detail_view.php';

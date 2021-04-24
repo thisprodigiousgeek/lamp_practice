@@ -88,6 +88,17 @@ function orders_check_user($db,$user_id){
     }
 }
 
+//詳細情報を取得
+function get_order_detail($db,$order_id){
+    $sql ="SELECT items.name,order_details.product_price,order_details.quantity,(order_details.product_price*order_details.quantity) as total
+    FROM order_details 
+    JOIN items 
+    ON items.item_id = order_details.item_id 
+    WHERE order_details.order_id = ?";
+
+    return fetch_all_query($db,$sql,[$order_id]);
+}
+
 
 
 

@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <?php include VIEW_PATH . 'templates/head.php'; ?>
-  <title>商品管理</title>
+  <title>購入履歴</title>
   <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'admin.css'); ?>">
 </head>
 <body>
@@ -29,11 +29,13 @@
             <tr>
               <td><?php print($order['order_id'])?></td>
               <td><?php print($order['order_date'])?></td>
-              <td><?php print($order['total']) ?></td>
+              <td><?php print($order['total']) ?>円</td>
               <td>
-                <form method="post" action="order_details.php">
+                <form method="post" action="order_detail.php">
                   <input type="submit" value="詳細">
                   <input type="hidden" name="order_id" value="<?php print($order['order_id'])?>">
+                  <input type="hidden" name="order_date" value="<?php print($order['order_date'])?>">
+                  <input type="hidden" name="total" value="<?php print($order['total'])?>">
                 </form>
               </td>
             </tr>
