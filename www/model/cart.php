@@ -221,10 +221,7 @@ function validate_cart_purchase($carts){
 /**
  * クエリを実行し、購入履歴・購入明細テーブルに追加処理
  * @param obj $db dbハンドル
- * @param int $user_id ユーザーID
- * @param int $item_id 商品ID
- * @param int $price 購入価格
- * @param int $amount 購入数
+ * @param array $carts カート情報(2次元配列)
  * return bool
  */
 function regist_order_transaction($db,$carts) {
