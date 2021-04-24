@@ -40,6 +40,7 @@ $db = get_db_connect();
 $user = get_login_user($db);
 // ログインuserのカート情報取得用の関数の呼び出し
 $carts = get_user_carts($db, $user['user_id']);
+
 // カート商品の購入処理用の関数の呼び出し
 if(purchase_carts($db, $carts) === false){
   // sessionにメッセージを追加する関数の呼び出し
