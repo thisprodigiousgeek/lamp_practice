@@ -28,7 +28,7 @@ if(purchase_carts($db, $carts) === false){
   set_error('商品が購入できませんでした。');
   redirect_to(CART_URL);
 } 
-
+//ordersorder_detailsテーブルに追加
 order_transaction($db,$user_id,$carts);
 
 //カートの合計金額を取得

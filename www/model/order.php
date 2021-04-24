@@ -25,7 +25,7 @@ function get_orders_order_id($db){
     $order =  end($order);
     return $order['order_id'];
 }
-
+//ordersorder_detailsテーブルに追加
 function order_transaction($db,$user_id,$carts){
     $db->beginTransaction();
     try{
@@ -98,26 +98,3 @@ function get_order_detail($db,$order_id){
 
     return fetch_all_query($db,$sql,[$order_id]);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// カートの合計金額
-// function sum_carts($carts){
-//     $total_price = 0;
-//     foreach($carts as $cart){
-//       $total_price += $cart['price'] * $cart['amount'];
-//     }
-//     return $total_price;
-//   }
