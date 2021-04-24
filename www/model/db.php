@@ -62,3 +62,19 @@ function execute_query($db, $sql, $params = array()){
   }
   return false;
 }
+/**
+ * クエリを実行して、最後に追加したIDを取得
+ * @param obj $db dbハンドル
+ * @param str $sql sql文
+ * @return ing|bool $last_id|false
+ */
+function execute_query_lastInsertId($db, $sql, $params = array()){
+  try{
+    $statement = $db->prepare($sql);
+    $statement->execute($params);
+    return $last_id = $db->lastInsertId();
+  }catch(PDOException $e){
+    set_error('更新に失敗しました。');
+  }
+  return false;
+}

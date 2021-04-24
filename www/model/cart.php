@@ -135,7 +135,12 @@ function delete_cart($db, $cart_id){
 
   return execute_query($db, $sql, array($cart_id));
 }
-
+/**
+ * 商品購入処理時に、バリデーション処理を呼び出す
+ * @param obj $db dbハンドル
+ * @param array $carts カート情報(2次元配列
+ * return bool
+ */
 function purchase_carts($db, $carts){
   if(validate_cart_purchase($carts) === false){
     return false;
@@ -149,7 +154,13 @@ function purchase_carts($db, $carts){
       set_error($cart['name'] . 'の購入に失敗しました。');
     }
   }
+  // 購入履歴に追加する
+  if (regist_order_transaction($db,$carts) === false) {
+      set_error('購入商品の登録に失敗しました。');
+      return false;
+  }
   
+  // カート商品の削除処理
   delete_user_carts($db, $carts[0]['user_id']);
 }
 /**
@@ -182,19 +193,22 @@ function sum_carts($carts){
   return $total_price;
 }
 /**
- * カート商品購入のバリデーション(カート商品数、ステータス、在庫数)
+ * カート商品購入時のバリデーション処理(カート商品数、ステータス、在庫数)
  * @param array $carts カート情報(2次元配列)
  * @return bool
  */
 function validate_cart_purchase($carts){
+  // カートに商品が追加されているかチェック
   if(count($carts) === 0){
     set_error('カートに商品が入っていません。');
     return false;
   }
   foreach($carts as $cart){
+    // 商品が公開されているかチェック
     if(is_open($cart) === false){
       set_error($cart['name'] . 'は現在購入できません。');
     }
+    // 商品在庫が足りているかチェック
     if($cart['stock'] - $cart['amount'] < 0){
       set_error($cart['name'] . 'は在庫が足りません。購入可能数:' . $cart['stock']);
     }
@@ -204,4 +218,84 @@ function validate_cart_purchase($carts){
   }
   return true;
 }
+/**
+ * クエリを実行し、購入履歴・購入明細テーブルに追加処理
+ * @param obj $db dbハンドル
+ * @param array $carts カート情報(2次元配列)
+ * return bool
+ */
+function regist_order_transaction($db,$carts) {
+  // トランザクション開始
+  $db->beginTransaction();
+  if( ($order_id = insert_order($db,$carts[0]['user_id'])) && insert_details($db,$order_id,$carts) !== false){
+    // コミット処理
+    $db->commit();
+    return true;
+  } else {
+    // ロールバック処理
+    $db->rollback();
+    return false;
+  }
+}
+/**
+ * クエリを実行し、購入履歴テーブルに追加
+ * @param obj $db dbハンドル
+ * @param int $user_id ユーザーID
+ * @return int|bool $last_id|false
+ */
+function insert_order($db,$user_id) {
+  $sql = "
+  INSERT INTO
+    orders(
+      user_id
+    )
+  VALUES(?)
+";
 
+return execute_query_lastInsertId($db, $sql, array($user_id));
+}
+/**
+ * 購入明細テーブルに追加
+ * @param obj $db dbハンドル
+ * @param int $order_id 注文番号
+ * @param int $carts カート情報（2次元配列）
+ * @return bool
+ */
+function insert_details($db,$order_id,$carts) {
+  foreach($carts as $cart) {
+    if(insert_details_query(
+      $db,
+      $order_id,
+      $cart['item_id'],
+      $cart['price'],
+      $cart['amount']
+    ) === false) {
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * クエリを実行し、購入明細テーブルに追加
+ * @param obj $db dbハンドル
+ * @param int $order_id 注文番号
+ * @param int $item_id 商品ID
+ * @param int $price 価格
+ * @param int $amount 購入数
+ * @return bool
+ */
+function insert_details_query($db,$order_id,$item_id,$price,$amount) {
+  $sql = "
+  INSERT INTO
+    details(
+      order_id,
+      item_id,
+      price,
+      amount
+    )
+  VALUES(?,?,?,?)
+";
+
+return execute_query($db, $sql, array($order_id,$item_id,$price,$amount));
+}
