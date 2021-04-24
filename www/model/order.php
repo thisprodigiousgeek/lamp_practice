@@ -6,7 +6,8 @@ require_once MODEL_PATH . 'db.php';
 function insert_orders($db,$user_id){
     $sql ="INSERT INTO orders(user_id) VALUES(?);";
 
-    return execute_query($db,$sql,[$user_id]);
+    execute_query($db,$sql,[$user_id]);
+    return $db->lastInsertId();
 }
 
 //order_detailテーブルに新規登録
@@ -16,21 +17,12 @@ function insert_order_details($db,$order_id,$item_id,$product_price,$quantity){
     return execute_query($db,$sql,[$order_id,$item_id,$product_price,$quantity]);
 }
 
-//直前に追加したorder_idを取得
-function get_orders_order_id($db){
-    $sql ="SELECT order_id FROM orders";
-    $stmt = $db->prepare($sql);
-    $stmt->execute();
-    $order = $stmt->fetchALL();
-    $order =  end($order);
-    return $order['order_id'];
-}
+
 //ordersとorder_detailsテーブルに追加
 function order_transaction($db,$user_id,$carts){
     $db->beginTransaction();
     try{
-        insert_orders($db,$user_id);
-        $order_id = get_orders_order_id($db);
+        $order_id = insert_orders($db,$user_id);
         foreach($carts as $value){
             insert_order_details($db,$order_id,$value['item_id'],$value['price'],$value['amount']);
         }
