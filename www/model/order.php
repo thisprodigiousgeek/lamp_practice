@@ -25,7 +25,7 @@ function get_orders_order_id($db){
     $order =  end($order);
     return $order['order_id'];
 }
-//ordersorder_detailsテーブルに追加
+//ordersとorder_detailsテーブルに追加
 function order_transaction($db,$user_id,$carts){
     $db->beginTransaction();
     try{
