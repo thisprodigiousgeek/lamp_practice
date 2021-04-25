@@ -32,7 +32,7 @@ function get_item($db, $item_id){
  * @param bool $is_open status情報
  * @return array|bool 結果配列|false
  */
-function get_items($db, $is_open = false){
+function get_items($db, $is_open = false, $sort = 0){
   //trueの場合、結合代入演算子'.='で条件を追加
   $sql = '
     SELECT
@@ -41,13 +41,27 @@ function get_items($db, $is_open = false){
       stock,
       price,
       image,
-      status
+      status,
+      created
     FROM
       items
   ';
   if($is_open === true){
     $sql .= '
       WHERE status = 1
+    ';
+  }
+  if((int)$sort === 0){
+    $sql .= '
+      ORDER BY created desc
+    ';
+  } else if ((int)$sort === 1) {
+    $sql .= '
+      ORDER BY price
+    ';
+  } else {
+    $sql .= '
+      ORDER BY price desc
     ';
   }
 
@@ -62,8 +76,8 @@ function get_all_items($db){
  * @param obj $db dbハンドル
  * @return array|bool 結果配列|false
  */
-function get_open_items($db){
-  return get_items($db, true);
+function get_open_items($db, $sort){
+  return get_items($db, true, $sort);
 }
 
 function regist_item($db, $name, $price, $stock, $status, $image){

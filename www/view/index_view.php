@@ -11,7 +11,19 @@
   
 
   <div class="container">
+  <div class="title_row" style="display: flex;">
     <h1>商品一覧</h1>
+    <div class="sort" style="margin-left: auto;">
+      <form action="index.php" method="get">
+        <select id="sort" name="sort">
+          <option value="0" selected>新着順</option>
+          <option value="1">価格の安い順</option>
+          <option value="2">価格の高い順</option>
+        </select>
+        <input type="submit" value="並び替え" class="btn btn-primary btn-block">
+      </form>
+    </div>
+  </div>
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
 
     <div class="card-deck">

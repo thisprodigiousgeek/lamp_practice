@@ -15,11 +15,14 @@ if(is_logined() === false){
   // ログインしていない場合は、ログインページにリダイレクト
   redirect_to(LOGIN_URL);
 }
+// POSTリクエストのデータを取得
+$sort = get_get('sort');
+
 // PDOを取得
 $db = get_db_connect();
 // PDOを利用してログインユーザーのデータを取得
 $user = get_login_user($db);
 // 商品一覧用の商品データを取得
-$items = get_open_items($db);
+$items = get_open_items($db,$sort);
 // ビューの読み込み
 include_once VIEW_PATH . 'index_view.php';

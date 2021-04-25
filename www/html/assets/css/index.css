@@ -2,3 +2,10 @@
   margin-top: 10px;
 }
 
+.title_row {
+  display: flex;
+}
+
+.sort {
+  margin-left: auto;
+}
