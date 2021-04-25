@@ -23,8 +23,14 @@ $db = get_db_connect();
 // ログインuser情報取得用の関数を呼び出し
 $user = get_login_user($db);
 
-// ログインuserの注文履歴取得の関数を呼び出し
-$orders = get_user_orders($db, $user['user_id']);
+// ユーザtypeがadminかどうか判定
+if ($user['type'] === USER_TYPE_ADMIN){
+  // adminの場合、注文履歴を全取得
+  $orders = get_user_orders($db, $user['user_id'],1);
+} else {
+  // ログインuserの注文履歴取得の関数を呼び出し
+  $orders = get_user_orders($db, $user['user_id']);
+}
 
 // ビューファイルの読み込み
 include_once VIEW_PATH . 'order_view.php';

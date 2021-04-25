@@ -8,17 +8,23 @@ require_once MODEL_PATH . 'db.php';
  * @param str $user_id ユーザid
  * @return array|bool 注文歴歴|false
  */
-function get_user_orders($db, $user_id){
+function get_user_orders($db, $user_id, $type = 0){
   $sql = "
     SELECT
       order_id,
       created
     FROM
-      orders
-    WHERE
-      user_id = ?
-  ";
-  return fetch_all_query($db, $sql, array($user_id));
+      orders    
+    ";
+  if($type === 0){
+    $sql .= '
+      WHERE user_id = ?
+    ';
+
+    return fetch_all_query($db, $sql, array($user_id));
+  }
+  
+  return fetch_all_query($db, $sql);
 }
 /**
  * クエリを実行し、注文番号から注文情報を取得
