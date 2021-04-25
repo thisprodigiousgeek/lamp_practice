@@ -5,6 +5,12 @@
   
   <title>商品一覧</title>
   <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'index.css'); ?>">
+  <style>
+    .ranking_img{
+      width:400px;
+      height:250px;
+    }
+  </style>
 </head>
 <body>
   <?php include VIEW_PATH . 'templates/header_logined.php'; ?>
@@ -42,6 +48,30 @@
       <?php } ?>
       </div>
     </div>
+    <h1>人気ランキング</h1>
+    <table class="table table-bordered">
+      <thead class="thead-light">
+        <tr>
+          <td>1位</td>
+          <td><?php print($ranking[0]['name']);?></td>
+          <td><img class="ranking_img" src="<?php print(IMAGE_PATH . $ranking[0]['image']); ?>"></td>
+        </tr>
+      </thead>
+      <thead class="thead-light">
+        <tr>
+          <td>2位</td>
+          <td><?php print($ranking[1]['name']);?></td>
+          <td><img class="ranking_img" src="<?php print(IMAGE_PATH . $ranking[1]['image']); ?>"></td>
+        </tr>
+      </thead>
+      <thead class="thead-light">
+        <tr>
+          <td>3位</td>
+          <td><?php print($ranking[2]['name']);?></td>
+          <td><img class="ranking_img" src="<?php print(IMAGE_PATH . $ranking[2]['image']); ?>"></td>
+        </tr>
+      </thead>
+    </table>
   </div>
   
 </body>
