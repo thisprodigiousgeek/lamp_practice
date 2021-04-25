@@ -55,8 +55,7 @@ function get_order_details($db, $order_id){
     SELECT
       details.details_id,
       details.order_id,
-      details.price,
-      details.amount,
+      details.price * details.amount,
       items.item_id,
       items.name,
       items.image
@@ -68,6 +67,8 @@ function get_order_details($db, $order_id){
       details.item_id = items.item_id
     WHERE
       details.order_id = ?
+    GROUP BY
+      details.order_id = ?
   ";
-  return fetch_all_query($db, $sql, array($order_id));
+  return fetch_all_query($db, $sql, array($order_id,$order_id));
 }
