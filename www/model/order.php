@@ -55,7 +55,8 @@ function get_order_details($db, $order_id){
     SELECT
       details.details_id,
       details.order_id,
-      details.price * details.amount,
+      details.price,
+      details.amount,
       items.item_id,
       items.name,
       items.image
@@ -67,8 +68,25 @@ function get_order_details($db, $order_id){
       details.item_id = items.item_id
     WHERE
       details.order_id = ?
-    GROUP BY
-      details.order_id = ?
   ";
-  return fetch_all_query($db, $sql, array($order_id,$order_id));
+  return fetch_all_query($db, $sql, array($order_id));
+}
+/**
+ * クエリを実行し、注文番号から注文合計額を計算する
+ * @param obj $db dbハンドル
+ * @param str $order_id 注文番号
+ * @return array|bool カート情報|false
+ */
+function get_order_sum($db, $order_id){
+  $sql = "
+    SELECT
+      SUM(price * amount) AS total
+    FROM
+      details
+    WHERE
+      order_id = ?
+    GROUP BY
+      order_id
+  ";
+  return fetch_all_query($db, $sql, array($order_id));
 }

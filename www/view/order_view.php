@@ -28,7 +28,8 @@
           <tr>
             <td><?php print(h($order['order_id'])); ?></td>
             <td><?php print(h($order['created'])); ?></td>
-            <td><?php print(number_format(get_order_details($db, $order['order_id']))); ?>円</td>
+            <?php $total = get_order_sum($db, $order['order_id']);?>
+            <td><?php print(number_format($total[0]['total'])); ?>円</td>
             <td>
               <form method="GET" action="details.php">
                 <input type="submit" value="購入明細表示" class="btn btn-secondary">

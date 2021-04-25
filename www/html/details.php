@@ -32,7 +32,5 @@ $order = get_order($db, $order_id);
 // 注文明細データの取得関数を呼び出し
 $details = get_order_details($db, $order_id);
 
-var_dump($details);
-
 // ビューファイルの読み込み
 include_once VIEW_PATH . 'details_view.php';
