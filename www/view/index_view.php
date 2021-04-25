@@ -51,25 +51,13 @@
     <h1>人気ランキング</h1>
     <table class="table table-bordered">
       <thead class="thead-light">
+      <?php foreach($ranking as $key=>$value){?>
         <tr>
-          <td>1位</td>
-          <td><?php print($ranking[0]['name']);?></td>
-          <td><img class="ranking_img" src="<?php print(IMAGE_PATH . $ranking[0]['image']); ?>"></td>
+          <td><?php print($key+1)?>位</td>
+          <td><?php print($value['name']);?></td>
+          <td><img class="ranking_img" src="<?php print(IMAGE_PATH . $value['image']); ?>"></td>
         </tr>
-      </thead>
-      <thead class="thead-light">
-        <tr>
-          <td>2位</td>
-          <td><?php print($ranking[1]['name']);?></td>
-          <td><img class="ranking_img" src="<?php print(IMAGE_PATH . $ranking[1]['image']); ?>"></td>
-        </tr>
-      </thead>
-      <thead class="thead-light">
-        <tr>
-          <td>3位</td>
-          <td><?php print($ranking[2]['name']);?></td>
-          <td><img class="ranking_img" src="<?php print(IMAGE_PATH . $ranking[2]['image']); ?>"></td>
-        </tr>
+      <?php }?>
       </thead>
     </table>
   </div>
