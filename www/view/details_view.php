@@ -24,7 +24,7 @@
           <tr>
             <td><?php print(h($order['order_id'])); ?></td>
             <td><?php print(h($order['created'])); ?></td>
-            <td><?php print(number_format(sum_carts($details))); ?>円</td>
+            <td><?php print(number_format($order['total'])); ?>円</td>
           </tr>
       </tbody>
       </table>
