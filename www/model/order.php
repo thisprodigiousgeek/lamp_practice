@@ -19,19 +19,27 @@ function get_user_orders($db, $user_id, $type = 0){
     JOIN
       details
     ON
-      orders.order_id = details.order_id
-    GROUP BY
-      orders.order_id    
+      orders.order_id = details.order_id  
     ";
   if($type === 0){
     $sql .= '
-      WHERE orders.user_id = ?
+      WHERE
+        orders.user_id = ?
+      GROUP BY
+        orders.order_id 
     ';
 
+
     return fetch_all_query($db, $sql, array($user_id));
+  } else {
+    $sql .= '
+      GROUP BY
+      orders.order_id 
+    ';
+
+
+    return fetch_all_query($db, $sql);
   }
-  
-  return fetch_all_query($db, $sql);
 }
 /**
  * クエリを実行し、注文番号から注文情報を取得
@@ -39,7 +47,7 @@ function get_user_orders($db, $user_id, $type = 0){
  * @param str $order_id 注文番号
  * @return array|bool 注文歴歴|false
  */
-function get_order($db, $order_id){
+function get_order($db, $order_id, $user_id = ''){
   $sql = "
   SELECT
     orders.order_id,
@@ -51,12 +59,27 @@ function get_order($db, $order_id){
     details
   ON
     orders.order_id = details.order_id
-  WHERE
-    orders.order_id = ?
-  GROUP BY
-    orders.order_id
+  
   ";
-  return fetch_query($db, $sql, array($order_id));
+  if($user_id === ''){
+    $sql .= '
+    WHERE
+      orders.order_id = ?
+    GROUP BY
+      orders.order_id
+    ';
+  
+    return fetch_query($db, $sql, array($order_id));
+  } else {
+    $sql .= '
+    WHERE
+      orders.order_id = ? AND orders.user_id = ?
+    GROUP BY
+      orders.order_id
+    ';
+  
+    return fetch_query($db, $sql, array($order_id, $user_id));
+  }
 }
 /**
  * クエリを実行し、注文番号から注文明細情報を取得

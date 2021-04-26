@@ -11,9 +11,9 @@
   
 
   <div class="container">
-  <div class="title_row" style="display: flex;">
+  <div class="row">
     <h1>商品一覧</h1>
-    <div class="sort" style="margin-left: auto;">
+    <div class="sort">
       <form action="index.php" method="get">
         <select id="sort" name="sort">
           <option value="0" selected>新着順</option>

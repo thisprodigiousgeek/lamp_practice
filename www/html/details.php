@@ -26,11 +26,20 @@ $user = get_login_user($db);
 // GETリクエストのデータを取得
 $order_id = get_get('order_id');
 
-// 注文履歴取得の関数を呼び出し
-$order = get_order($db, $order_id);
+// ユーザtypeがadminかどうか判定
+if ($user['type'] === USER_TYPE_ADMIN){
+  // adminの場合、注文履歴を全取得
+  $order = get_order($db, $order_id);
+} else {
+  if(!$order = get_order($db, $order_id,$user['user_id'])){
+    set_error('購入明細を開けませんでした');
+    redirect_to(ORDER_URL);
+  }
+}
 
 // 注文明細データの取得関数を呼び出し
 $details = get_order_details($db, $order_id);
+
 
 // ビューファイルの読み込み
 include_once VIEW_PATH . 'details_view.php';
