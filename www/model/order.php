@@ -34,13 +34,18 @@ function get_user_orders($db, $user_id, $type = 0){
  */
 function get_order($db, $order_id){
   $sql = "
-    SELECT
-      order_id,
-      created
-    FROM
-      orders
-    WHERE
-      order_id = ?
+  SELECT
+    orders.order_id,
+    orders.created,
+    SUM(details.price*details.amount) AS total
+  FROM
+    orders
+  JOIN
+    details
+  ON
+    orders.order_id = details.order_id
+  GROUP BY
+    orders.order_id
   ";
   return fetch_query($db, $sql, array($order_id));
 }

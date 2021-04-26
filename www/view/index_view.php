@@ -20,7 +20,7 @@
           <option value="1">価格の安い順</option>
           <option value="2">価格の高い順</option>
         </select>
-        <input type="submit" value="並び替え" class="btn btn-primary btn-block">
+        <input type="submit" value="並び替え" class="btn btn-primary">
       </form>
     </div>
   </div>
