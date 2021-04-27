@@ -1,8 +1,7 @@
 
-var select = document.querySelector("#sort");
-
-var options = document.querySelectorAll("#sort option");
-
-select.addEventListener('change', function(){
-    var index = this.selectedIndex;
-}, false)
+window.onload = function(){
+    var select = document.querySelector("#select_box");
+    select.addEventListener('change', function(){
+    document.select_form.submit();
+    },);
+}

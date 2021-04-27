@@ -2,9 +2,9 @@
 <html lang="ja">
 <head>
   <?php include VIEW_PATH . 'templates/head.php'; ?>
-  
   <title>商品一覧</title>
   <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'index.css'); ?>">
+  <script src="<?php print(JAVASCRIPT_PATH . 'eventlistener.js'); ?>"></script> 
 </head>
 <body>
   <?php include VIEW_PATH . 'templates/header_logined.php'; ?>
@@ -14,13 +14,13 @@
   <div class="row">
     <h1>商品一覧</h1>
     <div class="sort">
-      <form action="index.php" method="get">
-        <select id="sort" name="sort">
-          <option value="0" selected>新着順</option>
-          <option value="1">価格の安い順</option>
+      <form action="index.php" method="get" name="select_form">
+        <select id="select_box" name="sort">
+          <option value="0" >新着順</option>
+          <option value="1" >価格の安い順</option>
           <option value="2">価格の高い順</option>
         </select>
-        <input type="submit" value="並び替え" class="btn btn-primary">
+        <input type="submit" value="並び替え" class="btn btn-primary" style="display:none;">
       </form>
     </div>
   </div>
