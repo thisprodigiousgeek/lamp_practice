@@ -14,9 +14,18 @@
   <div class="row">
     <h1>商品一覧</h1>
     <div class="sort">
+    <?php if(isset($_GET['sort'])) :?>
+      <script>
+      jQuery(function(){
+      // 全ての選択を外す
+        $("select option").attr("selected", false);
+        $("select option[value='<?php print h($_GET['sort']);?>']").attr("selected", true);
+      });
+     </script>
+    <?php endif; ?>
       <form action="index.php" method="get" name="select_form">
         <select id="select_box" name="sort">
-          <option value="0" >新着順</option>
+          <option value="0" selected>新着順</option>
           <option value="1" >価格の安い順</option>
           <option value="2">価格の高い順</option>
         </select>
