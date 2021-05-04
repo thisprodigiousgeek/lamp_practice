@@ -1,15 +1,18 @@
 <?php
+//関数を定義
 
 function dd($var){
   var_dump($var);
   exit();
 }
 
+//指定のページへリダイレクト
 function redirect_to($url){
   header('Location: ' . $url);
   exit;
 }
 
+//GETで受け取ったとき、受け取った値を返す
 function get_get($name){
   if(isset($_GET[$name]) === true){
     return $_GET[$name];
@@ -17,6 +20,7 @@ function get_get($name){
   return '';
 }
 
+//POSTで受け取ったとき、受け取った値を返す
 function get_post($name){
   if(isset($_POST[$name]) === true){
     return $_POST[$name];
@@ -24,6 +28,7 @@ function get_post($name){
   return '';
 }
 
+//画像ファイルを受け取ったとき、受け取った値を返す
 function get_file($name){
   if(isset($_FILES[$name]) === true){
     return $_FILES[$name];
@@ -31,6 +36,7 @@ function get_file($name){
   return array();
 }
 
+//セッションに値がセットされたら、セッション変数に値を保存？？？？？？？？？
 function get_session($name){
   if(isset($_SESSION[$name]) === true){
     return $_SESSION[$name];
@@ -46,6 +52,7 @@ function set_error($error){
   $_SESSION['__errors'][] = $error;
 }
 
+//
 function get_errors(){
   $errors = get_session('__errors');
   if($errors === ''){
@@ -72,6 +79,7 @@ function get_messages(){
   return $messages;
 }
 
+//セッションIDが発行された場合、セッションIDを返す
 function is_logined(){
   return get_session('user_id') !== '';
 }
@@ -135,3 +143,7 @@ function is_valid_upload_image($image){
   return true;
 }
 
+//特殊文字を表示可能な形式に変換
+function h($str){
+  return htmlspecialchars($str,ENT_QUOTES,'UTF-8');
+}
