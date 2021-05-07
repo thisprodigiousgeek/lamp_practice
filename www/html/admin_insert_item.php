@@ -18,7 +18,7 @@ if(is_admin($user) === false){
   redirect_to(LOGIN_URL);
 }
 
-$name = get_post('name');//ポストされたユーザー名取得
+$name = get_post('name');//ポストされた商品名取得
 $price = get_post('price');//価格を取得
 $status = get_post('status');//ステータスを取得
 $stock = get_post('stock');//在庫数を取得
