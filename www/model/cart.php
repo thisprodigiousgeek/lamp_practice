@@ -21,9 +21,9 @@ function get_user_carts($db, $user_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = {$user_id}
+      carts.user_id = ?
   ";
-  return fetch_all_query($db, $sql);
+  return fetch_all_query($db, $sql, [$user_id]);
 }
 //引数として$db、$user_id,$item_idを渡すとDBからユーザーのカートからitem_idが一致する情報を配列で返す関数
 function get_user_cart($db, $user_id, $item_id){
@@ -45,12 +45,12 @@ function get_user_cart($db, $user_id, $item_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = {$user_id}
+      carts.user_id = ?
     AND
-      items.item_id = {$item_id}
+      items.item_id = ?
   ";
 
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql, [$user_id, $item_id]);
 
 }
 //引数として$db、$user_id,$item_idを渡すとカートに商品を追加する関数
@@ -72,10 +72,10 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
         user_id,
         amount
       )
-    VALUES({$item_id}, {$user_id}, {$amount})
+    VALUES(?, ?, ?)
   ";
 
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, [$item_id, $user_id, $amount]);
 }
 // 引数として$db、$cart_id、$amountをを渡すとカート内の商品の数量を更新する関数
 function update_cart_amount($db, $cart_id, $amount){
@@ -83,12 +83,12 @@ function update_cart_amount($db, $cart_id, $amount){
     UPDATE
       carts
     SET
-      amount = {$amount}
+      amount = ?
     WHERE
-      cart_id = {$cart_id}
+      cart_id = ?
     LIMIT 1
   ";
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, [$amount, $cart_id]);
 }
 //引数として$db、$cart_idを渡すとカートの情報を削除する
 function delete_cart($db, $cart_id){
@@ -96,11 +96,11 @@ function delete_cart($db, $cart_id){
     DELETE FROM
       carts
     WHERE
-      cart_id = {$cart_id}
+      cart_id = ?
     LIMIT 1
   ";
 
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, [$cart_id]);
 }
 //引数として$db、カート情報を渡すと商品の購入処理をする関数
 function purchase_carts($db, $carts){
@@ -128,10 +128,10 @@ function delete_user_carts($db, $user_id){
     DELETE FROM
       carts
     WHERE
-      user_id = {$user_id}
+      user_id = ?
   ";
 
-  execute_query($db, $sql);
+  execute_query($db, $sql, [$cart_id]);
 }
 
 //カート内の商品の価格を計算して合計金額を返す関数
