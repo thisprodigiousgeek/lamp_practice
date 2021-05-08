@@ -5,6 +5,9 @@ require_once MODEL_PATH . 'user.php';
 require_once MODEL_PATH . 'item.php';
 
 session_start();
+if(is_valid_csrf_token($_POST['csrf_token']) === false) {
+  redirect_to(LOGIN_URL);
+}
 //ログインしてない場合ログインページに飛ぶ
 if(is_logined() === false){
   redirect_to(LOGIN_URL);

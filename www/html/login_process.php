@@ -4,6 +4,9 @@ require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'user.php';
 
 session_start();
+if(is_valid_csrf_token($_POST['csrf_token']) === false) {
+   redirect_to(LOGIN_URL);
+}
 //ログインしていたら商品一覧ページにリダイレクト
 if(is_logined() === true){
   redirect_to(HOME_URL);

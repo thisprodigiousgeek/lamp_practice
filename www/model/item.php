@@ -142,7 +142,7 @@ function delete_item($db, $item_id){
     LIMIT 1
   ";
   
-  return execute_query($db, $sql, $item_id);
+  return execute_query($db, $sql, [$item_id]);
 }
 
 
