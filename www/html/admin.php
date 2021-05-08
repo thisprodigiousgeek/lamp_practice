@@ -19,4 +19,7 @@ if(is_admin($user) === false){
 }
 //全ての商品情報を取得し表示する処理
 $items = get_all_items($db);
+
+$token = get_csrf_token();
+
 include_once VIEW_PATH . '/admin_view.php';
