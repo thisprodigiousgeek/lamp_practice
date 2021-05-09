@@ -2,18 +2,11 @@
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
+
+
 function get_user_carts($db, $user_id){
-  $sql = "
-    SELECT
-      items.item_id,
-      items.name,
-      items.price,
-      items.stock,
-      items.status,
-      items.image,
-      carts.cart_id,
-      carts.user_id,
-      carts.amount
+  $sql = 'SELECT items.item_id, name, price, stock, status, image,
+          AND carts.carrt_id, user_id, amount
     FROM
       carts
     JOIN
@@ -21,23 +14,21 @@ function get_user_carts($db, $user_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = {$user_id}
-  ";
+      carts.user_id = ?
+  ';
+
+  // prepareでSQL文を実行する準備
+  $stmt = $dbh->prepare($sql);
+  $stmt->bindValue(1, $user_id, PDO::PARAM_INT);
+  // SQLを実行
+  $stmt->execute();
+
   return fetch_all_query($db, $sql);
 }
 
 function get_user_cart($db, $user_id, $item_id){
-  $sql = "
-    SELECT
-      items.item_id,
-      items.name,
-      items.price,
-      items.stock,
-      items.status,
-      items.image,
-      carts.cart_id,
-      carts.user_id,
-      carts.amount
+  $sql = 'SELECT items.item_id, name, price, stock, status, image,
+    AND carts.cart_id, user_id, amount
     FROM
       carts
     JOIN
@@ -45,10 +36,17 @@ function get_user_cart($db, $user_id, $item_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = {$user_id}
+      carts.user_id = ?
     AND
-      items.item_id = {$item_id}
-  ";
+      items.item_id = ?
+  ';
+  
+  $stmt = $dbh->prepare($sql);
+
+  $stmt->bindValue(1, $user_id, PDO::PARAM_INT);
+  $stmt->bindValue(2, $item_id, PDO::PARAM_INT);
+
+  $stmt->execute();
 
   return fetch_query($db, $sql);
 
@@ -63,40 +61,51 @@ function add_cart($db, $user_id, $item_id ) {
 }
 
 function insert_cart($db, $user_id, $item_id, $amount = 1){
-  $sql = "
-    INSERT INTO
-      carts(
-        item_id,
-        user_id,
-        amount
-      )
-    VALUES({$item_id}, {$user_id}, {$amount})
-  ";
+  $sql = 'INSERT INTO carts
+          SET 
+          amount = 1
+          WHERE user_id = ? AND item_id = ?';
+        
+        $stmt = $dbh->prepare($sql);
+
+        $stmt->bindValue(1, $user_id, PDO::PARAM_INT);
+        $stmt->bindValue(2, $item_id, PDO::PARAM_INT);
+
+        $stmt->execute();
 
   return execute_query($db, $sql);
 }
 
 function update_cart_amount($db, $cart_id, $amount){
-  $sql = "
-    UPDATE
-      carts
+  $sql = 'UPDATE carts
     SET
-      amount = {$amount}
+      amount = ?
     WHERE
-      cart_id = {$cart_id}
-    LIMIT 1
-  ";
+      cart_id = ?
+    LIMIT 1';
+
+    $stmt = $dbh->prepare($sql);
+
+    $stmt->bindValue(1, $amount, PDO::PARAM_INT);
+    $stmt->bindValue(2, $cart_id, PDO::PARAM_INT);
+
+    $stmt->execute();
+
   return execute_query($db, $sql);
 }
 
 function delete_cart($db, $cart_id){
-  $sql = "
-    DELETE FROM
-      carts
-    WHERE
-      cart_id = {$cart_id}
-    LIMIT 1
-  ";
+  $sql = 'DELETE FROM
+              carts
+          WHERE
+            cart_id = ?
+          LIMIT 1';
+
+          $stmt = $dbh->prepare($sql);
+
+          $stmt->bindValue(1, $cart_id, PDO::PARAM_INT);
+
+          $stmt->execute();
 
   return execute_query($db, $sql);
 }
@@ -119,12 +128,16 @@ function purchase_carts($db, $carts){
 }
 
 function delete_user_carts($db, $user_id){
-  $sql = "
-    DELETE FROM
-      carts
-    WHERE
-      user_id = {$user_id}
-  ";
+  $sql = 'DELETE FROM
+            carts
+          WHERE
+            user_id = ?';
+          
+          $stmt = $dbh->prepare($sql);
+
+          $stmt->bindValue(1, $user_id, PDO::PARAM_INT);
+
+          $stmt->execute();
 
   execute_query($db, $sql);
 }
