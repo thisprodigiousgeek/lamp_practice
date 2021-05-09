@@ -3,7 +3,7 @@
 <head>
   <?php include VIEW_PATH . 'templates/head.php'; ?>
   <title>商品管理</title>
-  <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'admin.css'); ?>">
+  <link rel="stylesheet" href="<?php print htmlspecialchars(STYLESHEET_PATH . 'admin.css', ENT_QUOTES, 'UTF-8'); ?>">
 </head>
 <body>
   <?php 
@@ -61,19 +61,19 @@
         </thead>
         <tbody>
           <?php foreach($items as $item){ ?>
-          <tr class="<?php print(is_open($item) ? '' : 'close_item'); ?>">
-            <td><img src="<?php print(IMAGE_PATH . $item['image']);?>" class="item_image"></td>
-            <td><?php print($item['name']); ?></td>
-            <td><?php print(number_format($item['price'])); ?>円</td>
+          <tr class="<?php print htmlspecialchars(is_open($item) ? '' : 'close_item', ENT_QUOTES, 'UTF-8'); ?>">
+            <td><img src="<?php print htmlspecialchars(IMAGE_PATH . $item['image'], ENT_QUOTES, 'UTF-8');?>" class="item_image"></td>
+            <td><?php print htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8'); ?></td>
+            <td><?php print htmlspecialchars(number_format($item['price'], ENT_QUOTES, 'UTF-8')); ?>円</td>
             <td>
               <form method="post" action="admin_change_stock.php">
                 <div class="form-group">
                   <!-- sqlインジェクション確認のためあえてtext -->
-                  <input  type="text" name="stock" value="<?php print($item['stock']); ?>">
+                  <input  type="text" name="stock" value="<?php print htmlspecialchars($item['stock'], ENT_QUOTES, 'UTF-8'); ?>">
                   個
                 </div>
                 <input type="submit" value="変更" class="btn btn-secondary">
-                <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
+                <input type="hidden" name="item_id" value="<?php print htmlspecialchars($item['item_id'], ENT_QUOTES, 'UTF-8'); ?>">
               </form>
             </td>
             <td>
@@ -86,12 +86,12 @@
                   <input type="submit" value="非公開 → 公開" class="btn btn-secondary">
                   <input type="hidden" name="changes_to" value="open">
                 <?php } ?>
-                <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
+                <input type="hidden" name="item_id" value="<?php print htmlspecialchars($item['item_id'], ENT_QUOTES, 'UTF-8'); ?>">
               </form>
 
               <form method="post" action="admin_delete_item.php">
                 <input type="submit" value="削除" class="btn btn-danger delete">
-                <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
+                <input type="hidden" name="item_id" value="<?php print htmlspecialchars($item['item_id'], ENT_QUOTES, 'UTF-8'); ?>">
               </form>
 
             </td>

@@ -3,7 +3,7 @@
 <head>
   <?php include VIEW_PATH . 'templates/head.php'; ?>
   <title>サインアップ</title>
-  <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'signup.css'); ?>">
+  <link rel="stylesheet" href="<?php print htmlspecialchars(STYLESHEET_PATH . 'signup.css', ENT_QUOTES, 'UTF-8'); ?>">
 </head>
 <body>
   <?php include VIEW_PATH . 'templates/header.php'; ?>
