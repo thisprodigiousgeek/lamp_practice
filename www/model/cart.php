@@ -2,11 +2,18 @@
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
-
-
 function get_user_carts($db, $user_id){
-  $sql = 'SELECT items.item_id, name, price, stock, status, image,
-          AND carts.carrt_id, user_id, amount
+  $sql = "
+    SELECT
+      items.item_id,
+      items.name,
+      items.price,
+      items.stock,
+      items.status,
+      items.image,
+      carts.cart_id,
+      carts.user_id,
+      carts.amount
     FROM
       carts
     JOIN
@@ -15,20 +22,31 @@ function get_user_carts($db, $user_id){
       carts.item_id = items.item_id
     WHERE
       carts.user_id = ?
-  ';
+  ";
 
-  // prepareでSQL文を実行する準備
-  $stmt = $dbh->prepare($sql);
-  $stmt->bindValue(1, $user_id, PDO::PARAM_INT);
-  // SQLを実行
-  $stmt->execute();
+    // prepareでSQL文を実行する準備
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(1, $user_id, PDO::PARAM_INT);
+    // SQLを実行
+    $stmt->execute();
+  
+    return fetch_all_query($db, $sql);
 
   return fetch_all_query($db, $sql);
 }
 
 function get_user_cart($db, $user_id, $item_id){
-  $sql = 'SELECT items.item_id, name, price, stock, status, image,
-    AND carts.cart_id, user_id, amount
+  $sql = "
+    SELECT
+      items.item_id,
+      items.name,
+      items.price,
+      items.stock,
+      items.status,
+      items.image,
+      carts.cart_id,
+      carts.user_id,
+      carts.amount
     FROM
       carts
     JOIN
@@ -39,14 +57,16 @@ function get_user_cart($db, $user_id, $item_id){
       carts.user_id = ?
     AND
       items.item_id = ?
-  ';
+  ";
+
+    // prepareでSQL文を実行する準備
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(1, $user_id, PDO::PARAM_INT);
+    $stmt->bindValue(2, $item_id, PDO::PARAM_INT);
+    // SQLを実行
+    $stmt->execute();
   
-  $stmt = $dbh->prepare($sql);
-
-  $stmt->bindValue(1, $user_id, PDO::PARAM_INT);
-  $stmt->bindValue(2, $item_id, PDO::PARAM_INT);
-
-  $stmt->execute();
+    return fetch_all_query($db, $sql);
 
   return fetch_query($db, $sql);
 
@@ -61,17 +81,23 @@ function add_cart($db, $user_id, $item_id ) {
 }
 
 function insert_cart($db, $user_id, $item_id, $amount = 1){
-  $sql = 'INSERT INTO carts
-          SET 
-          amount = 1
-          WHERE user_id = ? AND item_id = ?';
-        
-        $stmt = $dbh->prepare($sql);
-
-        $stmt->bindValue(1, $user_id, PDO::PARAM_INT);
-        $stmt->bindValue(2, $item_id, PDO::PARAM_INT);
-
-        $stmt->execute();
+  $sql = "
+    INSERT INTO
+      carts(
+        item_id,
+        user_id,
+        amount
+      )
+    VALUES(?, ?, 1)
+  ";
+    // prepareでSQL文を実行する準備
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(1, $item_id, PDO::PARAM_INT);
+    $stmt->bindValue(2, $user_id, PDO::PARAM_INT);
+    // SQLを実行
+    $stmt->execute();
+  
+    return fetch_all_query($db, $sql);
 
   return execute_query($db, $sql);
 }
@@ -169,4 +195,3 @@ function validate_cart_purchase($carts){
   }
   return true;
 }
-
