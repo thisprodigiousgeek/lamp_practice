@@ -51,6 +51,7 @@ function get_open_items($db){
   return get_items($db, true);
 }
 
+//item登録
 function regist_item($db, $name, $price, $stock, $status, $image){
   $filename = get_upload_filename($image);
   if(validate_item($name, $price, $stock, $filename, $status) === false){
@@ -58,7 +59,7 @@ function regist_item($db, $name, $price, $stock, $status, $image){
   }
   return regist_item_transaction($db, $name, $price, $stock, $status, $image, $filename);
 }
-
+//itemトランザクション登録
 function regist_item_transaction($db, $name, $price, $stock, $status, $image, $filename){
   $db->beginTransaction();
   if(insert_item($db, $name, $price, $stock, $filename, $status) 
@@ -101,7 +102,7 @@ function update_item_status($db, $item_id, $status){
   
   return execute_query($db, $sql);
 }
-
+//item_stock更新
 function update_item_stock($db, $item_id, $stock){
   $sql = "
     UPDATE
@@ -115,7 +116,7 @@ function update_item_stock($db, $item_id, $stock){
   
   return execute_query($db, $sql);
 }
-
+//item破壊
 function destroy_item($db, $item_id){
   $item = get_item($db, $item_id);
   if($item === false){
@@ -130,7 +131,7 @@ function destroy_item($db, $item_id){
   $db->rollback();
   return false;
 }
-
+//item消去
 function delete_item($db, $item_id){
   $sql = "
     DELETE FROM
@@ -163,7 +164,7 @@ function validate_item($name, $price, $stock, $filename, $status){
     && $is_valid_item_filename
     && $is_valid_item_status;
 }
-
+//有効範囲
 function is_valid_item_name($name){
   $is_valid = true;
   if(is_valid_length($name, ITEM_NAME_LENGTH_MIN, ITEM_NAME_LENGTH_MAX) === false){

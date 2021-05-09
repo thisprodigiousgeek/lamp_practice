@@ -135,6 +135,7 @@ function is_valid_upload_image($image){
   return true;
 }
 
+//issue#1 htmlspecialchars簡略化
 function h($str){
   return htmlspecialchars($str,ENT_QUOTES,'UTF-8');
 }
