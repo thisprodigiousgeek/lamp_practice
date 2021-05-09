@@ -174,7 +174,7 @@ function delete_item($db, $item_id){
 
   $stmt = $dbh->prepare($sql);
 
-  $stmt->bindValue(2, $item_id, PDO::PARAM_INT);
+  $stmt->bindValue(1, $item_id, PDO::PARAM_INT);
 
   $stmt->execute();
   
