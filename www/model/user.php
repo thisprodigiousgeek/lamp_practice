@@ -44,7 +44,7 @@ function get_user_by_name($db, $name){
   // SQL文を実行する
   $stmt->execute($db, $sql);
 
-  return fetch_query($db, $sql);
+  
 }
 
 function login_as($db, $name, $password){
