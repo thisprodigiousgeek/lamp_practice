@@ -19,7 +19,7 @@ function get_user($db, $user_id){
 
   $stmt->bindValue(1, $user_id, PDO::PARAM_INT);
 
-  $stmt->execute($db, $sql);
+  $stmt->execute();
 
   return fetch_query($db, $sql);
 }
@@ -42,9 +42,9 @@ function get_user_by_name($db, $name){
   // プレースホルダでSQLインジェクション対策
   $stmt->bindValue(1, $name, PDO::PARAM_STR);
   // SQL文を実行する
-  $stmt->execute($db, $sql);
+  $stmt->execute();
 
-  
+  return fetch_query($db, $sql);
 }
 
 function login_as($db, $name, $password){
@@ -122,7 +122,7 @@ function insert_user($db, $name, $password){
   $stmt->bindValue(1, $name, PDO::PARAM_STR);
   $stmt->bindValue(2, $password, PDO::PARAM_STR);
 
-  $stmt->execute($db, $sql);
+  $stmt->execute();
 
   return execute_query($db, $sql);
 }
