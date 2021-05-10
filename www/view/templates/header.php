@@ -1,6 +1,6 @@
 <header>
   <nav class="navbar navbar-expand-sm navbar-light bg-light">
-    <a class="navbar-brand" href="<?php print specialchars(HOME_URL, ENT_QUOTES, 'UTF-8');?>">Market</a>
+    <a class="navbar-brand" href="<?php print htmlspecialchars(HOME_URL, ENT_QUOTES, 'UTF-8');?>">Market</a>
     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#headerNav" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="ナビゲーションの切替">
       <span class="navbar-toggler-icon"></span>
     </button>
