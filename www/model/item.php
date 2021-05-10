@@ -99,7 +99,7 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
         $stmt->bindValue(2, $price, PDO::PARAM_INT);
         $stmt->bindValue(3, $stock, PDO::PARAM_INT);
         $stmt->bindValue(4, $image, PDO::PARAM_STR);
-        $stmt->bindValue(5, $status, PDO::PARAM_STR);
+        $stmt->bindValue(5, $status, PDO::PARAM_INT);
 
         $stmt->execute();
 
