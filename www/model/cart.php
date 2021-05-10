@@ -103,7 +103,9 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
 }
 
 function update_cart_amount($db, $cart_id, $amount){
-  $sql = 'UPDATE carts
+  $sql = '
+    UPDATE 
+      carts
     SET
       amount = ?
     WHERE
@@ -121,7 +123,9 @@ function update_cart_amount($db, $cart_id, $amount){
 }
 
 function delete_cart($db, $cart_id){
-  $sql = 'DELETE FROM
+  $sql = '
+          DELETE 
+          FROM
               carts
           WHERE
             cart_id = ?
@@ -154,7 +158,9 @@ function purchase_carts($db, $carts){
 }
 
 function delete_user_carts($db, $user_id){
-  $sql = 'DELETE FROM
+  $sql = '
+          DELETE 
+          FROM
             carts
           WHERE
             user_id = ?';
