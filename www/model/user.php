@@ -38,7 +38,7 @@ function get_user_by_name($db, $name){
     LIMIT 1
   ";
   
-  $stmt=$dbh->prepare($sql);
+  $stmt = $dbh->prepare($sql);
 
   $stmt->bindValue(1, $name, PDO::PARAM_STR);
 
