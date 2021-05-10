@@ -119,7 +119,7 @@ function update_item_status($db, $item_id, $status){
   
   $stmt = $dbh->prepare($sql);
 
-  $stmt->bindValue(1, $status, PDO::PARAM_STR);
+  $stmt->bindValue(1, $status, PDO::PARAM_INT);
   $stmt->bindValue(2, $item_id, PDO::PARAM_INT);
 
   $stmt->execute();
