@@ -5,7 +5,7 @@
 require_once '../conf/const.php';
 // MODEL_PATHとはモデルを定義しているディレクトリへの道筋
 // この定数はconst.phpに定義されている
-// ここではモデルのfanctions.phpを読み込む
+// ここではモデルのfunctions.phpを読み込む
 require_once MODEL_PATH . 'functions.php';
 // セッションを開始する
 session_start();

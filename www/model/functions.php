@@ -1,48 +1,58 @@
 <?php
-
+// ddという関数に$varという値を渡す
 function dd($var){
+// エラーの確認をする
   var_dump($var);
+//確認を終えたら終了する
   exit();
 }
-
+// この関数は指定したurlに飛ぶ関数
+// urlの先頭の場所にいく
 function redirect_to($url){
   header('Location: ' . $url);
   exit;
 }
-
+// get_getという関数に$nameという値を渡す
 function get_get($name){
+//$_GETに$nameを送信していれば、trueを返し、なければfalseを返す。
   if(isset($_GET[$name]) === true){
     return $_GET[$name];
   };
   return '';
 }
-
+// get_postという関数に$nameという値を渡す
 function get_post($name){
+// $_POSTに$nameを送信していれば、trueを返し、なければfalseを返す。
   if(isset($_POST[$name]) === true){
     return $_POST[$name];
   };
   return '';
 }
-
+// get_fileという関数に$nameという値を渡す
 function get_file($name){
+// $_FILESに$nameを送信してれば,trueを返し、なければfalseを返す。
   if(isset($_FILES[$name]) === true){
     return $_FILES[$name];
   };
   return array();
 }
-
+// この関数はget_sessionという関数に$nameという値を渡す
 function get_session($name){
+// $SESSIONに$nameが送信しているか確認している。
+// $nameがあれば、trueを返し、なければfalseを返す。
   if(isset($_SESSION[$name]) === true){
     return $_SESSION[$name];
   };
   return '';
 }
-
+// この関数はset_sessionという関数に$nameと$valueという値を渡す
 function set_session($name, $value){
+// $_SESSION[$name]に$valueを代入する
   $_SESSION[$name] = $value;
 }
-
+// この関数はset_errorという関数に$errorという値を渡す
 function set_error($error){
+// $_SESSION['__errors'][]　に＄errorを代入する
   $_SESSION['__errors'][] = $error;
 }
 
@@ -71,7 +81,9 @@ function get_messages(){
   set_session('__messages',  array());
   return $messages;
 }
-
+// この関数はログインしているかをチェックしている関数である
+// get_session('user_id')で$_SESSION['user_id']を取得し、それを空文字と比較している
+// すなわちセッションにユーザーIDが入っていればtrueを返し、入っていなければfalseを返す
 function is_logined(){
   return get_session('user_id') !== '';
 }
