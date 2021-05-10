@@ -18,7 +18,7 @@ function get_item($db, $item_id){
     WHERE
       item_id = ?";
 
-    $stmt = $dbh->prepare($sql);
+    $stmt = $db->prepare($sql);
 
     $stmt->bindValue(1, $item_id, PDO::PARAM_INT);
 
@@ -39,14 +39,14 @@ function get_items($db, $is_open = false){
     FROM
       items
   ';
-    $stmt = $dbh->prepare($sql);
+    $stmt = $db->prepare($sql);
     $stmt->execute();
 
   if($is_open === true){
     $sql .= '
       WHERE status = 1
     ';
-    $stmt = $dbh->prepare($sql);
+    $stmt = $db->prepare($sql);
     $stmt->execute();
   }
 
@@ -93,7 +93,7 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
         status
       )
     VALUES(?, ?, ?, ?, ?)";
-        $stmt = $dbh->preapre($sql);
+        $stmt = $db->preapre($sql);
 
         $stmt->bindValue(1, $name, PDO::PARAM_STR);
         $stmt->bindValue(2, $price, PDO::PARAM_INT);
@@ -117,7 +117,7 @@ function update_item_status($db, $item_id, $status){
     LIMIT 1
   ";
   
-  $stmt = $dbh->prepare($sql);
+  $stmt = $db->prepare($sql);
 
   $stmt->bindValue(1, $status, PDO::PARAM_INT);
   $stmt->bindValue(2, $item_id, PDO::PARAM_INT);
@@ -138,7 +138,7 @@ function update_item_stock($db, $item_id, $stock){
     LIMIT 1
   ";
   
-  $stmt = $dbh->prepare($sql);
+  $stmt = $db->prepare($sql);
 
   $stmt->bindValue(1, $stock, PDO::PARAM_INT);
   $stmt->bindValue(2, $item_id, PDO::PARAM_INT);
@@ -172,7 +172,7 @@ function delete_item($db, $item_id){
     LIMIT 1
   ";
 
-  $stmt = $dbh->prepare($sql);
+  $stmt = $db->prepare($sql);
 
   $stmt->bindValue(1, $item_id, PDO::PARAM_INT);
 
