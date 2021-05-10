@@ -37,7 +37,7 @@ function get_user_by_name($db, $name){
       name = ?
     LIMIT 1
   ";
-  // prepareでSQL文を実行の準備
+  //SQL文を実行の準備(prepare)
   $stmt = $dbh->prepare($sql);
   // プレースホルダでSQLインジェクション対策
   $stmt->bindValue(1, $name, PDO::PARAM_STR);
