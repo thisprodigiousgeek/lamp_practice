@@ -151,23 +151,28 @@ function is_positive_integer($string){
 }
 // この関数は文字列の有効な文字を使っているかの確認
 function is_valid_format($string, $format){
+//文字列が半角英数字だった場合に返す
   return preg_match($format, $string) === 1;
 }
 
-
+// この関数は有効なファイルをアップロードされているか確認
 function is_valid_upload_image($image){
+//正しいファイル名が記入されていなかったらエラーを返す
   if(is_uploaded_file($image['tmp_name']) === false){
     set_error('ファイル形式が不正です。');
     return false;
   }
+// この変数は画像ファイルを表す。
   $mimetype = exif_imagetype($image['tmp_name']);
+// 指定したファイル名が違った場合、エラーを返し、合っている場合falseを返す
   if( isset(PERMITTED_IMAGE_TYPES[$mimetype]) === false ){
     set_error('ファイル形式は' . implode('、', PERMITTED_IMAGE_TYPES) . 'のみ利用可能です。');
     return false;
   }
   return true;
 }
-
+//　この関数はhtmlspecialcharsをhと省略することができる
+//　クロスサイトスクリプティング対策
 function h($str){
   return htmlspecialchars($str,ENT_QUOTES,'UTF-8');
 }
