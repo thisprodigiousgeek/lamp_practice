@@ -7,6 +7,8 @@ require_once MODEL_PATH . 'db.php';
 
 // 
 function get_user($db, $user_id){
+// SELECT文でusersのテーブルからuser_id,name,password,type,を検索
+// WHEREでuser_idを指定し、SQLインジェクション対策で直接変数をいれずに？にする
   $sql = "
     SELECT
       user_id, 
