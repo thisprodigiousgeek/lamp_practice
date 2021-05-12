@@ -5,7 +5,7 @@ require_once MODEL_PATH . 'functions.php';
 // ここではモデルのdb.phpを読み込む
 require_once MODEL_PATH . 'db.php';
 
-// 
+// この関数はどのユーザーIDでログインしているのかを確認
 function get_user($db, $user_id){
 // SELECT文でusersのテーブルからuser_id,name,password,type,を検索
 // WHEREでuser_idを指定し、SQLインジェクション対策で直接変数をいれずに？にする
@@ -29,8 +29,10 @@ function get_user($db, $user_id){
 
   return fetch_query($db, $sql);
 }
-
+// この関数はどのユーザー名でログインしているのかを確認
 function get_user_by_name($db, $name){
+// SELECT文でusersのテーブルからuser_id,name,password,type,を検索
+// WHEREでnameを指定し、SQLインジェクション対策で直接変数をいれずに？にする
   $sql = "
     SELECT
       user_id, 
@@ -52,22 +54,27 @@ function get_user_by_name($db, $name){
 
   return fetch_query($db, $sql);
 }
-
+// この関数はログインする時、ユーザー名とパスワードを確認している
+// ユーザー名とパスワードのどちらかでも合っていない場合falseを返す
 function login_as($db, $name, $password){
   $user = get_user_by_name($db, $name);
   if($user === false || $user['password'] !== $password){
     return false;
   }
+// セッションにユーザーIDとユーザー名を置いておくことで重複しないIDを作る
+// $userに返す
   set_session('user_id', $user['user_id']);
   return $user;
 }
-
+// この関数はユーザーがログインすると時,ログインするユーザーIDが重複しているものか確認
+// get_userを返す
 function get_login_user($db){
   $login_user_id = get_session('user_id');
 
   return get_user($db, $login_user_id);
 }
-
+//ユーザーが登録する時、ユーザー名やパスワードが有効な文字で登録しているかを確認
+//有効ではない文字で登録した場合falseを返し、有効な場合insert_userに返す
 function regist_user($db, $name, $password, $password_confirmation) {
   if( is_valid_user($name, $password, $password_confirmation) === false){
     return false;
