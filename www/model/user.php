@@ -1,7 +1,11 @@
 <?php
+// MODEL_RATHとはモデルを定義しているディレクトリへの道筋
+// ここではモデルのfunctions.phpを読み込む
 require_once MODEL_PATH . 'functions.php';
+// ここではモデルのdb.phpを読み込む
 require_once MODEL_PATH . 'db.php';
 
+// 
 function get_user($db, $user_id){
   $sql = "
     SELECT
