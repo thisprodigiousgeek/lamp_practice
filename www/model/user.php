@@ -79,34 +79,37 @@ function regist_user($db, $name, $password, $password_confirmation) {
   if( is_valid_user($name, $password, $password_confirmation) === false){
     return false;
   }
-  
+
   return insert_user($db, $name, $password);
 }
-
+// ユーザーがadminならUSER_TYPE_ADMINに返す
 function is_admin($user){
   return $user['type'] === USER_TYPE_ADMIN;
 }
-
+// この関数はユーザーネームかつパスワードが有効かの確認
 function is_valid_user($name, $password, $password_confirmation){
   // 短絡評価を避けるため一旦代入。
   $is_valid_user_name = is_valid_user_name($name);
   $is_valid_password = is_valid_password($password, $password_confirmation);
   return $is_valid_user_name && $is_valid_password ;
 }
-
+// この関数はユーザー名の長さが有効ではない場合
+// ユーザー名の長さがfalseだった場合エラーを返す
 function is_valid_user_name($name) {
   $is_valid = true;
   if(is_valid_length($name, USER_NAME_LENGTH_MIN, USER_NAME_LENGTH_MAX) === false){
     set_error('ユーザー名は'. USER_NAME_LENGTH_MIN . '文字以上、' . USER_NAME_LENGTH_MAX . '文字以内にしてください。');
     $is_valid = false;
   }
+// この関数はユーザー名が有効な文字列で登録指定ない場合
+// 半角英数字でユーザー名が入力されていなければfalseを返し、エラーメッセージを表示する
   if(is_alphanumeric($name) === false){
     set_error('ユーザー名は半角英数字で入力してください。');
     $is_valid = false;
   }
   return $is_valid;
 }
-
+// 
 function is_valid_password($password, $password_confirmation){
   $is_valid = true;
   if(is_valid_length($password, USER_PASSWORD_LENGTH_MIN, USER_PASSWORD_LENGTH_MAX) === false){
