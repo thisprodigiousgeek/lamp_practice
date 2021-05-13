@@ -7,6 +7,7 @@
 </head>
 <body>
   <?php 
+  //ファイル読み込み
   include VIEW_PATH . 'templates/header_logined.php'; 
   ?>
 
