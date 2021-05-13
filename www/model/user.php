@@ -109,24 +109,29 @@ function is_valid_user_name($name) {
   }
   return $is_valid;
 }
-// 
+// この関数はパスワードが有効と無効の場合の処理
+// 有効の場合、trueを返し、無効の場合set_errorを表示する
 function is_valid_password($password, $password_confirmation){
   $is_valid = true;
   if(is_valid_length($password, USER_PASSWORD_LENGTH_MIN, USER_PASSWORD_LENGTH_MAX) === false){
     set_error('パスワードは'. USER_PASSWORD_LENGTH_MIN . '文字以上、' . USER_PASSWORD_LENGTH_MAX . '文字以内にしてください。');
     $is_valid = false;
   }
+// パスワードが半角英数字で入力されていない場合
+// set_errorでエラーを表示する
   if(is_alphanumeric($password) === false){
     set_error('パスワードは半角英数字で入力してください。');
     $is_valid = false;
   }
+// $passwordと $password_confirmationと比較し等しくない場合エラーを表示,falseを返す
   if($password !== $password_confirmation){
     set_error('パスワードがパスワード(確認用)と一致しません。');
     $is_valid = false;
   }
   return $is_valid;
 }
-
+// この関数はユーザーを登録する
+// INSERT INTOでusersテーブルにユーザー名とパスワードを登録する
 function insert_user($db, $name, $password){
   $sql = "
     INSERT INTO
