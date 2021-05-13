@@ -1,7 +1,10 @@
 <?php 
+// MODEL_PATHとはモデルを定義しているディレクトリへの道筋
+// ここではモデルのfunctions.phpを読み込む
 require_once MODEL_PATH . 'functions.php';
+// ここではモデルのdb.PHPを読み込む
 require_once MODEL_PATH . 'db.php';
-
+// この関数は
 function get_user_carts($db, $user_id){
   $sql = "
     SELECT
