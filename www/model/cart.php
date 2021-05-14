@@ -211,7 +211,7 @@ function validate_cart_purchase($carts){
   }
 // foreachでcarts配列をループする
   foreach($carts as $cart){
-// 
+// カートの中身がfalseならエラーメッセージを表示する
     if(is_open($cart) === false){
       set_error($cart['name'] . 'は現在購入できません。');
     }
@@ -220,7 +220,7 @@ function validate_cart_purchase($carts){
       set_error($cart['name'] . 'は在庫が足りません。購入可能数:' . $cart['stock']);
     }
   }
-// エラーがある場合falseを返す
+// エラーがある場合falseを返す、なければtrueを返す
   if(has_error() === true){
     return false;
   }
