@@ -37,7 +37,7 @@
           <?php } ?>
         </tbody>
       </table>
-      <p class="text-right">合計金額: <?php print number_format($total_price); ?>円</p>
+      <p class="text-right">合計金額: <?php print h(number_format($total_price)); ?>円</p>
     <?php } else { ?>
       <p>カートに商品はありません。</p>
     <?php } ?> 
