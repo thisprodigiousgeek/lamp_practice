@@ -19,7 +19,7 @@ session_start();
 // すなわちis_loginedはログインされているという意味になる
 // つまりis_logined()がfalseということはログインされていなければという意味になる
 // ログインページに飛ぶ
-// このis_loginedの関数は９行目で読み込んだfunctions.phpに定義されている
+// このis_loginedの関数は９行目から15行目のmodelのファイルに定義されている
 if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }

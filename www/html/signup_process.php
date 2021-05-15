@@ -14,7 +14,7 @@ session_start();
 // be動詞＋過去分詞だと受動態の意味になる
 // すなわちis_loginedはログインされているという意味になる
 // つまりis_logined()がtrueということはログインされていればという意味になる
-// このis_loginedの関数は９行目で読み込んだfunctions.phpに定義されている
+// このis_loginedの関数は９行目から11行目のmodelファイルに定義されている
 if(is_logined() === true){
 // 新規登録をしてログインしたので、商品一覧ページに飛ぶ
   redirect_to(HOME_URL);
