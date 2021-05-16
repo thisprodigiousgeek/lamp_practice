@@ -52,7 +52,7 @@ function set_session($name, $value){
 }
 // この関数はset_errorという関数に$errorという値を渡す
 function set_error($error){
-// $_SESSION['__errors'][]　に＄errorを代入している
+// $_SESSION['__errors'][] に＄errorを代入している
   $_SESSION['__errors'][] = $error;
 }
 // この関数はエラーになっているかチェックしている
@@ -134,7 +134,7 @@ function delete_image($filename){
 
 // この関数は文字列の文字の制限をしている関数
 //$length変数に文字列のながさを得るmb_strlen($string)を代入する
-// $lengthより$minimum_length方が小さい　かつ　$lengthより$maximum_lengthの方が大きいを返す
+// $lengthより$minimum_length方が小さい かつ $lengthより$maximum_lengthの方が大きいを返す
 function is_valid_length($string, $minimum_length, $maximum_length = PHP_INT_MAX){
   $length = mb_strlen($string);
   return ($minimum_length <= $length) && ($length <= $maximum_length);
@@ -171,8 +171,8 @@ function is_valid_upload_image($image){
   }
   return true;
 }
-//　この関数はhtmlspecialcharsをhと省略することができる
-//　クロスサイトスクリプティング対策
+// この関数はhtmlspecialcharsをhと省略することができる
+// クロスサイトスクリプティング対策
 function h($str){
   return htmlspecialchars($str,ENT_QUOTES,'UTF-8');
 }

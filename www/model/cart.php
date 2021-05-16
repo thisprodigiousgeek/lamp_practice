@@ -29,15 +29,8 @@ function get_user_carts($db, $user_id){
       carts.user_id = ?
   ";
 
-    // prepareでSQL文を実行する準備
-    $stmt = $db->prepare($sql);
-    $stmt->bindValue(1, $user_id, PDO::PARAM_INT);
-    // SQLを実行
-    $stmt->execute();
-    // 実行したらfetch_all_queryに返す
-    return fetch_all_query($db, $sql);
+    return fetch_all_query($db, $sql, array($user_id));
 
-  return fetch_all_query($db, $sql);
 }
 // この関数はユーザーのカートにデータを取得する
 function get_user_cart($db, $user_id, $item_id){
@@ -65,16 +58,7 @@ function get_user_cart($db, $user_id, $item_id){
       items.item_id = ?
   ";
 
-    // prepareでSQL文を実行する準備
-    $stmt = $db->prepare($sql);
-    $stmt->bindValue(1, $user_id, PDO::PARAM_INT);
-    $stmt->bindValue(2, $item_id, PDO::PARAM_INT);
-    // SQLを実行
-    $stmt->execute();
-    // fetch_all_queryに返す
-    return fetch_all_query($db, $sql);
-
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql, array($user_id, $item_id));
 
 }
 // この関数はカートに商品を追加する

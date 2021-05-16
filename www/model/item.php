@@ -1,6 +1,6 @@
 <?php
 // conf...configの略 configとは設定という意味
-// constとは　定数という意味
+// constとは 定数という意味
 // ここでは定数を定義しているconst.phpを読み込む
 require_once MODEL_PATH . 'functions.php';
 // MODEL_PATHとはモデルを定義しているディレクトリへの道筋
@@ -14,9 +14,9 @@ require_once MODEL_PATH . 'db.php';
 // SELECT文でテーブルitemsから商品を取得
 function get_item($db, $item_id){
   $sql = "
-      SELECT　
+      SELECT 
       item_id, 
-      name,　
+      name, 
       stock,
       price,
       image,
@@ -238,7 +238,7 @@ function is_valid_item_name($name){
     set_error('商品名は'. ITEM_NAME_LENGTH_MIN . '文字以上、' . ITEM_NAME_LENGTH_MAX . '文字以内にしてください。');
     $is_valid = false;
   }
-  $is_vaildに返す
+  //$is_vaildに返す
   return $is_valid;
 }
 // この関数は商品の値段が有効か確認

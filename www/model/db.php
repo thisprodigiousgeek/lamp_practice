@@ -1,9 +1,9 @@
 <?php
-　// この関数はDBに接続する
+ // この関数はDBに接続する
 function get_db_connect(){
-  // DSN(Data Source Name)は、接続先データベースの種類やサーバー名を記述する文字列
-  // MySQLに接続する場合、「mysql:dbname='データベース名';host='サーバー名'」
-  // MySQL用のDSN文字列
+ // DSN(Data Source Name)は、接続先データベースの種類やサーバー名を記述する文字列
+ // MySQLに接続する場合、「mysql:dbname='データベース名';host='サーバー名'」
+ // MySQL用のDSN文字列
   $dsn = 'mysql:dbname='. DB_NAME .';host='. DB_HOST .';charset='.DB_CHARSET;
   //try~catch（例外処理）
   //エラーが発生した場合、現在の処理を中断して別の処理を行うことができる
@@ -42,11 +42,11 @@ function fetch_query($db, $sql, $params = array()){
   }
   return false;
 }
-　  // この関数はデータベースから複数のデータを取ってくる
+   // この関数はデータベースから複数のデータを取ってくる
 function fetch_all_query($db, $sql, $params = array()){
-　  // エラーが発生した場合、現在の処理を中断して別の処理を行うことができる
+   // エラーが発生した場合、現在の処理を中断して別の処理を行うことができる
   try{
-  　// prepareでSQL文を実行準備
+   // prepareでSQL文を実行準備
     $statement = $db->prepare($sql);
     // SQLを実行
     $statement->execute($params);
