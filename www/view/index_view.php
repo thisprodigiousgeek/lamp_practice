@@ -28,6 +28,7 @@
                 <?php print(number_format($item['price'])); ?>円
                 <?php if($item['stock'] > 0){ ?>
                   <form action="index_add_cart.php" method="post">
+                  <input type='hidden' name='csrf_token' value='<?php print $token; ?>'><!--CSRF対策-->
                     <input type="submit" value="カートに追加" class="btn btn-primary btn-block">
                     <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
                   </form>

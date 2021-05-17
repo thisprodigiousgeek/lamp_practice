@@ -17,7 +17,12 @@
             <a class="nav-link" href="<?php print(ADMIN_URL);?>">管理</a>
           </li>
         <?php } ?>
+          <li class="nav-item">
+            <a class="nav-link" href="rireki_view.php">購入履歴</a>
+          </li>
       </ul>
+      
+
     </div>
   </nav>
   <p>ようこそ、<?php print h($user['name']); ?>さん。</p>
