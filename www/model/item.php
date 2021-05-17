@@ -25,14 +25,9 @@ function get_item($db, $item_id){
       items
     WHERE
       item_id = ?";
-    // prepareでSQLを実行準備
-    $stmt = $db->prepare($sql);
-    // プレースホルダで値をバインドバリュー
-    $stmt->bindValue(1, $item_id, PDO::PARAM_INT);
-    // SQL文を実行する
-    $stmt->execute();
+
   // fetch_queryに返す
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql, array($item_id));
 }
 // この関数は$is_openがfalseの場合itemsから商品を取得
 // SELECT文でitemsから商品を取得
@@ -48,20 +43,14 @@ function get_items($db, $is_open = false){
     FROM
       items
   ';
-    // prepareでSQL文を実行準備
-    $stmt = $db->prepare($sql);
-    // SQL文を実行
-    $stmt->execute();
-    // 
+
   if($is_open === true){
     $sql .= '
       WHERE status = 1
     ';
-    $stmt = $db->prepare($sql);
-    $stmt->execute();
   }
 // fetch_all_queryに返す
-  return fetch_all_query($db, $sql);
+  return fetch_all_query($db, $sql, array($status));
 }
 // この関数は全ての商品をget_itemsに返す 
 function get_all_items($db){
@@ -110,18 +99,9 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
         status
       )
     VALUES(?, ?, ?, ?, ?)";
-        // prepareでSQLを実行準備
-        $stmt = $db->preapre($sql);
-        // プレースホルダで値をバインドバリュー
-        $stmt->bindValue(1, $name, PDO::PARAM_STR);
-        $stmt->bindValue(2, $price, PDO::PARAM_INT);
-        $stmt->bindValue(3, $stock, PDO::PARAM_INT);
-        $stmt->bindValue(4, $image, PDO::PARAM_STR);
-        $stmt->bindValue(5, $status, PDO::PARAM_INT);
-        // SQL文を実行
-        $stmt->execute();
+
         // execute_queryに返す
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, array($name, $price, $stock, $image, $status));
 }
 // この関数は商品のステータスを更新する
 // UPDATE文でstatusとitem_idを更新
@@ -135,15 +115,8 @@ function update_item_status($db, $item_id, $status){
       item_id = ?
     LIMIT 1
   ";
-  // prepareでSQL文を実行準備
-  $stmt = $db->prepare($sql);
-  // プレースホルダで値をバインドバリュー
-  $stmt->bindValue(1, $status, PDO::PARAM_INT);
-  $stmt->bindValue(2, $item_id, PDO::PARAM_INT);
-  // SQL文を実行する
-  $stmt->execute();
-  // execute_queryに返す
-  return execute_query($db, $sql);
+ 
+  return execute_query($db, $sql, array($status, $tiem_id));
 }
 // この関数は商品の在庫を更新する
 // UPDATE文でstock,item_idを更新する
@@ -157,15 +130,9 @@ function update_item_stock($db, $item_id, $stock){
       item_id = ?
     LIMIT 1
   ";
-  // prepareでSQL文を実行準備
-  $stmt = $db->prepare($sql);
-  // プレースホルダで値をバインドバリュー
-  $stmt->bindValue(1, $stock, PDO::PARAM_INT);
-  $stmt->bindValue(2, $item_id, PDO::PARAM_INT);
-  // SQL文を実行する
-  $stmt->execute();
+
   // execute_queryを返す
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, array($stock,$item_id));
 }
 // この関数は商品を削除する
 // get_itemを$item変数に代入
@@ -197,14 +164,9 @@ function delete_item($db, $item_id){
       item_id = ?
     LIMIT 1
   ";
-// prepareでSQL文を実行準備
-  $stmt = $db->prepare($sql);
-// プレースホルダで値をバインドバリュー
-  $stmt->bindValue(1, $item_id, PDO::PARAM_INT);
-// SQL文を実行する
-  $stmt->execute();
+
 // execute_queryを返す
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, array($item_id));
 }
 
 
