@@ -27,4 +27,8 @@ if(update_item_stock($db, $item_id, $stock)){
   set_error('在庫数の変更に失敗しました。');
 }
 
+if(is_valid_csrf_token(get_post('csrf_token')) === false){
+  redirect_to(LOGIN_URL);  
+}
+
 redirect_to(ADMIN_URL);

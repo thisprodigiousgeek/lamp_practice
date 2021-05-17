@@ -23,4 +23,8 @@ if(add_cart($db,$user['user_id'], $item_id)){
   set_error('カートの更新に失敗しました。');
 }
 
+if(is_valid_csrf_token(get_post('csrf_token')) === false){
+  redirect_to(LOGIN_URL);  
+}
+
 redirect_to(HOME_URL);
