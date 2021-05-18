@@ -3,43 +3,62 @@ require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
 function get_user($db, $user_id){//ユーザーのパスワードと名前をゲットする関数
-  $sql = "
-    SELECT
-      user_id, 
-      name,
-      password,
-      type
-    FROM
-      users
-    WHERE
-      user_id = {$user_id}
-    LIMIT 1
-  ";//$user_idには何が入るかお楽しみ。
+  try{
+    $sql = "
+      SELECT
+        user_id, 
+        name,
+        password,
+        type
+      FROM
+        users
+      WHERE
+        user_id = ?
+      LIMIT 1
+    ";//$user_idには何が入るかお楽しみ。
   //取得する行数は1行だけやで。LIMIT 1やで。
-
-  return fetch_query($db, $sql);//「select文でデータベースから選んでくる関数（function.php）」が実行される。
+    $statement = $db->prepare($sql);
+    $statement->bindValue(1, $user_id,    PDO::PARAM_STR);
+    $statement->execute();//$sqlの命令を実行する。
+    return $statement->fetch();//該当するデータを全部配列にして返す。エラーじゃなかったらここで処理ストップ
+  }catch(PDOException $e){//あら残念エラーやったら
+    set_error('データ取得に失敗しました。');//「エラーかましてきたらどうすんの？関数（function.php内）」使って、セッション箱に入れる
+  }
+  
+  // return fetch_query($db, $sql);//「select文でデータベースから選んでくる関数（function.php）」が実行される。
 }//エラーちゃうかったら、該当するデータを1行だけ取得した配列が返ってくる
 
 function get_user_by_name($db, $name){//ユーザーのidとパスワード取得する関数
-  $sql = "
-    SELECT
-      user_id, 
-      name,
-      password,
-      type
-    FROM
-      users
-    WHERE
-      name = '{$name}'
-    LIMIT 1
-  ";//$nameはおたのしみ。取得するのは1行だけやで
-
-  return fetch_query($db, $sql);//「select文でデータベースから選んでくる関数（function.php）」が実行される。
+  try{
+    $sql = "
+      SELECT
+        user_id, 
+        name,
+        password,
+        type
+      FROM
+        users
+      WHERE
+        name = ?
+      LIMIT 1
+    ";//$nameはおたのしみ。取得するのは1行だけやで
+  //取得する行数は1行だけやで。LIMIT 1やで。
+    $statement = $db->prepare($sql);
+    $statement->bindValue(1, $name,    PDO::PARAM_STR);
+    $statement->execute();//$sqlの命令を実行する。
+    return $statement->fetch(PDO::FETCH_ASSOC);//該当するデータを全部配列にして返す。エラーじゃなかったらここで処理ストップ
+  }catch(PDOException $e){//あら残念エラーやったら
+    set_error('データ取得に失敗しました。');//「エラーかましてきたらどうすんの？関数（function.php内）」使って、セッション箱に入れる
+  }
+ 
+  // return fetch_query($db, $sql);//「select文でデータベースから選んでくる関数（function.php）」が実行される。
 }//エラーちゃうかったら、該当するデータを1行だけ取得した配列が返ってくる
 
 function login_as($db, $name, $password){//userとしてログインできてるで関数
   $user = get_user_by_name($db, $name);//$userは「ユーザーのidとパスワード取得する関数」からの「select文でデータベースから選んでくる関数（function.php）」でわかる
   if($user === false || $user['password'] !== $password){//もし$userが「fetch_query($db, $sql)」でfalse返し、あるいは入力されたパスワードがデータベースえお一致せんかったら
+    print $password;
+    print_r($user);
     return false;//処理やめぴ
   }
   set_session('user_id', $user['user_id']);//でも一致したらuser_idをセッションに入れてあげて
@@ -105,12 +124,19 @@ function is_valid_password($password, $password_confirmation){//パスワード�
 }
 
 function insert_user($db, $name, $password){//ユーザーテーブルに名前とパスワードを入れる関数
-  $sql = "
+  try{
+    $sql = "
     INSERT INTO
       users(name, password)
-    VALUES ('{$name}', '{$password}');
+    VALUES (?, ?);
   ";//$nameと$passwordは何が入るかお楽しみ
-
-  return execute_query($db, $sql);//「insert文とupdate文でデータベースを書き込みするで関数（functiuom.php)」
+    $statement = $db->prepare($sql);
+    $statement->bindValue(1, $name,  PDO::PARAM_STR);
+    $statement->bindValue(2, $password,  PDO::PARAM_STR);
+    return $statement->execute();
+  }catch(PDOException $e){
+    set_error('更新に失敗しました。');
+  }
+  // return execute_query($db, $sql);//「insert文とupdate文でデータベースを書き込みするで関数（functiuom.php)」
 }//エラーちゃうかったら、insertをを実行してくれる。$paramsに連想配列で一応準備もしてくれてる。
 
