@@ -5,7 +5,6 @@ require_once MODEL_PATH . 'db.php';
 // DB利用
 
 function get_item($db, $item_id){//itemsテーブルからデータ1行取ってくる
-  try{
     $sql = "
     SELECT
       item_id, 
@@ -19,16 +18,8 @@ function get_item($db, $item_id){//itemsテーブルからデータ1行取って
     WHERE
       item_id = ?
     ";//$item_idのとこは何かしらのアイテムのIDが入る。その時のお楽しみ
-  $statement = $db->prepare($sql);//データベースに$sqlを命令する準備して、$statementっていうあだ名つける
-  $statement->bindValue(1, $item_id,         PDO::PARAM_STR);
-  $statement->execute();//$sqlの命令を実行する。その時、プレースホルダーがあるなら$paramsに連想配列でぶちこまれる
-  $item = $statement->fetch();
-  }catch(PDOException $e){//あら残念エラーやったら
-  set_error('データ取得に失敗しました。');//「エラーかましてきたらどうすんの？関数（function.php内）」使って、セッション箱に入れる
-  }
-//return fetch_query($db, $sql);//取得した１行の情報を返す
-  return $item;
-  // return fetch_query($db, $sql);//「select文でデータベースから選んでくる関数（function.php）」が実行される。
+  $params = array($item_id);
+  return fetch_query($db, $sql, $params);//「select文でデータベースから選んでくる関数（function.php）」が実行される。
 }//エラーちゃうかったら。該当するデータを1行だけ取得した配列が返ってくる
 
 function get_items($db, $is_open = false){//アイテムを取得する関数
@@ -81,7 +72,6 @@ function regist_item_transaction($db, $name, $price, $stock, $status, $image, $f
 
 function insert_item($db, $name, $price, $stock, $filename, $status){//itemsテーブルにインサートする関数
   $status_value = PERMITTED_ITEM_STATUSES[$status];//PERMITTED_ITEM_STATUSESは１か０で$statusはお楽しみ。$status_valueっていうあだ名つける
-  try{
     $sql = "
       INSERT INTO
         items(
@@ -93,21 +83,12 @@ function insert_item($db, $name, $price, $stock, $filename, $status){//itemsテ�
         )
       VALUES(?, ?, ?, ?, ?);
     ";//
-    $statement = $db->prepare($sql);
-    $statement->bindValue(1, $name,         PDO::PARAM_STR);
-    $statement->bindValue(2, $price,        PDO::PARAM_STR);
-    $statement->bindValue(3, $stock,        PDO::PARAM_STR);
-    $statement->bindValue(4, $filename,     PDO::PARAM_STR);
-    $statement->bindValue(5, $status_value, PDO::PARAM_STR);
-    return $statement->execute();
-  }catch(PDOException $e){
-    set_error('更新に失敗しました。');
-  }
-  // return execute_query($db, $sql);//実行してインサート完了
+  $params = array($name, $price, $stock, $filename, $status);
+  return execute_query($db, $sql, $params);//実行してインサート完了
 }
 
 function update_item_status($db, $item_id, $status){//ステータスを変更する関数
-  try{
+  // try{
     $sql = "
       UPDATE
         items
@@ -117,20 +98,11 @@ function update_item_status($db, $item_id, $status){//ステータスを変更�
         item_id = ?
       LIMIT 1
     ";//１行だけやで
-    $statement = $db->prepare($sql);
-    $statement->bindValue(1, $status,   PDO::PARAM_STR);
-    $statement->bindValue(2, $item_id,  PDO::PARAM_STR);
-    return $statement->execute();
-  }catch(PDOException $e){
-    set_error('更新に失敗しました。');
-  }
-
-
-  // return execute_query($db, $sql);//実行してアプデ完了
+  $params = array($item_id, $status);
+  return execute_query($db, $sql,$params);//実行してアプデ完了
 }
 
 function update_item_stock($db, $item_id, $stock){//ストックを更新する関数
-  try{
     $sql = "
       UPDATE
         items
@@ -140,14 +112,8 @@ function update_item_stock($db, $item_id, $stock){//ストックを更新する�
         item_id = ?
       LIMIT 1
     ";//１行だけやで
-    $statement = $db->prepare($sql);
-    $statement->bindValue(1, $stock,   PDO::PARAM_STR);
-    $statement->bindValue(2, $item_id,  PDO::PARAM_STR);
-    return $statement->execute();
-  }catch(PDOException $e){
-    set_error('更新に失敗しました。');
-  }
-  // return execute_query($db, $sql);//実行してアプデ完了
+  $params = array($item_id, $stock);
+  return execute_query($db, $sql, $params);//実行してアプデ完了
 }
 
 function destroy_item($db, $item_id){//item_id次第ではぶち壊す関数
@@ -166,7 +132,6 @@ function destroy_item($db, $item_id){//item_id次第ではぶち壊す関数
 }//
 
 function delete_item($db, $item_id){//指定されたitem_idのを１行消す関数
-  try{
     $sql = "
       DELETE FROM
         items
@@ -174,13 +139,8 @@ function delete_item($db, $item_id){//指定されたitem_idのを１行消す�
         item_id = ?
       LIMIT 1
     ";//
-    $statement = $db->prepare($sql);
-    $statement->bindValue(1, $item_id,  PDO::PARAM_STR);
-    return $statement->execute();
-  }catch(PDOException $e){
-    set_error('更新に失敗しました。');
-  }
-  // return execute_query($db, $sql);//execute_queryでデリート文実行
+  $params = array($item_id);
+  return execute_query($db, $sql, $params);//execute_queryでデリート文実行
 }
 
 
