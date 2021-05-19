@@ -5,7 +5,7 @@ require_once MODEL_PATH . 'db.php';
 // DB利用
 
 function get_item($db, $item_id){//itemsテーブルからデータ1行取ってくる
-  $sql = "
+    $sql = "
     SELECT
       item_id, 
       name,
@@ -16,10 +16,10 @@ function get_item($db, $item_id){//itemsテーブルからデータ1行取って
     FROM
       items
     WHERE
-      item_id = {$item_id}
-  ";//$item_idのとこは何かしらのアイテムのIDが入る。その時のお楽しみ
-
-  return fetch_query($db, $sql);//「select文でデータベースから選んでくる関数（function.php）」が実行される。
+      item_id = ?
+    ";//$item_idのとこは何かしらのアイテムのIDが入る。その時のお楽しみ
+  $params = array($item_id);
+  return fetch_query($db, $sql, $params);//「select文でデータベースから選んでくる関数（function.php）」が実行される。
 }//エラーちゃうかったら。該当するデータを1行だけ取得した配列が返ってくる
 
 function get_items($db, $is_open = false){//アイテムを取得する関数
@@ -72,47 +72,48 @@ function regist_item_transaction($db, $name, $price, $stock, $status, $image, $f
 
 function insert_item($db, $name, $price, $stock, $filename, $status){//itemsテーブルにインサートする関数
   $status_value = PERMITTED_ITEM_STATUSES[$status];//PERMITTED_ITEM_STATUSESは１か０で$statusはお楽しみ。$status_valueっていうあだ名つける
-  $sql = "
-    INSERT INTO
-      items(
-        name,
-        price,
-        stock,
-        image,
-        status
-      )
-    VALUES('{$name}', {$price}, {$stock}, '{$filename}', {$status_value});
-  ";//$はお楽しみ
-
-  return execute_query($db, $sql);//実行してインサート完了
+    $sql = "
+      INSERT INTO
+        items(
+          name,
+          price,
+          stock,
+          image,
+          status
+        )
+      VALUES(?, ?, ?, ?, ?);
+    ";//
+  $params = array($name, $price, $stock, $filename, $status);
+  return execute_query($db, $sql, $params);//実行してインサート完了
 }
 
 function update_item_status($db, $item_id, $status){//ステータスを変更する関数
-  $sql = "
-    UPDATE
-      items
-    SET
-      status = {$status}
-    WHERE
-      item_id = {$item_id}
-    LIMIT 1
-  ";//１行だけやで
-  
-  return execute_query($db, $sql);//実行してアプデ完了
+  // try{
+    $sql = "
+      UPDATE
+        items
+      SET
+        status = ?
+      WHERE
+        item_id = ?
+      LIMIT 1
+    ";//１行だけやで
+  $params = array($item_id, $status);
+  return execute_query($db, $sql,$params);//実行してアプデ完了
 }
 
 function update_item_stock($db, $item_id, $stock){//ストックを更新する関数
-  $sql = "
-    UPDATE
-      items
-    SET
-      stock = {$stock}
-    WHERE
-      item_id = {$item_id}
-    LIMIT 1
-  ";//１行だけやで
-  
-  return execute_query($db, $sql);//実行してアプデ完了
+    $sql = "
+      UPDATE
+        items
+      SET
+        stock = ?
+      WHERE
+        item_id = ?
+      LIMIT 1
+    ";//１行だけやで
+  $params = array($item_id, $stock);
+  return execute_query($db, $sql, $params);//実行してアプデ完了
 }
 
 function destroy_item($db, $item_id){//item_id次第ではぶち壊す関数
@@ -131,15 +132,15 @@ function destroy_item($db, $item_id){//item_id次第ではぶち壊す関数
 }//
 
 function delete_item($db, $item_id){//指定されたitem_idのを１行消す関数
-  $sql = "
-    DELETE FROM
-      items
-    WHERE
-      item_id = {$item_id}
-    LIMIT 1
-  ";//
-  
-  return execute_query($db, $sql);//execute_queryでデリート文実行
+    $sql = "
+      DELETE FROM
+        items
+      WHERE
+        item_id = ?
+      LIMIT 1
+    ";//
+  $params = array($item_id);
+  return execute_query($db, $sql, $params);//execute_queryでデリート文実行
 }
 
 

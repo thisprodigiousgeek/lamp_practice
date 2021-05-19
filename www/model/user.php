@@ -3,38 +3,37 @@ require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
 function get_user($db, $user_id){//ユーザーのパスワードと名前をゲットする関数
-  $sql = "
-    SELECT
-      user_id, 
-      name,
-      password,
-      type
-    FROM
-      users
-    WHERE
-      user_id = {$user_id}
-    LIMIT 1
-  ";//$user_idには何が入るかお楽しみ。
-  //取得する行数は1行だけやで。LIMIT 1やで。
-
-  return fetch_query($db, $sql);//「select文でデータベースから選んでくる関数（function.php）」が実行される。
+    $sql = "
+      SELECT
+        user_id, 
+        name,
+        password,
+        type
+      FROM
+        users
+      WHERE
+        user_id = ?
+      LIMIT 1
+    ";//$user_idには何が入るかお楽しみ。
+  $params = array($user_id);
+  return fetch_query($db, $sql, $params);//「select文でデータベースから選んでくる関数（function.php）」が実行される。
 }//エラーちゃうかったら、該当するデータを1行だけ取得した配列が返ってくる
 
 function get_user_by_name($db, $name){//ユーザーのidとパスワード取得する関数
-  $sql = "
-    SELECT
-      user_id, 
-      name,
-      password,
-      type
-    FROM
-      users
-    WHERE
-      name = '{$name}'
-    LIMIT 1
-  ";//$nameはおたのしみ。取得するのは1行だけやで
-
-  return fetch_query($db, $sql);//「select文でデータベースから選んでくる関数（function.php）」が実行される。
+    $sql = "
+      SELECT
+        user_id, 
+        name,
+        password,
+        type
+      FROM
+        users
+      WHERE
+        name = ?
+      LIMIT 1
+    ";//$nameはおたのしみ。取得するのは1行だけやで
+  $params = array($name);
+  return fetch_query($db, $sql, $params);//「select文でデータベースから選んでくる関数（function.php）」が実行される。
 }//エラーちゃうかったら、該当するデータを1行だけ取得した配列が返ってくる
 
 function login_as($db, $name, $password){//userとしてログインできてるで関数
@@ -105,12 +104,12 @@ function is_valid_password($password, $password_confirmation){//パスワード�
 }
 
 function insert_user($db, $name, $password){//ユーザーテーブルに名前とパスワードを入れる関数
-  $sql = "
+    $sql = "
     INSERT INTO
       users(name, password)
-    VALUES ('{$name}', '{$password}');
+    VALUES (?, ?);
   ";//$nameと$passwordは何が入るかお楽しみ
-
-  return execute_query($db, $sql);//「insert文とupdate文でデータベースを書き込みするで関数（functiuom.php)」
+  $params = array($name, $password);
+  return execute_query($db, $sql, $params);//「insert文とupdate文でデータベースを書き込みするで関数（functiuom.php)」
 }//エラーちゃうかったら、insertをを実行してくれる。$paramsに連想配列で一応準備もしてくれてる。
 
