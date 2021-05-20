@@ -24,7 +24,7 @@ is_valid_csrf_token($post_token);//ポストで来たトークンをバリデす
 $item_id = get_post('item_id');
 $changes_to = get_post('changes_to');
 
-if(is_valid_csrf_token(get_post('token') === false){//ポストされてきたトークンがバリデしたけどfalseで返してきよったら（つまりポストされたやつとセッションに入ってるやつが一致せんかったら
+if(is_valid_csrf_token(get_post('token')) === false){//ポストされてきたトークンがバリデしたけどfalseで返してきよったら（つまりポストされたやつとセッションに入ってるやつが一致せんかったら
   set_error('不正な処理が行われました');//セッション箱のエラーのとこに入れる
   $_SESSION = array();//セッション箱空にする
   redirect_to(LOGIN_URL);//ログインページに戻らせる
