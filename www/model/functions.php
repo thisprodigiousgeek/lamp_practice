@@ -156,20 +156,15 @@ function get_csrf_token(){
 function is_valid_csrf_token($token){
   if($token === '') {
     return false;
+  // } else if($_POST['token'] !== $_SESSION['token']){
+  //   set_error('不正な処理が行われました');//セッション箱のエラーのとこに入れる
+  //   $_SESSION = array();//セッション箱空にする
+  //   redirect_to(LOGIN_URL);//ログインページに戻らせる
   }
+  // $_SESSION['token'] = '';//トークンの破棄
+  // get_csrf_token();//トークンまた新しく作る
   // get_session()はユーザー定義関数
   return $token === get_session('csrf_token');
 }
 
-//ポストのトークンとセッションのトークンを調べる
-function token_match() {
-  if(get_post('token') !== $_SESSION['token']){
-    set_error('不正な処理が行われました');//セッション箱のエラーのとこに入れる
-    $_SESSION = array();//セッション箱空にする
-    redirect_to(LOGIN_URL);//ログインページに戻らせる
-    return false;//処理やめぴ
-  }
-  $_SESSION['token'] = '';//トークンの破棄
-  return get_csrf_token();//トークンまた新しく作る
-}
 

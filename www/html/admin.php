@@ -13,8 +13,7 @@ if(is_logined() === false){
 $db = get_db_connect();
 
 $user = get_login_user($db);
-get_csrf_token();
-is_valid_csrf_token($token);
+$_SESSION['token'] = get_csrf_token();
 
 if(is_admin($user) === false){
   redirect_to(LOGIN_URL);
