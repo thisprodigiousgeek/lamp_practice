@@ -17,13 +17,13 @@ $user = get_login_user($db);
 if(is_admin($user) === false){
   redirect_to(LOGIN_URL);
 }
-is_valid_csrf_token($token);
+$post_token = get_post('token');
+is_valid_csrf_token($post_token);
 
 $item_id = get_post('item_id');
 $changes_to = get_post('changes_to');
-// $post_token = get_post('token');
 
-if($_POST['token'] !== $_SESSION['token']){
+if($post_token !== $_SESSION['csrf_token']){
   set_error('不正な処理が行われました');//セッション箱のエラーのとこに入れる
   $_SESSION = array();//セッション箱空にする
   redirect_to(LOGIN_URL);//ログインページに戻らせる
@@ -38,8 +38,8 @@ if($_POST['token'] !== $_SESSION['token']){
   }else {
     set_error('不正なリクエストです。');
   }
-  
-  $_SESSION['token'] = '';//トークンの破棄
+
+  $_SESSION['csrf_token'] = '';//トークンの破棄
   get_csrf_token();//トークンまた新しく作る
 }
 
