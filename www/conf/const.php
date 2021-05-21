@@ -49,3 +49,5 @@ define('PERMITTED_IMAGE_TYPES', array(
   IMAGETYPE_JPEG => 'jpg',
   IMAGETYPE_PNG => 'png',
 ));//画像タイプ設定
+
+header('X-FRAME-OPTIONS: DENY');

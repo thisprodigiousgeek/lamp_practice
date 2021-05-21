@@ -58,7 +58,7 @@ function get_user_cart($db, $user_id, $item_id){//どのアイテムか指定し
 function add_cart($db, $user_id, $item_id) {//カートに商品を追加する関数
   $cart = get_user_cart($db, $user_id, $item_id);//get_user_cart関数でカートの中を配列で取得する
   if($cart === false){//取得できひんかったら
-    return insert_cart($db, $user_id, $item_id, $amount = 1);//カートテーブルにデータを新規登録する
+    return insert_cart($db, $item_id, $user_id, $amount = 1);//カートテーブルにデータを新規登録する
   }
   return update_cart_amount($db, $cart['cart_id'], $cart['amount'] + 1);//それ以外ならもうすでに何かしらデータ入ってるはずやから、１を足す
 }
@@ -73,7 +73,7 @@ function insert_cart($db, $item_id, $user_id, $amount = 1){//カートのデー�
         )
       VALUES(?, ?, ?) 
     ";//$は何が入るかお楽しみ、amountは１やで
-  $params = array($user_id, $item_id, $amount);
+  $params = array($item_id, $user_id, $amount);
   return execute_query($db, $sql, $params);// execute_query関数を実行して、インサート完了
 }
 

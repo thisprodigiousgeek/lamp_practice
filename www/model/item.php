@@ -83,7 +83,7 @@ function insert_item($db, $name, $price, $stock, $filename, $status){//itemsテ�
         )
       VALUES(?, ?, ?, ?, ?);
     ";//
-  $params = array($name, $price, $stock, $filename, $status);
+  $params = array($name, $price, $stock, $filename, $status_value);
   return execute_query($db, $sql, $params);//実行してインサート完了
 }
 
@@ -98,7 +98,7 @@ function update_item_status($db, $item_id, $status){//ステータスを変更�
         item_id = ?
       LIMIT 1
     ";//１行だけやで
-  $params = array($item_id, $status);
+  $params = array($status, $item_id);
   return execute_query($db, $sql,$params);//実行してアプデ完了
 }
 
@@ -112,7 +112,7 @@ function update_item_stock($db, $item_id, $stock){//ストックを更新する�
         item_id = ?
       LIMIT 1
     ";//１行だけやで
-  $params = array($item_id, $stock);
+  $params = array($stock, $item_id);
   return execute_query($db, $sql, $params);//実行してアプデ完了
 }
 
