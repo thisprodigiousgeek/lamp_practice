@@ -6,6 +6,7 @@ require_once MODEL_PATH . 'item.php';
 require_once MODEL_PATH . 'cart.php';
 
 session_start();
+// header('X-FRAME-OPTIONS: DENY');
 
 if(is_logined() === false){
   redirect_to(LOGIN_URL);
@@ -13,6 +14,7 @@ if(is_logined() === false){
 
 $db = get_db_connect();
 $user = get_login_user($db);
+$token = get_csrf_token();//ビュー側でvalueに入ってる$tokenを作った
 
 $carts = get_user_carts($db, $user['user_id']);
 
