@@ -20,4 +20,5 @@ $total_price = sum_carts($carts);
 
 $token = get_csrf_token($token);
 var_dump($token);
+var_dump($carts);
 include_once VIEW_PATH . 'cart_view.php';

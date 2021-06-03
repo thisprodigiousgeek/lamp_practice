@@ -18,7 +18,7 @@
           </li>
         <?php } ?>
           <li class="nav-item">
-            <a class="nav-link" href="rireki_view.php">購入履歴</a>
+            <a class="nav-link" href='<?php print(RIREKI_URL);?>'>購入履歴</a>
           </li>
       </ul>
       

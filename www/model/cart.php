@@ -2,6 +2,48 @@
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
+function get_user_history($db, $user_id){
+  $sql = '
+    SELECT
+      carts.created,
+      carts.user_id,
+      carts.item_id,
+      carts.amount,
+      histories.created,
+      details.amount,
+      details.item_id
+    FROM
+      carts
+    INNER JOIN 
+      histories
+    ON
+      carts.user_id = histories.user_id  
+    INNER JOIN
+      details
+    ON
+      histories.history_id = details.history_id
+    INNER JOIN
+      details
+    ON
+      carts.item_id = details.item_id  
+      ';
+    return fetch_query($db,$sql);  
+}
+
+function get_user_datails($db, $user_id){
+  $sql = '
+    SELECT
+      items.price,
+      details.price
+    FROM
+      items
+    INNER JOIN
+      details
+    ON
+      items.item_id = details.item_id  
+      ';
+}
+
 //ユーザーIDを取得
 function get_user_carts($db, $user_id){
   $sql = "
