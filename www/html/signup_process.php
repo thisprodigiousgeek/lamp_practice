@@ -29,3 +29,7 @@ try{
 set_message('ユーザー登録が完了しました。');
 login_as($db, $name, $password);
 redirect_to(HOME_URL);
+
+if(is_valid_csrf_token(get_post('csrf_token')) === false){
+  redirect_to(LOGIN_URL);  
+}

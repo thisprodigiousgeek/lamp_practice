@@ -6,11 +6,11 @@
   <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'cart.css'); ?>">
 </head>
 <body>
-  <?php include VIEW_PATH . 'templates/header_logined.php'; ?>
+  <?php include VIEW_PATH . 'templates/header_logined.php'; ?> <!--header-->
   <h1>カート</h1>
   <div class="container">
 
-    <?php include VIEW_PATH . 'templates/messages.php'; ?>
+    <?php include VIEW_PATH . 'templates/messages.php'; ?> <!--エラー、メッセージ呼び出し-->
 
     <?php if(count($carts) > 0){ ?>
       <table class="table table-bordered">
@@ -27,21 +27,23 @@
         <tbody>
           <?php foreach($carts as $cart){ ?>
           <tr>
-            <td><img src="<?php print(IMAGE_PATH . $cart['image']);?>" class="item_image"></td>
-            <td><?php print($cart['name']); ?></td>
-            <td><?php print(number_format($cart['price'])); ?>円</td>
+            <td><img src="<?php print(IMAGE_PATH . $cart['image']);?>" class="item_image"></td><!--商品画像-->
+            <td><?php print h($cart['name']); ?></td><!--商品名-->
+            <td><?php print(number_format($cart['price'])); ?>円</td><!--価格-->
             <td>
               <form method="post" action="cart_change_amount.php">
-                <input type="number" name="amount" value="<?php print($cart['amount']); ?>">
+                <input type='hidden' name='csrf_token' value='<?php print $token; ?>'><!--CSRF対策-->
+                <input type="number" name="amount" value="<?php print($cart['amount']); ?>"><!--購入数-->
                 個
                 <input type="submit" value="変更" class="btn btn-secondary">
                 <input type="hidden" name="cart_id" value="<?php print($cart['cart_id']); ?>">
               </form>
             </td>
-            <td><?php print(number_format($cart['price'] * $cart['amount'])); ?>円</td>
+            <td><?php print(number_format($cart['price'] * $cart['amount'])); ?>円</td><!--合計金額-->
             <td>
 
               <form method="post" action="cart_delete_cart.php">
+                <input type='hidden' name='csrf_token' value='<?php print $token; ?>'><!--CSRF対策-->
                 <input type="submit" value="削除" class="btn btn-danger delete">
                 <input type="hidden" name="cart_id" value="<?php print($cart['cart_id']); ?>">
               </form>
@@ -53,6 +55,7 @@
       </table>
       <p class="text-right">合計金額: <?php print number_format($total_price); ?>円</p>
       <form method="post" action="finish.php">
+        <input type='hidden' name='csrf_token' value='<?php print $token; ?>'><!--CSRF対策-->
         <input class="btn btn-block btn-primary" type="submit" value="購入する">
       </form>
     <?php } else { ?>
