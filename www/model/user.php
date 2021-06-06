@@ -2,6 +2,7 @@
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
+//指定のuser_idのユーザー情報を取得
 function get_user($db, $user_id){
   $sql = "
     SELECT
@@ -12,13 +13,14 @@ function get_user($db, $user_id){
     FROM
       users
     WHERE
-      user_id = {$user_id}
+      user_id = ?
     LIMIT 1
   ";
 
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql, [$user_id]);
 }
 
+//指定の名前のユーザー情報を取得
 function get_user_by_name($db, $name){
   $sql = "
     SELECT
@@ -29,36 +31,40 @@ function get_user_by_name($db, $name){
     FROM
       users
     WHERE
-      name = '{$name}'
+      name = ?
     LIMIT 1
   ";
 
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql, [$name]);
 }
 
+//nameとpasswordが一致すればセッションにuser_idを保存
 function login_as($db, $name, $password){
   $user = get_user_by_name($db, $name);
-  if($user === false || $user['password'] !== $password){
+  if($user === false || password_verify($password, $user['password']) === false){
     return false;
   }
   set_session('user_id', $user['user_id']);
   return $user;
 }
 
+//セッションに保存されているuser_idのユーザー情報を取得
 function get_login_user($db){
   $login_user_id = get_session('user_id');
 
   return get_user($db, $login_user_id);
 }
 
-function regist_user($db, $name, $password, $password_confirmation) {
+//新規ユーザー登録
+function regist_user($db, $name, $password, $password_confirmation,$hash) {
   if( is_valid_user($name, $password, $password_confirmation) === false){
     return false;
   }
   
-  return insert_user($db, $name, $password);
+  return insert_user($db, $name, $hash);
 }
 
+//typeがadminユーザー(1)ならtrueを返す
 function is_admin($user){
   return $user['type'] === USER_TYPE_ADMIN;
 }
@@ -70,6 +76,7 @@ function is_valid_user($name, $password, $password_confirmation){
   return $is_valid_user_name && $is_valid_password ;
 }
 
+//nameのエラーチェック
 function is_valid_user_name($name) {
   $is_valid = true;
   if(is_valid_length($name, USER_NAME_LENGTH_MIN, USER_NAME_LENGTH_MAX) === false){
@@ -83,6 +90,7 @@ function is_valid_user_name($name) {
   return $is_valid;
 }
 
+//passwordとconfirmationのエラーチェック
 function is_valid_password($password, $password_confirmation){
   $is_valid = true;
   if(is_valid_length($password, USER_PASSWORD_LENGTH_MIN, USER_PASSWORD_LENGTH_MAX) === false){
@@ -100,13 +108,14 @@ function is_valid_password($password, $password_confirmation){
   return $is_valid;
 }
 
+//nameとpasswordをデータベースに追加
 function insert_user($db, $name, $password){
   $sql = "
     INSERT INTO
       users(name, password)
-    VALUES ('{$name}', '{$password}');
+    VALUES (?,?);
   ";
 
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, [$name,$password]);
 }
 
