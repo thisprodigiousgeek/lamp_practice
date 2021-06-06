@@ -8,7 +8,11 @@ define('IMAGE_PATH', '/assets/images/');
 define('STYLESHEET_PATH', '/assets/css/');
 define('IMAGE_DIR', $_SERVER['DOCUMENT_ROOT'] . '/assets/images/' );
 
-define('DB_HOST', 'mysql');
+if($_SERVER['SERVER_ADDR'] === '118.27.23.11'){
+	define('DB_HOST', 'localhost');
+}else{
+	define('DB_HOST', 'mysql');
+}
 define('DB_NAME', 'sample');
 define('DB_USER', 'testuser');
 define('DB_PASS', 'password');

@@ -24,7 +24,8 @@ function get_item($db, $item_id){
 }
 
 //公開している商品データを取得
-function get_items($db, $is_open = false){
+function get_items($db, $page, $is_open = false){
+  $page = ($page-1) * 4;
   $sql = '
     SELECT
       item_id, 
@@ -39,10 +40,33 @@ function get_items($db, $is_open = false){
   if($is_open === true){
     $sql .= '
       WHERE status = 1
+      LIMIT ?,4
     ';
   }
 
-  return fetch_all_query($db, $sql);
+  return fetch_all_query($db, $sql,[$page]);
+}
+
+//総ページ数を取得
+function total_page($db){
+  $sql = '
+    SELECT 
+      CEILING(COUNT(*)/4) as total_page
+    FROM 
+      items
+  ';
+  return (int)fetch_query($db, $sql)['total_page'];
+}
+
+
+//総アイテム数を取得
+function total_items($db){
+  $sql = '
+  SELECT
+    COUNT(*) as total_items
+  FROM 
+    items';
+  return (int)fetch_query($db,$sql)['total_items'];
 }
 
 //全ての商品を取得
@@ -51,8 +75,8 @@ function get_all_items($db){
 }
 
 //公開している商品データを取得
-function get_open_items($db){
-  return get_items($db, true);
+function get_open_items($db,$page){
+  return get_items($db, $page, true);
 }
 
 //新規商品登録
