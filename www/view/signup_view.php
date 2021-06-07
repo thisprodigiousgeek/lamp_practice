@@ -3,7 +3,7 @@
 <head>
   <?php include VIEW_PATH . 'templates/head.php'; ?>
   <title>サインアップ</title>
-  <link rel="stylesheet" href="<?php print htmlspecialchars(STYLESHEET_PATH . 'signup.css', ENT_QUOTES, 'UTF-8'); ?>">
+  <link rel="stylesheet" href="<?php print h(STYLESHEET_PATH . 'signup.css', ENT_QUOTES, 'UTF-8'); ?>">
 </head>
 <body>
   <?php include VIEW_PATH . 'templates/header.php'; ?>
@@ -16,6 +16,8 @@
       <div class="form-group">
         <label for="name">名前: </label>
         <input type="text" name="name" id="name" class="form-control">
+        <!-- token -->
+        <input type="hidden" name="csrf_token" value="<?php print h($token, ENT_QUOTES, 'UTF-8'); ?>">
       </div>
       <div class="form-group">
         <label for="password">パスワード: </label>

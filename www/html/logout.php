@@ -1,6 +1,6 @@
 <?php
-// conf...confingの略　confingは設定という意味
-// constとは　定義という意味
+// conf...confingの略 confingは設定という意味
+// constとは 定義という意味
 // ここでは定数を定義しているconst.phpを読み込む
 require_once '../conf/const.php';
 // MODEL_PATHとはモデルを定義しているディレクトリへの道筋

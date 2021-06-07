@@ -3,7 +3,7 @@
 <head>
   <?php include VIEW_PATH . 'templates/head.php'; ?>
   <title>カート</title>
-  <link rel="stylesheet" href="<?php print htmlspecialchars(STYLESHEET_PATH . 'cart.css', ENT_QUOTES, 'UTF-8'); ?>">
+  <link rel="stylesheet" href="<?php print h(STYLESHEET_PATH . 'cart.css', ENT_QUOTES, 'UTF-8'); ?>">
 </head>
 <body>
   <?php include VIEW_PATH . 'templates/header_logined.php'; ?>
@@ -27,23 +27,27 @@
         <tbody>
           <?php foreach($carts as $cart){ ?>
           <tr>
-            <td><img src="<?php print htmlspecialchars(IMAGE_PATH . $cart['image'], ENT_QUOTES, 'UTF-8');?>" class="item_image"></td>
-            <td><?php print htmlspecialchars($cart['name'], ENT_QUOTES, 'UTF-8'); ?></td>
-            <td><?php print htmlspecialchars(number_format($cart['price'], ENT_QUOTES, 'UTF-8')); ?>円</td>
+            <td><img src="<?php print h(IMAGE_PATH . $cart['image'], ENT_QUOTES, 'UTF-8');?>" class="item_image"></td>
+            <td><?php print h($cart['name'], ENT_QUOTES, 'UTF-8'); ?></td>
+            <td><?php print h(number_format($cart['price']), ENT_QUOTES, 'UTF-8'); ?>円</td>
             <td>
               <form method="post" action="cart_change_amount.php">
-                <input type="number" name="amount" value="<?php print htmlspecialchars($cart['amount'], ENT_QUOTES, 'UTF-8'); ?>">
+                <input type="number" name="amount" value="<?php print h($cart['amount'], ENT_QUOTES, 'UTF-8'); ?>">
                 個
                 <input type="submit" value="変更" class="btn btn-secondary">
-                <input type="hidden" name="cart_id" value="<?php print htmlspecialchars($cart['cart_id'], ENT_QUOTES, 'UTF-8'); ?>">
+                <input type="hidden" name="cart_id" value="<?php print h($cart['cart_id'], ENT_QUOTES, 'UTF-8'); ?>">
+               <!-- token -->
+                <input type="hidden" name="csrf_token" value="<?php print h($token, ENT_QUOTES, 'UTF-8'); ?>">
               </form>
             </td>
-            <td><?php print htmlspecialchars(number_format($cart['price'] * $cart['amount'], ENT_QUOTES, 'UTF-8')); ?>円</td>
+            <td><?php print h(number_format($cart['price'] * $cart['amount']), ENT_QUOTES, 'UTF-8'); ?>円</td>
             <td>
 
               <form method="post" action="cart_delete_cart.php">
                 <input type="submit" value="削除" class="btn btn-danger delete">
-                <input type="hidden" name="cart_id" value="<?php print htmlspecialchars($cart['cart_id'], ENT_QUOTES, 'UTF-8'); ?>">
+                <input type="hidden" name="cart_id" value="<?php print h($cart['cart_id'], ENT_QUOTES, 'UTF-8'); ?>">
+                <!-- token -->
+                <input type="hidden" name="csrf_token" value="<?php print h($token, ENT_QUOTES, 'UTF-8'); ?>">
               </form>
 
             </td>
@@ -51,9 +55,11 @@
           <?php } ?>
         </tbody>
       </table>
-      <p class="text-right">合計金額: <?php print htmlspecialchars(number_format($total_price), ENT_QUOTES, 'UTF-8'); ?>円</p>
+      <p class="text-right">合計金額: <?php print h(number_format($total_price), ENT_QUOTES, 'UTF-8'); ?>円</p>
       <form method="post" action="finish.php">
         <input class="btn btn-block btn-primary" type="submit" value="購入する">
+        <!-- token -->
+        <input type="hidden" name="csrf_token" value="<?php print h($token, ENT_QUOTES, 'UTF-8'); ?>">
       </form>
     <?php } else { ?>
       <p>カートに商品はありません。</p>

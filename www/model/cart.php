@@ -1,4 +1,6 @@
 <?php 
+// セッションを開始
+session_start();
 // MODEL_PATHとはモデルを定義しているディレクトリへの道筋
 // ここではモデルのfunctions.phpを読み込む
 require_once MODEL_PATH . 'functions.php';
@@ -186,3 +188,4 @@ function validate_cart_purchase($carts){
   }
   return true;
 }
+

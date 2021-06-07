@@ -1,6 +1,6 @@
 <?php
-// conf...confingの略　confingは設定という意味
-// constとは　定義という意味
+// conf...confingの略 confingは設定という意味
+// constとは 定義という意味
 // ここでは定数を定義しているconst.phpを読み込む
 require_once '../conf/const.php';
 // MODEL_PATHとはモデルを定義しているディレクトリへの道筋
@@ -13,6 +13,16 @@ require_once MODEL_PATH . 'user.php';
 require_once MODEL_PATH . 'item.php';
 // セッションを開始する
 session_start();
+
+// ランダムな文字列を生成して変数に代入
+$token = get_csrf_token();
+
+//トークンが取得できたか確認
+if(isset($token)) {
+// セッションにトークンを保存
+  $_SESSION['csrf_token'] = $token;
+}
+
 // be動詞＋過去分詞だと受動態の意味になる
 // すなわちis_loginedはログインされているという意味になる
 // つまりis_logined()がfalseということはログインされていなければという意味になる
@@ -28,6 +38,8 @@ $db = get_db_connect();
 $user = get_login_user($db);
 
 $items = get_open_items($db);
+
+
 // includeは含めるという意味
 // ここではindex_view.phpをここに取り込む
 include_once VIEW_PATH . 'index_view.php';

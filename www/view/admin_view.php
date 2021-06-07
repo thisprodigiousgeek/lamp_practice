@@ -3,7 +3,7 @@
 <head>
   <?php include VIEW_PATH . 'templates/head.php'; ?>
   <title>商品管理</title>
-  <link rel="stylesheet" href="<?php print htmlspecialchars(STYLESHEET_PATH . 'admin.css', ENT_QUOTES, 'UTF-8'); ?>">
+  <link rel="stylesheet" href="<?php print h(STYLESHEET_PATH . 'admin.css', ENT_QUOTES, 'UTF-8'); ?>">
 </head>
 <body>
   <?php 
@@ -23,6 +23,8 @@
       <div class="form-group">
         <label for="name">名前: </label>
         <input class="form-control" type="text" name="name" id="name">
+        <!-- token -->
+        <input type="hidden" name="csrf_token" value="<?php print h($token, ENT_QUOTES, 'UTF-8'); ?>">
       </div>
       <div class="form-group">
         <label for="price">価格: </label>
@@ -61,19 +63,21 @@
         </thead>
         <tbody>
           <?php foreach($items as $item){ ?>
-          <tr class="<?php print htmlspecialchars(is_open($item) ? '' : 'close_item', ENT_QUOTES, 'UTF-8'); ?>">
-            <td><img src="<?php print htmlspecialchars(IMAGE_PATH . $item['image'], ENT_QUOTES, 'UTF-8');?>" class="item_image"></td>
-            <td><?php print htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8'); ?></td>
-            <td><?php print htmlspecialchars(number_format($item['price'], ENT_QUOTES, 'UTF-8')); ?>円</td>
+          <tr class="<?php print h(is_open($item) ? '' : 'close_item', ENT_QUOTES, 'UTF-8'); ?>">
+            <td><img src="<?php print h(IMAGE_PATH . $item['image'], ENT_QUOTES, 'UTF-8');?>" class="item_image"></td>
+            <td><?php print h($item['name'], ENT_QUOTES, 'UTF-8'); ?></td>
+            <td><?php print h(number_format($item['price']), ENT_QUOTES, 'UTF-8'); ?>円</td>
             <td>
               <form method="post" action="admin_change_stock.php">
                 <div class="form-group">
                   <!-- sqlインジェクション確認のためあえてtext -->
-                  <input  type="text" name="stock" value="<?php print htmlspecialchars($item['stock'], ENT_QUOTES, 'UTF-8'); ?>">
+                  <input  type="text" name="stock" value="<?php print h($item['stock'], ENT_QUOTES, 'UTF-8'); ?>">
                   個
                 </div>
                 <input type="submit" value="変更" class="btn btn-secondary">
-                <input type="hidden" name="item_id" value="<?php print htmlspecialchars($item['item_id'], ENT_QUOTES, 'UTF-8'); ?>">
+                <input type="hidden" name="item_id" value="<?php print h($item['item_id'], ENT_QUOTES, 'UTF-8'); ?>">
+                <!-- token -->
+                <input type="hidden" name="csrf_token" value="<?php print h($token, ENT_QUOTES, 'UTF-8'); ?>">
               </form>
             </td>
             <td>
@@ -86,12 +90,16 @@
                   <input type="submit" value="非公開 → 公開" class="btn btn-secondary">
                   <input type="hidden" name="changes_to" value="open">
                 <?php } ?>
-                <input type="hidden" name="item_id" value="<?php print htmlspecialchars($item['item_id'], ENT_QUOTES, 'UTF-8'); ?>">
+                <input type="hidden" name="item_id" value="<?php print h($item['item_id'], ENT_QUOTES, 'UTF-8'); ?>">
+                <!-- token -->
+                <input type="hidden" name="csrf_token" value="<?php print h($token, ENT_QUOTES, 'UTF-8'); ?>">
               </form>
 
               <form method="post" action="admin_delete_item.php">
                 <input type="submit" value="削除" class="btn btn-danger delete">
-                <input type="hidden" name="item_id" value="<?php print htmlspecialchars($item['item_id'], ENT_QUOTES, 'UTF-8'); ?>">
+                <input type="hidden" name="item_id" value="<?php print h($item['item_id'], ENT_QUOTES, 'UTF-8'); ?>">
+                <!-- token -->
+                <input type="hidden" name="csrf_token" value="<?php print h($token, ENT_QUOTES, 'UTF-8'); ?>">
               </form>
 
             </td>

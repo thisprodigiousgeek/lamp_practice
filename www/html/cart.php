@@ -1,6 +1,6 @@
 <?php
 // conf...configの略 configとは設定という意味
-// constとは　定数という意味
+// constとは 定数という意味
 // ここでは定数を定義しているconst.phpを読み込む
 require_once '../conf/const.php';
 // MODEL_PATHとはモデルを定義しているディレクトリへの道筋
@@ -15,6 +15,18 @@ require_once MODEL_PATH . 'item.php';
 require_once MODEL_PATH . 'cart.php';
 // セッションを開始する
 session_start();
+
+// ランダムな文字を生成して変数に代入
+$token = get_csrf_token();
+
+// トークンが取得できたかを確認
+if(isset($token)) {
+// セッションにトークンを代入
+  $_SESSION['csrf_token'] = $token;
+}
+
+
+
 // be動詞＋過去分詞だと受動態の意味になる
 // すなわちis_loginedはログインされているという意味になる
 // つまりis_logined()がfalseということはログインされていなければという意味になる

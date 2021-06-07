@@ -29,7 +29,8 @@ function get_item($db, $item_id){
   // fetch_queryに返す
   return fetch_query($db, $sql, array($item_id));
 }
-// この関数は$is_openがfalseの場合itemsから商品を取得
+// この関数は$is_open(商品が公開される)がfalseの場合商品を公開しない
+// trueの場合公開する
 // SELECT文でitemsから商品を取得
 function get_items($db, $is_open = false){
   $sql = '
@@ -50,7 +51,7 @@ function get_items($db, $is_open = false){
     ';
   }
 // fetch_all_queryに返す
-  return fetch_all_query($db, $sql, array($status));
+  return fetch_all_query($db, $sql);
 }
 // この関数は全ての商品をget_itemsに返す 
 function get_all_items($db){
@@ -100,8 +101,8 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
       )
     VALUES(?, ?, ?, ?, ?)";
 
-        // execute_queryに返す
-  return execute_query($db, $sql, array($name, $price, $stock, $image, $status));
+
+  return execute_query($db, $sql, array($name, $price, $stock, $filename, $status_value));
 }
 // この関数は商品のステータスを更新する
 // UPDATE文でstatusとitem_idを更新
@@ -116,7 +117,7 @@ function update_item_status($db, $item_id, $status){
     LIMIT 1
   ";
  
-  return execute_query($db, $sql, array($status, $tiem_id));
+  return execute_query($db, $sql, array($status, $item_id));
 }
 // この関数は商品の在庫を更新する
 // UPDATE文でstock,item_idを更新する
@@ -132,7 +133,7 @@ function update_item_stock($db, $item_id, $stock){
   ";
 
   // execute_queryを返す
-  return execute_query($db, $sql, array($stock,$item_id));
+  return execute_query($db, $sql, array($stock, $item_id));
 }
 // この関数は商品を削除する
 // get_itemを$item変数に代入
