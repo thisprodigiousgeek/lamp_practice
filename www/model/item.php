@@ -154,9 +154,7 @@ function update_item_stock($db, $item_id, $stock){
 
 //商品登録抹消処理
 function destroy_item($db, $item_id){
-
-　//商品(item_id)の指定
-  $item = get_item($db, $item_id);
+$item = get_item($db, $item_id);
 
   //わからない
   if($item === false){
