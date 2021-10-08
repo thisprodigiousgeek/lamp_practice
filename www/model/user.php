@@ -124,10 +124,10 @@ function insert_user($db, $name, $password){
   $sql = "
     INSERT INTO
       users(name, password)
-    VALUES ('{$name}', '{$password}');
+    VALUES (:name, :password);
   ";
   
   //sql文をexecute_queryに返して実行
-  return execute_query($db, $sql);
+  return execute_query($db, $sql,array(':name'=>$name,':password'=>$password));
 }
 

@@ -17,11 +17,11 @@ function get_item($db, $item_id){
     FROM
       items
     WHERE
-      item_id = {$item_id}
+      item_id = :item_id
   ";
   
   //sql文をfetch_queryに返して実行
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql,array(':item_id'=>$item_id));
 }
 
 //公開状態になっている商品全てを取得
@@ -109,11 +109,11 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
         image,
         status
       )
-    VALUES('{$name}', {$price}, {$stock}, '{$filename}', {$status_value});
+    VALUES(:name,:price,:stock,:filename,:status_value);
   ";
   
   //sql文をexecute_queryに返して実行
-  return execute_query($db, $sql);
+  return execute_query($db, $sql,array(':name'=>$name,':price'=>$price,':stock'=>$stock,':filename'=>$filename,':status_value'=>$status_value));
 }
 
 //商品の在庫数更新処理
@@ -124,14 +124,14 @@ function update_item_status($db, $item_id, $status){
     UPDATE
       items
     SET
-      status = {$status}
+      status = :status
     WHERE
-      item_id = {$item_id}
+      item_id = :item_id
     LIMIT 1
   ";
   
   //sql文をexecute_queryに返して実行
-  return execute_query($db, $sql);
+  return execute_query($db, $sql,array('status'=>$status,':item_id'=>$item_id));
 }
 
 //商品の在庫数更新処理
@@ -142,14 +142,14 @@ function update_item_stock($db, $item_id, $stock){
     UPDATE
       items
     SET
-      stock = {$stock}
+      stock = :stock
     WHERE
-      item_id = {$item_id}
+      item_id = :item_id
     LIMIT 1
   ";
   
   //sql文をexecute_queryに返して実行
-  return execute_query($db, $sql);
+  return execute_query($db, $sql,array(':stock'=>$stock,':item_id'=>$item_id));
 }
 
 //商品登録抹消処理
@@ -176,18 +176,18 @@ $item = get_item($db, $item_id);
   return false;
 }
 
-//$item_idとitem_idカラム外位置する商品の削除をする
+//$item_idとitem_idカラムの一致する商品の削除をする
 function delete_item($db, $item_id){
   $sql = "
     DELETE FROM
       items
     WHERE
-      item_id = {$item_id}
+      item_id = :item_id
     LIMIT 1
   ";
   
   //sql文をexecute_queryに返して実行
-  return execute_query($db, $sql);
+  return execute_query($db, $sql,array(':item_id'=>$item_id));
 }
 
 
