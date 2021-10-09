@@ -15,12 +15,12 @@ function get_user($db, $user_id){
     FROM
       users
     WHERE
-      user_id = {$user_id}
+      user_id = :user_id
     LIMIT 1
   ";
 
   //fetch_queryにsql文を返して実行
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql,array(':user_id'=>$user_id));
 }
 
 //同じ名前のユーザーがいないか確認?
@@ -36,12 +36,12 @@ function get_user_by_name($db, $name){
     FROM
       users
     WHERE
-      name = '{$name}'
+      name = :name
     LIMIT 1
   ";
   
   //sql文をfetch_queryに返して実行
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql,array(':name'=>$name));
 }
 
 //
