@@ -21,5 +21,8 @@ $user = get_login_user($db);
 //公開中の商品のみ取得
 $items = get_open_items($db);
 
+//トークンの生成
+$token = get_csrf_token();
+
 //エラーが起きてもindex_view.phpは表示する
 include_once VIEW_PATH . 'index_view.php';

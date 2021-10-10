@@ -6,6 +6,20 @@ require_once MODEL_PATH . 'user.php';
 //セッション開始
 session_start();
 
+//postから送られてきたtokenの取得
+$token = get_post('token');
+
+//セッションに保存されている'csrf_token'とpostから受け取った$tokenの値が一致しているか確認。
+if(is_valid_csrf_token($token) === false){
+
+  //一致していない場合ログインページへリダイレクトしログインを要求する。
+  redirect_to(LOGIN_URL);
+
+}
+
+//一致していた場合
+unset($_SESSION['csrf_token']);
+
 //ログイン中であればホームページへリダイレクト
 if(is_logined() === true){
   redirect_to(HOME_URL);
