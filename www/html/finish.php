@@ -49,5 +49,8 @@ if(purchase_carts($db, $carts) === false){
 //cartsから取得した商品の合計金額を$total_priceに代入
 $total_price = sum_carts($carts);
 
+//トークンの生成
+$token = get_csrf_token();
+
 //エラーが起きでもfinish_view.phpは表示する
 include_once '../view/finish_view.php';

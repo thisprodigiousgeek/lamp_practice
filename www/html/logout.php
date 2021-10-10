@@ -22,9 +22,6 @@ setcookie(session_name(), '', time() - 42000,
 //セッションファイル削除
 session_destroy();
 
-//トークン生成
-$token = get_csrf_token();
-
 //ログインページへリダイレクト
 redirect_to(LOGIN_URL);
 
