@@ -10,5 +10,8 @@ if(is_logined() === true){
   redirect_to(HOME_URL);
 }
 
+//トークン生成
+$token = get_csrf_token();
+
 //エラーがあってもlogin_view.phpは表示する
 include_once VIEW_PATH . 'login_view.php';

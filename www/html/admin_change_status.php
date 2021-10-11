@@ -7,6 +7,20 @@ require_once MODEL_PATH . 'item.php';
 //セッション開始
 session_start();
 
+//postから送られたtokenを$tokenに代入
+$token = get_post('token');
+
+//セッションに保存されている'csrf_token'とpostから受け取った$tokenの値が一致しているか確認。
+if(is_valid_csrf_token($token) === false){
+
+  //一致していない場合ログインページへリダイレクトしログインを要求する。
+  redirect_to(LOGIN_URL);
+
+}
+
+//一致が確認できたらtokenを削除
+unset($_SESSION['csrf_token']);
+
 //ログイン状態では無い場合ログインページへリダイレクト
 if(is_logined() === false){
   redirect_to(LOGIN_URL); 

@@ -25,5 +25,8 @@ $carts = get_user_carts($db, $user['user_id']);
 //カートの中に入っている商品の合計金額を$total_priceに代入
 $total_price = sum_carts($carts);
 
+//トークンの生成
+$token = get_csrf_token();
+
 //エラーがあった場合でもcart_view.phpの画面を表示する
 include_once VIEW_PATH . 'cart_view.php';
