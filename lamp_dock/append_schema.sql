@@ -10,13 +10,12 @@ CREATE TABLE `purchase_history`(
 
 
 -- 購入明細テーブル
--- 明細番号、注文番号、item_id、数量,小計,
+-- 明細番号、注文番号、item_id、数量
 
 CREATE TABLE `purchase_detail`(
     `detail_id` int(11) AUTO_INCREMENT,
     `order_id` int(11) NOT NULL,
     `item_id` int(11) NOT NULL,
-    `sub_total` int(11) NOT NULL,
     `amount` int(11) NOT NULL,
     primary key(detail_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
