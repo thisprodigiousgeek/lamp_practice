@@ -116,7 +116,7 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
   return execute_query($db, $sql,array(':name'=>$name,':price'=>$price,':stock'=>$stock,':filename'=>$filename,':status_value'=>$status_value));
 }
 
-//商品の在庫数更新処理
+//商品のステータス更新処理
 function update_item_status($db, $item_id, $status){
 
   //sql文作成
