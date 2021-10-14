@@ -21,4 +21,22 @@ function insert_purchase_detail($db,$order_id,$item_id,$amount){
 
 }
 
+function purchase_detail($db,$carts,$order_id){
+
+    foreach($carts as $cart){
+
+        if(insert_purchase_detail(
+            $db, 
+            $order_id,
+            $cart['item_id'],
+            $cart['amount']
+          ) === false){
+          set_error($cart['name'] . 'の購入明細の登録に失敗しました。');
+          return false;
+        }
+
+    }
+    return true;
+}
+
 

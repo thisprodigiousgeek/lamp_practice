@@ -59,28 +59,30 @@ $db->beginTransaction();
 $user_id = $user['user_id'];
 
 //purchase_historyに$user['user_id']を追加する 失敗した場合はエラーメッセージを保存してrollbackしてカートページへリダイレクトする。
-insert_purchase_history($db,$user_id);
+if(insert_purchase_history($db,$user_id) === false){
+
+  set_error('履歴の追加に失敗しました');
+
+  $db->rollback();
+  redirect_to(CART_URL);
+
+}
 
 //lastInsertidを実行してorder_idを取得する
 $order_id = $db->lastInsertid();
 
-//$cartsの配列に入っているキー['item_id']と['amount']の値のみを取得
-$item_id = $carts[0]['item_id'];
-$amount = $carts[0]['amount'];
+
 
 //purchase_detailに$cartsとorder_idを追加する 失敗した場合はエラーメッセージを保存してrollbackしてカートページへリダイレクトする。
-insert_purchase_detail($db,$order_id,$item_id,$amount);
-
-//トランザクション可不可判定
-if(has_error() === false){
-
-  $db->commit();
-
-}else{
+if(purchase_detail($db,$carts,$order_id) === false){
 
   $db->rollback();
+  redirect_to(CART_URL);
 
 }
+
+//コミットする
+$db->commit();
 
 
 //トークンの生成
