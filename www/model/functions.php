@@ -66,7 +66,7 @@ function set_error($error){
   $_SESSION['__errors'][] = $error;
 }
 
-//わからない
+//sessionに保存されているエラーメッセージの取得
 function get_errors(){
   $errors = get_session('__errors');
   if($errors === ''){
@@ -76,7 +76,7 @@ function get_errors(){
   return $errors;
 }
 
-//セッション変数'errors'のセット確認と値があるかどうか?
+//セッション変数'__errors'のセット確認と値があるかどうか?
 function has_error(){
   return isset($_SESSION['__errors']) && count($_SESSION['__errors']) !== 0;
 }
