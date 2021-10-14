@@ -138,7 +138,7 @@ function purchase_carts($db, $carts){
     return false;
   }
 
-  //配列「carts」がどこからきてるのかわからない
+  
   foreach($carts as $cart){
     if(update_item_stock(
         $db, 
