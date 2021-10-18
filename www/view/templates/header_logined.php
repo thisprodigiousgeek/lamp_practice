@@ -12,6 +12,9 @@
         <li class="nav-item">
           <a class="nav-link" href="<?php print(h(LOGOUT_URL));?>">ログアウト</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<?php print(h(PURCHASE_URL));?>">購入履歴</a>
+        </li>
         <?php if(is_admin($user)){ ?>
           <li class="nav-item">
             <a class="nav-link" href="<?php print(h(ADMIN_URL));?>">管理</a>

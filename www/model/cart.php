@@ -28,7 +28,7 @@ function get_user_carts($db, $user_id){
   ";
 
   //fetch_all_queryにsql文を返して実行
-  return fetch_all_query($db, $sql,array(':user_id' => $user_id));
+  return fetch_all_query($db, $sql,array(':user_id'=>$user_id));
 }
 
 //ユーザー毎に且つitem_idが一致するレコードのみ取得する(削除、購入個数、在庫数の変更時など?)
@@ -58,7 +58,7 @@ function get_user_cart($db, $user_id, $item_id){
       items.item_id = :item_id
   ";
   //fetch_queryにsql文を返して実行
-  return fetch_query($db, $sql,array(':user_id' => $user_id,':item_id' => $item_id));
+  return fetch_query($db, $sql,array(':user_id'=>$user_id,':item_id'=>$item_id));
 
 }
 
