@@ -38,7 +38,7 @@ function get_items($db, $is_open = false){
       items
   ';
 
-  //?
+  //公開状態のみ
   if($is_open === true){
     $sql .= '
       WHERE status = 1
@@ -49,6 +49,48 @@ function get_items($db, $is_open = false){
   return fetch_all_query($db, $sql);
 }
 
+//商品を新着順に取得
+function get_sort_item($db,$is_open = false,$sort){
+
+  $sql = 'SELECT
+            item_id, 
+            name,
+            stock,
+            price,
+            image,
+            status
+          FROM
+            items
+          ';
+  //公開状態のみ
+  if($is_open === true){
+    $sql .= '
+      WHERE status = 1
+    ';
+  }
+
+  //並び替え内容
+
+  //価格の高い順
+  if($sort === 'expensive'){
+      $sql .= '
+      ORDER BY price DESC';
+  //価格の安い順
+  }else if($sort === 'cheap'){
+    $sql .= '
+      ORDER BY price';
+
+  //新着順
+  }else{
+    $sql .= '
+      ORDER BY created DESC';
+  }
+  
+  //sql文をfetch_all_queryに返して実行
+  return fetch_all_query($db, $sql);
+
+}
+
 //ステータス関係なく全ての商品を取得する
 function get_all_items($db){
   return get_items($db);
@@ -57,6 +99,11 @@ function get_all_items($db){
 //?
 function get_open_items($db){
   return get_items($db, true);
+}
+
+//商品を並び替えて取得する
+function get_sort_items($db,$sort){
+  return get_sort_item($db,true,$sort);
 }
 
 //新規商品登録処理

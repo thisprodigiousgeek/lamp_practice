@@ -18,8 +18,17 @@ $db = get_db_connect();
 //ログイン中のユーザーのユーザーidを取得
 $user = get_login_user($db);
 
-//公開中の商品のみ取得
-$items = get_open_items($db);
+$sort = get_get('sort');
+
+//商品の並び替え指定があった場合
+if($sort === ''){
+
+  $sort = 'new';
+
+}
+
+//並び替え
+$items = get_sort_items($db,$sort);
 
 //トークンの生成
 $token = get_csrf_token();
