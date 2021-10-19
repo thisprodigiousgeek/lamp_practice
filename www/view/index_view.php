@@ -13,6 +13,15 @@
 
   <div class="container">
     <h1>商品一覧</h1>
+    <form method="get">
+      <select name="sort">
+        <option value=''>選択してください</option>
+        <option value="new" <?php if($sort === 'new'){print h('selected');} ?>>新着順</option>
+        <option value="cheap" <?php if($sort === 'cheap'){print h('selected');} ?>>価格の安い順</option>
+        <option value="expensive" <?php if($sort === 'expensive'){print h('selected');} ?>>価格の高い順</option>
+      </select>
+      <input type="submit" value="並び替える">
+    </form>
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
 
     <div class="card-deck">
