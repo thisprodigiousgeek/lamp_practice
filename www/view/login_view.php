@@ -8,7 +8,7 @@
 <body>
   <?php include VIEW_PATH . 'templates/header.php'; ?>
   <div class="container">
-    <h1>ログイン</h1>
+    <h1>ログオン</h1>
 
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
 
